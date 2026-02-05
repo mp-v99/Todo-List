@@ -1,15 +1,12 @@
-class TodoList {
-    constructor(title, description, dueDate, status) {
+class Project {
+    constructor(title, description, dueDate, status, todoLists, notes) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.status = status;
+        this.todoLists = todoLists;
+        this.notes = notes;
     }
-
-    todoInfo() {
-        drawTodo(this)
-    }
-
 
 }
 
@@ -22,5 +19,5 @@ const drawTodo = function(todo) {
 `)
 }
 
-const groceriesList = new TodoList("groceries", "this is a groceries list", "May-5th-2026", "To do") 
-groceriesList.todoInfo();
+const groceriesList = new Project("groceries", "this is a groceries project", "May-5th-2026", "To do") 
+drawTodo(groceriesList)
