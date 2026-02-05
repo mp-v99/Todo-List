@@ -17,12 +17,11 @@ class TodoList {
 
 
 class Project {
-    constructor(title, description, dueDate, status, todoLists, notes) {
+    constructor(title, description, createdAt) {
         this.title = title;
         this.description = description;
-        this.dueDate = dueDate;
-        this.status = status;
-        this.todoLists = [];
+        this.createdAt = createdAt;
+        this.todos = [];
         this.notes = [];
     }
 
@@ -32,7 +31,7 @@ class Project {
         const status = prompt("select the stage of this list");
 
         const todoList = new TodoList(listTitle, dueDate, status);
-        this.todoLists.push(todoList)
+        this.todos.push(todoList)
         alert(`Here's the list you just made:
              ${todoList.title}
              ${todoList.dueDate}
@@ -42,16 +41,19 @@ class Project {
     }
 }
 
-const drawProject = function(todo) {
+const drawProject = function(project) {
     console.log(`
-|Title:     ${todo.title}               
-|Body:      ${todo.description}              
-|Due:       ${todo.dueDate}                 
-|Status:    ${todo.status}             
+|Title:     ${project.title}               
+|Body:      ${project.description}              
+|Created at:       ${project.createdAt}       
+|Lists:           
 `)
+for (const todo of project.todos) {console.log(`${todo.title}
+    
+    `)}
 }
 
-const groceries = new Project("groceries", "this is a groceries project", "May-5th-2026", "To do") 
+const groceries = new Project("groceries", "this is a groceries project", "today") 
 drawProject(groceries)
 
 window.groceries = groceries;
