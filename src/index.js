@@ -8,9 +8,10 @@ class Project {
         this.notes = notes;
     }
 
+
 }
 
-const drawTodo = function(todo) {
+const drawProject = function(todo) {
     console.log(`
 |Title:     ${todo.title}               
 |Body:      ${todo.description}              
@@ -19,5 +20,7 @@ const drawTodo = function(todo) {
 `)
 }
 
-const groceriesList = new Project("groceries", "this is a groceries project", "May-5th-2026", "To do") 
-drawTodo(groceriesList)
+const groceries = new Project("groceries", "this is a groceries project", "May-5th-2026", "To do", [{listItem: "Todo List"}], [{note: "Note"}]) 
+drawProject(groceries)
+
+window.groceries = groceries;
