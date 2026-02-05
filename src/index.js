@@ -25,6 +25,21 @@ class Project {
         this.todoLists = [];
         this.notes = [];
     }
+
+    addTodo() {
+        const listTitle = prompt("Name your list");
+        const dueDate = prompt("Add due date");
+        const status = prompt("select the stage of this list");
+
+        const todoList = new TodoList(listTitle, dueDate, status);
+        this.todoLists.push(todoList)
+        alert(`Here's the list you just made:
+             ${todoList.title}
+             ${todoList.dueDate}
+             ${todoList.status}
+             `);
+        todoList.addListItem();
+    }
 }
 
 const drawProject = function(todo) {
