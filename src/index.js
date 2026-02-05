@@ -1,3 +1,6 @@
+import { createListTitle, createListDueDate, createListStatus, createListItem, showList } from "./UI-DOM";
+
+
 class TodoList {
     constructor(title, dueDate, status) {
         this.title = title;
@@ -7,7 +10,7 @@ class TodoList {
     }
 
     addListItem() {
-        const listItem = prompt("Add one list item if you'd like(you can re-prompt to add more items if you'd like)");
+        const listItem = createListItem();
         this.listItems.push(listItem);
 
         alert(this.listItems)
@@ -26,18 +29,12 @@ class Project {
     }
 
     addTodo() {
-        const listTitle = prompt("Name your list");
-        const dueDate = prompt("Add due date");
-        const status = prompt("select the stage of this list");
 
-        const todoList = new TodoList(listTitle, dueDate, status);
-        this.todos.push(todoList)
-        alert(`Here's the list you just made:
-             ${todoList.title}
-             ${todoList.dueDate}
-             ${todoList.status}
-             `);
+        const todoList = new TodoList(createListTitle(), createListDueDate(), createListStatus());
         todoList.addListItem();
+        this.todos.push(todoList)
+        showList(todoList);
+       
     }
 }
 
@@ -57,3 +54,4 @@ const groceries = new Project("groceries", "this is a groceries project", "today
 drawProject(groceries)
 
 window.groceries = groceries;
+groceries.addTodo()
