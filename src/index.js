@@ -1,17 +1,14 @@
-// import { createListTitle, createListDueDate, createListStatus, createListItem, showList } from "./UI-DOM";
-
-
-class TodoList {
-    constructor(title, dueDate, status) {
+class Todo {
+    constructor(title, dueDate, status, priority) {
         this.title = title;
         this.dueDate = dueDate;
         this.status = status;
-        this.listItems = [];    
+        this.priority = priority;
+        this.checkList = [];    
     }
 
     addListItem(listItem) {
-        // const listItem = createListItem();
-        this.listItems.push(listItem);
+        this.checkList.push(listItem);
     }
 
 }
@@ -28,30 +25,26 @@ class Project {
 
     addTodo(title, dueDate, listStatus) {
 
-        // const todoList = new TodoList(createListTitle(), createListDueDate(), createListStatus());
-        const todoList = new TodoList(title, dueDate, listStatus);
-        this.todos.push(todoList)
-        // showList(todoList);
+        const todo = new Todo(title, dueDate, listStatus);
+        this.todos.push(todo)
        
     }
 }
 
 const drawProject = function(project) {
     console.log(`
-|Title:     ${project.title}               
-|Body:      ${project.description}              
-|Created at:       ${project.createdAt}       
-|Lists:           
-`)
-for (const todo of project.todos) {console.log(`${todo.title}
-        ${todo.listItems[0]}
-    `)}
+    |Title:     ${project.title}               
+    |Body:      ${project.description}              
+    |Created at:       ${project.createdAt}       
+    |List of Todos:           
+    `)
+
+    for (const todo of project.todos) {console.log(`${todo.title}`)}
 }
 
 const groceries = new Project("groceries", "this is a groceries project", "today") 
 
 window.groceries = groceries;
-groceries.addTodo("Vegetables", "Feb-6th", "To do")
-groceries.todos[0].addListItem("Carrot");
+groceries.addTodo("buy veggies", "Feb-6th", "To do", "high")
 
 drawProject(groceries)
