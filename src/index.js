@@ -1,6 +1,7 @@
 class Todo {
-    constructor(title, dueDate, status, priority) {
+    constructor(title, description, dueDate, status, priority) {
         this.title = title;
+        this.description = description;
         this.dueDate = dueDate;
         this.status = status;
         this.priority = priority;
@@ -23,9 +24,9 @@ class Project {
         this.notes = [];
     }
 
-    addTodo(title, dueDate, listStatus) {
+    addTodo(title, description, dueDate, listStatus) {     
 
-        const todo = new Todo(title, dueDate, listStatus);
+        const todo = new Todo(title, description, dueDate, listStatus);
         this.todos.push(todo)
        
     }
