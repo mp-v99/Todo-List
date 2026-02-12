@@ -96,9 +96,12 @@ groceries.addNote("Remember to check the pantry before leaving to check if you a
 groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
-drawProject(groceries)
+drawProject(groceries);
 
-const veggies = groceries.todos[0];
-const veggiesID = groceries.todos.find(t => t.id === veggies.id)
+const veggiesID = groceries.todos[0].id;
+const findTodoID = function(todoID) {
+    const findID = groceries.todos.findIndex(t => t.id === todoID);
+    return findID
+};
 
-drawTodo(veggiesID)
+drawTodo(groceries.todos[findTodoID(veggiesID)]);
