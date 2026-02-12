@@ -1,5 +1,6 @@
 class Project {
     constructor(title, description, createdAt) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
@@ -23,6 +24,7 @@ class Project {
 
 class Todo {
     constructor(title, description, dueDate, status, priority) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -39,6 +41,7 @@ class Todo {
 
 class Note {
     constructor(textBody) {
+        this.id = crypto.randomUUID();
         this.textBody = textBody;
     }
 }
@@ -94,4 +97,8 @@ groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
 drawProject(groceries)
-drawTodo(groceries.todos[0])
+
+const veggies = groceries.todos[0];
+const veggiesID = groceries.todos.find(t => t.id === veggies.id)
+
+drawTodo(veggiesID)
