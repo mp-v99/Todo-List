@@ -100,8 +100,8 @@ drawProject(groceries);
 
 const veggiesID = groceries.todos[0].id;
 const findTodoID = function(todoID) {
-    const findID = groceries.todos.findIndex(t => t.id === todoID);
-    return findID
+    const findIndex = groceries.todos.findIndex(t => t.id === todoID);
+    return findIndex
 };
 
 drawTodo(groceries.todos[findTodoID(veggiesID)]);
