@@ -91,6 +91,10 @@ class Note {
         this.id = crypto.randomUUID();
         this.textBody = textBody;
     }
+
+    updateTextBody(text) {
+        this.textBody = text;
+    }
 }
 
 const drawProject = function(project) {
@@ -147,6 +151,8 @@ groceries.todos[0].addListItem("brocoli");
 
 const veggiesID = groceries.todos[0].id;
 
-groceries.updateTodo(veggiesID, {title: "Buy vegetables", status: "in progress"});
+drawProject(groceries);
 
-drawProject(groceries)
+groceries.notes[0].updateTextBody("Check the pantry")
+
+drawProject(groceries);
