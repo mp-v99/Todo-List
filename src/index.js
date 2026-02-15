@@ -113,6 +113,15 @@ class CheckListItem {
         this.textLine = text;
     }    
 
+    toggleCheckBox() {
+        if (this.checkBox === true) {
+            this.checkBox = false;
+        }
+        else if (this.checkBox === false) {
+            this.checkBox = true;
+        }
+    }
+
 }
 
 const drawProject = function(project) {
