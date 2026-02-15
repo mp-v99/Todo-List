@@ -39,7 +39,6 @@ class Project {
     updateTodo(todoID, patch) {
 
         const todoIndex = this.todos.findIndex(t => t.id === todoID);
-
         this.todos[todoIndex].updateItem(patch);
 
     }
@@ -100,6 +99,20 @@ class Note {
     updateTextBody(text) {
         this.textBody = text;
     }
+}
+
+
+class CheckListItem {
+    constructor(textLine) {
+        this.id = crypto.randomUUID();
+        this.textLine = textLine;
+        this.checkBox = false;
+    }
+
+    updateTextLine(text) {
+        this.textLine = text;
+    }    
+
 }
 
 const drawProject = function(project) {
