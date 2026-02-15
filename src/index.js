@@ -23,7 +23,10 @@ class Project {
 
     removeTodo(index) {
         this.todos.splice(index,1)
-        console.log(this.todos)
+    }
+
+    removeNote(index) {
+        this.notes.splice(index,1)
     }
 }
 
@@ -97,19 +100,29 @@ groceries.addTodo("buy veggies", "go to the street market to get fresh veggies",
 groceries.addTodo("buy protein", "the protein has to come in frozen format in order to last", "Feb-6th", "To do", "high");
 groceries.addTodo("buy candy", "the BBB store has good offers for valentine's", "Feb-6th", "To do", "high");
 groceries.addNote("Remember to check the pantry before leaving to check if you are missing something.");
+groceries.addNote("Bring coupons!!!");
+groceries.addNote("Bring more coupons!")
 
 groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
 drawProject(groceries);
 
+console.log('////////////////////////////////////////////////////////////')
+
 const veggiesID = groceries.todos[0].id;
+const noteOneID = groceries.notes[0].id;
 const findTodoID = function(todoID) {
     const findIndex = groceries.todos.findIndex(t => t.id === todoID);
     return findIndex
 };
-
-drawTodo(groceries.todos[findTodoID(veggiesID)]);
+const findNoteID = function(todoID) {
+    const findIndex = groceries.notes.findIndex(t => t.id === todoID);
+    return findIndex
+};
 
 groceries.removeTodo(findTodoID(veggiesID));
+groceries.removeNote(findNoteID(noteOneID));
+
+drawProject(groceries);
 
