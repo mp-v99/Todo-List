@@ -20,6 +20,11 @@ class Project {
         const note = new Note(text);
         this.notes.push(note);
     }
+
+    removeTodo(index) {
+        this.todos.splice(index,1)
+        console.log(this.todos)
+    }
 }
 
 class Todo {
@@ -105,3 +110,6 @@ const findTodoID = function(todoID) {
 };
 
 drawTodo(groceries.todos[findTodoID(veggiesID)]);
+
+groceries.removeTodo(findTodoID(veggiesID));
+
