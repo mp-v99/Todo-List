@@ -8,10 +8,10 @@ class Project {
         this.notes = [];
     }
 
-    addTodo(title, description, dueDate, listStatus, priority) {     
+    addTodo(title, description, dueDate, status, priority) {     
 
-        const todo = new Todo(title, description, dueDate, listStatus, priority);
-        this.todos.push(todo)
+        const todo = new Todo(title, description, dueDate, status, priority);
+        this.todos.push(todo);
        
     }
 
@@ -25,16 +25,26 @@ class Project {
     removeTodo(todoID) {
        
         const todoIndex = this.todos.findIndex(t => t.id === todoID);
-   
-        this.todos.splice(todoIndex,1)
+        this.todos.splice(todoIndex,1);
+
     }
 
     removeNote(noteID) {
        
         const noteIndex = this.notes.findIndex(t => t.id === noteID);
-         
-        this.notes.splice(noteIndex,1)
+        this.notes.splice(noteIndex,1);
+
     }
+
+
+    updateTodo(todoID, patch) {
+
+        const todoIndex = this.todos.findIndex(t => t.id === todoID);
+
+        this.todos[todoIndex].updateItem(patch);
+
+    }
+
 }
 
 class Todo {
@@ -50,6 +60,28 @@ class Todo {
 
     addListItem(listItem) {
         this.checkList.push(listItem);
+    }
+
+    updateItem(patch) {
+        if (patch.title !== undefined) {
+            this.title = patch.title;
+        }
+
+        if (patch.description !== undefined) {
+            this.description = patch.description;
+        }
+
+        if (patch.dueDate !== undefined) {
+            this.dueDate = patch.dueDate;
+        }
+
+        if (patch.status !== undefined) {
+            this.status = patch.status;
+        }
+
+        if (patch.priority !== undefined) {
+            this.priority = patch.priority;
+        }
     }
 
 }
@@ -113,10 +145,8 @@ groceries.addNote("Bring more coupons!")
 groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
-drawProject(groceries);
-
 const veggiesID = groceries.todos[0].id;
 
-groceries.removeTodo(veggiesID);
+groceries.updateTodo(veggiesID, {title: "Buy vegetables", status: "in progress"});
 
-drawProject(groceries);
+drawProject(groceries)
