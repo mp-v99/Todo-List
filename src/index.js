@@ -19,14 +19,21 @@ class Project {
 
         const note = new Note(text);
         this.notes.push(note);
+
     }
 
-    removeTodo(index) {
-        this.todos.splice(index,1)
+    removeTodo(todoID) {
+       
+        const todoIndex = this.todos.findIndex(t => t.id === todoID);
+   
+        this.todos.splice(todoIndex,1)
     }
 
-    removeNote(index) {
-        this.notes.splice(index,1)
+    removeNote(noteID) {
+       
+        const noteIndex = this.notes.findIndex(t => t.id === noteID);
+         
+        this.notes.splice(noteIndex,1)
     }
 }
 
@@ -108,21 +115,8 @@ groceries.todos[0].addListItem("brocoli");
 
 drawProject(groceries);
 
-console.log('////////////////////////////////////////////////////////////')
-
 const veggiesID = groceries.todos[0].id;
-const noteOneID = groceries.notes[0].id;
-const findTodoID = function(todoID) {
-    const findIndex = groceries.todos.findIndex(t => t.id === todoID);
-    return findIndex
-};
-const findNoteID = function(todoID) {
-    const findIndex = groceries.notes.findIndex(t => t.id === todoID);
-    return findIndex
-};
 
-groceries.removeTodo(findTodoID(veggiesID));
-groceries.removeNote(findNoteID(noteOneID));
+groceries.removeTodo(veggiesID);
 
 drawProject(groceries);
-
