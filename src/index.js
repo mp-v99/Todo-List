@@ -36,7 +36,6 @@ class Project {
 
     }
 
-
     updateTodo(todoID, patch) {
 
         const todoIndex = this.todos.findIndex(t => t.id === todoID);
@@ -45,6 +44,12 @@ class Project {
 
     }
 
+    updateNote(noteID, text) {
+
+        const noteIndex = this.notes.findIndex(t => t.id === noteID);
+        this.notes[noteIndex].updateTextBody(text);
+
+    }
 }
 
 class Todo {
@@ -150,9 +155,10 @@ groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
 const veggiesID = groceries.todos[0].id;
+const noteOneID = groceries.notes[0].id;
 
 drawProject(groceries);
 
-groceries.notes[0].updateTextBody("Check the pantry")
+groceries.updateNote(noteOneID, "check pantry before leaving")
 
 drawProject(groceries);
