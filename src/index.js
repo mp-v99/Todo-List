@@ -1,3 +1,18 @@
+class ProjectManager {
+    constructor() {
+        this.projects = [];
+    }
+
+    addProject(title, description, createdAt) {
+
+        const project = new Project(title, description, createdAt);
+
+        this.projects.push(project);
+    }
+}
+
+const appProjectManager = new ProjectManager();
+
 class Project {
     constructor(title, description, createdAt) {
         this.id = crypto.randomUUID();
@@ -180,34 +195,26 @@ const drawTodo = function(todo) {
 
 // Logs:
 
-const groceries = new Project("groceries", "this is a groceries project", "today");
 
-window.groceries = groceries;
-groceries.addTodo("buy veggies", "go to the street market to get fresh veggies", "Feb-6th", "To do", "high");
-groceries.addTodo("buy protein", "the protein has to come in frozen format in order to last", "Feb-6th", "To do", "high");
-groceries.addTodo("buy candy", "the BBB store has good offers for valentine's", "Feb-6th", "To do", "high");
-groceries.addNote("Remember to check the pantry before leaving to check if you are missing something.");
-groceries.addNote("Bring coupons!!!");
-groceries.addNote("Bring more coupons!")
-
-groceries.todos[0].addListItem("carrot");
-groceries.todos[0].addListItem("brocoli");
-
-const veggiesTodo = groceries.todos[0];
-const listItemOne = veggiesTodo.checkList[0].id;
-
-drawTodo(veggiesTodo);
-
-veggiesTodo.toggleListItem(listItemOne);
-
-drawTodo(veggiesTodo);
-
-veggiesTodo.toggleListItem(listItemOne);
-veggiesTodo.updateListItem(listItemOne, "onion");
-
-drawTodo(veggiesTodo);
+appProjectManager.addProject("groceries", "this is a groceries project", "today");
 
 
+
+
+
+appProjectManager.projects[0].addTodo("buy veggies", "go to the street market to get fresh veggies", "Feb-6th", "To do", "high");
+appProjectManager.projects[0].addTodo("buy protein", "the protein has to come in frozen format in order to last", "Feb-6th", "To do", "high");
+appProjectManager.projects[0].addTodo("buy candy", "the BBB store has good offers for valentine's", "Feb-6th", "To do", "high");
+appProjectManager.projects[0].addNote("Remember to check the pantry before leaving to check if you are missing something.");
+appProjectManager.projects[0].addNote("Bring coupons!!!");
+appProjectManager.projects[0].addNote("Bring more coupons!")
+
+appProjectManager.projects[0].todos[0].addListItem("carrot");
+appProjectManager.projects[0].todos[0].addListItem("brocoli");
+
+
+
+drawProject(appProjectManager.projects[0])
 
 
 
