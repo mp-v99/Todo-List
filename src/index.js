@@ -67,7 +67,21 @@ class Todo {
         const checkListItem = new CheckListItem(text);
 
         this.checkList.push(checkListItem);
-    }
+    };
+
+    updateListItem(listItemID, text) {
+
+        const listItemIndex = this.checkList.findIndex(t => t.id === listItemID);
+        this.checkList[listItemIndex].updateTextLine(text);
+
+    };
+
+    toggleListItem(listItemID) {
+
+        const listItemIndex = this.checkList.findIndex(t => t.id === listItemID);
+        this.checkList[listItemIndex].toggleCheckBox();
+
+    };
 
     updateItem(patch) {
         if (patch.title !== undefined) {
@@ -89,7 +103,7 @@ class Todo {
         if (patch.priority !== undefined) {
             this.priority = patch.priority;
         }
-    }
+    };
 
 }
 
@@ -180,17 +194,18 @@ groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
 const veggiesTodo = groceries.todos[0];
-
+const listItemOne = veggiesTodo.checkList[0].id;
 
 drawTodo(veggiesTodo);
 
-veggiesTodo.checkList[0].toggleCheckBox();
+veggiesTodo.toggleListItem(listItemOne);
 
-drawTodo(veggiesTodo)
+drawTodo(veggiesTodo);
 
-veggiesTodo.checkList[0].toggleCheckBox();
+veggiesTodo.toggleListItem(listItemOne);
+veggiesTodo.updateListItem(listItemOne, "onion");
 
-drawTodo(veggiesTodo)
+drawTodo(veggiesTodo);
 
 
 
