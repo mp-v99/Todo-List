@@ -16,6 +16,8 @@ class ProjectManager {
         this.projects.splice(projectIndex,1);
 
     }
+
+
 }
 
 const appProjectManager = new ProjectManager();
@@ -90,6 +92,13 @@ class Todo {
 
         this.checkList.push(checkListItem);
     };
+
+    removeListItem(listItemID) {
+       
+        const listItemIndex = this.checkList.findIndex(t => t.id === listItemID);
+        this.checkList.splice(listItemIndex,1);
+
+    }
 
     updateListItem(listItemID, text) {
 
