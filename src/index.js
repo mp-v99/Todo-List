@@ -10,15 +10,26 @@ class ProjectManager {
         this.projects.push(project);
     }
 
-    removeProject(projectID) {
-       
-        this.projects.splice(this.getProjectByID(projectID),1);
+    drawHomeMenu() {
 
+        let menuArray = [];
+        for (const project of this.projects) {
+
+            
+            if (project.todos[0] !== undefined) {
+                menuArray.push({title: project.title, firstTodo: project.todos[0]})
+            }
+            else {
+                menuArray.push({title: project.title})
+            }
+        }
+
+        return(menuArray);
     }
 
-    drawProject(project) {
-        
-        return [project.title, project.description, project.createdAt]               
+    selectActiveProject(projectID) {
+    
+       return this.projects[this.getProjectByID(projectID)];
       
     }
 
@@ -205,8 +216,11 @@ const drawTodo = function(todo) {
 appProjectManager.addProject("groceries", "this is a groceries project", "today");
 appProjectManager.addProject("Work", "this is a work project", "today");
 
-console.log(appProjectManager.projects);
+const groceries = appProjectManager.projects[0];
 
-appProjectManager.removeProject(appProjectManager.projects[0].id)
+const groceriesID = groceries.id;
 
-console.log(appProjectManager.projects)
+groceries.addTodo("Buy protein");
+
+
+console.log(appProjectManager.drawHomeMenu())
