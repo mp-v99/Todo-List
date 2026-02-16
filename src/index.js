@@ -12,12 +12,22 @@ class ProjectManager {
 
     removeProject(projectID) {
        
-        const projectIndex = this.projects.findIndex(t => t.id === projectID);
-        this.projects.splice(projectIndex,1);
+        this.projects.splice(this.getProjectByID(projectID),1);
 
     }
 
+    drawProject(project) {
+        
+        return [project.title, project.description, project.createdAt]               
+      
+    }
 
+    getProjectByID(projectID) {
+
+        const projectIndex = this.projects.findIndex(t => t.id === projectID);
+
+        return projectIndex;
+    }
 }
 
 const appProjectManager = new ProjectManager();
@@ -124,6 +134,7 @@ class Todo {
         }
 
         if (patch.dueDate !== undefined) {
+
             this.dueDate = patch.dueDate;
         }
 
@@ -172,26 +183,6 @@ class CheckListItem {
 
 }
 
-const drawProject = function(project) {
-    console.log(`
-    |Title:     ${project.title}               
-    |Body:      ${project.description}              
-    |Created at:       ${project.createdAt}         
-    `)
-    
-    console.log(`    
-    |List of Todos:           
-    `)
-
-    for (const todo of project.todos) {console.log(`${todo.title}`)};
-
-    console.log(`
-    |List of Notes:
-    `)
-
-    for (const note of project.notes) {console.log(`${note.textBody}`)};
-}
-
 const drawTodo = function(todo) {
     console.log(`
         |Title:     ${todo.title}               
@@ -214,24 +205,8 @@ const drawTodo = function(todo) {
 appProjectManager.addProject("groceries", "this is a groceries project", "today");
 appProjectManager.addProject("Work", "this is a work project", "today");
 
-
-
-appProjectManager.projects[0].addTodo("buy veggies", "go to the street market to get fresh veggies", "Feb-6th", "To do", "high");
-appProjectManager.projects[0].addTodo("buy protein", "the protein has to come in frozen format in order to last", "Feb-6th", "To do", "high");
-appProjectManager.projects[0].addTodo("buy candy", "the BBB store has good offers for valentine's", "Feb-6th", "To do", "high");
-appProjectManager.projects[0].addNote("Remember to check the pantry before leaving to check if you are missing something.");
-appProjectManager.projects[0].addNote("Bring coupons!!!");
-appProjectManager.projects[0].addNote("Bring more coupons!")
-
-appProjectManager.projects[0].todos[0].addListItem("carrot");
-appProjectManager.projects[0].todos[0].addListItem("brocoli");
-
-
-
-drawProject(appProjectManager.projects[0])
+console.log(appProjectManager.projects);
 
 appProjectManager.removeProject(appProjectManager.projects[0].id)
 
-drawProject(appProjectManager.projects[0])
-
-
+console.log(appProjectManager.projects)
