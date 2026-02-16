@@ -62,8 +62,11 @@ class Todo {
         this.checkList = [];    
     }
 
-    addListItem(listItem) {
-        this.checkList.push(listItem);
+    addListItem(text) {
+
+        const checkListItem = new CheckListItem(text);
+
+        this.checkList.push(checkListItem);
     }
 
     updateItem(patch) {
@@ -157,7 +160,7 @@ const drawTodo = function(todo) {
         |Checklist:           
         `)
     
-        for (const check of todo.checkList) {console.log(`[]${check}`)};
+        for (const item of todo.checkList) {console.log(`${item.checkBox} ${item.textLine}`)};
 }
 
 
@@ -176,11 +179,21 @@ groceries.addNote("Bring more coupons!")
 groceries.todos[0].addListItem("carrot");
 groceries.todos[0].addListItem("brocoli");
 
-const veggiesID = groceries.todos[0].id;
-const noteOneID = groceries.notes[0].id;
+const veggiesTodo = groceries.todos[0];
 
-drawProject(groceries);
 
-groceries.updateNote(noteOneID, "check pantry before leaving")
+drawTodo(veggiesTodo);
 
-drawProject(groceries);
+veggiesTodo.checkList[0].toggleCheckBox();
+
+drawTodo(veggiesTodo)
+
+veggiesTodo.checkList[0].toggleCheckBox();
+
+drawTodo(veggiesTodo)
+
+
+
+
+
+
