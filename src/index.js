@@ -66,42 +66,52 @@ class Project {
         const todo = new Todo(title, description, dueDate, status, priority);
         this.todos.push(todo);
        
-    }
+    };
 
     addNote(text) {
 
         const note = new Note(text);
         this.notes.push(note);
 
-    }
+    };
 
     removeTodo(todoID) {
        
-        const todoIndex = this.todos.findIndex(t => t.id === todoID);
-        this.todos.splice(todoIndex,1);
+        this.todos.splice(this.getTodoByID(todoID),1);
 
-    }
+    };
 
     removeNote(noteID) {
        
         const noteIndex = this.notes.findIndex(t => t.id === noteID);
         this.notes.splice(noteIndex,1);
 
-    }
+    };
 
     updateTodo(todoID, patch) {
 
-        const todoIndex = this.todos.findIndex(t => t.id === todoID);
-        this.todos[todoIndex].updateItem(patch);
+        
+        this.todos[this.getTodoByID(todoID)].updateItem(patch);
 
-    }
+    };
 
     updateNote(noteID, text) {
 
         const noteIndex = this.notes.findIndex(t => t.id === noteID);
         this.notes[noteIndex].updateTextBody(text);
 
-    }
+    };
+
+    selectActiveTodo(todoID) {
+    
+        return this.todos[this.getTodoByID(todoID)];
+       
+     };
+
+    getTodoByID(todoID) {
+        const todoIndex = this.todos.findIndex(t => t.id === todoID);
+        return todoIndex;
+    };
 }
 
 class Todo {
@@ -219,16 +229,5 @@ const drawTodo = function(todo) {
 }
 
 
-// Logs:
-
-appProjectManager.addProject("groceries", "this is a groceries project", "today");
-appProjectManager.addProject("Work", "this is a work project", "today");
-
-const groceries = appProjectManager.projects[0];
-
-const groceriesID = groceries.id;
-
-groceries.addTodo("Buy protein");
 
 
-console.log(appProjectManager.drawHomeMenu())
