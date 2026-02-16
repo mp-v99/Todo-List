@@ -10,23 +10,12 @@ class ProjectManager {
         this.projects.push(project);
     }
 
-    drawHomeMenu() {
+    removeProject(projectID) {
+       
+        this.projects.splice(this.getProjectByID(projectID),1);
 
-        let menuArray = [];
-        for (const project of this.projects) {
-
-            
-            if (project.todos[0] !== undefined) {
-                menuArray.push({title: project.title, firstTodo: project.todos[0]})
-            }
-            else {
-                menuArray.push({title: project.title})
-            }
-        }
-
-        return(menuArray);
     }
-
+  
     selectActiveProject(projectID) {
     
        return this.projects[this.getProjectByID(projectID)];
