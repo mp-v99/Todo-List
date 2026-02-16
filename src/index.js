@@ -9,6 +9,13 @@ class ProjectManager {
 
         this.projects.push(project);
     }
+
+    removeProject(projectID) {
+       
+        const projectIndex = this.projects.findIndex(t => t.id === projectID);
+        this.projects.splice(projectIndex,1);
+
+    }
 }
 
 const appProjectManager = new ProjectManager();
@@ -195,10 +202,8 @@ const drawTodo = function(todo) {
 
 // Logs:
 
-
 appProjectManager.addProject("groceries", "this is a groceries project", "today");
-
-
+appProjectManager.addProject("Work", "this is a work project", "today");
 
 
 
@@ -216,6 +221,8 @@ appProjectManager.projects[0].todos[0].addListItem("brocoli");
 
 drawProject(appProjectManager.projects[0])
 
+appProjectManager.removeProject(appProjectManager.projects[0].id)
 
+drawProject(appProjectManager.projects[0])
 
 
