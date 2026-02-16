@@ -22,6 +22,25 @@ class ProjectManager {
       
     }
 
+
+    drawHomeMenu() {
+
+        let menuArray = [];
+        for (const project of this.projects) {
+
+            
+            if (project.todos[0] !== undefined) {
+                menuArray.push({title: project.title, firstTodo: project.todos[0]})
+            }
+            else {
+                menuArray.push({title: project.title})
+            }
+        }
+
+        return(menuArray);
+    }
+
+
     getProjectByID(projectID) {
 
         const projectIndex = this.projects.findIndex(t => t.id === projectID);
