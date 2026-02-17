@@ -1,4 +1,5 @@
-import { ProjectManager } from "./domain.js"
+import { ProjectManager } from "./domain.js";
+import { showList } from "./UI-DOM.js";
 
 
 // Get present day date:
@@ -31,3 +32,4 @@ for (const listItem of defaultProject.todos[0].checkList) {
     Checked: ${listItem.checkBox} `)
 }
 
+showList(appProjectManager.getActiveProject().todos[0]);
