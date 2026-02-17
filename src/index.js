@@ -23,6 +23,12 @@ class ProjectManager {
 
     };
 
+    getActiveProject() {
+        
+        return this.projects[this.getProjectByID(this.activeProjectID)]
+    
+    }
+
 
     listProjects() {
 
