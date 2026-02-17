@@ -1,44 +1,34 @@
 class ProjectManager {
     constructor() {
         this.projects = [];
-    }
+        this.activeProjectID = null;
+    };
 
     addProject(title, description, createdAt) {
 
         const project = new Project(title, description, createdAt);
 
         this.projects.push(project);
-    }
+    };
 
     removeProject(projectID) {
        
         this.projects.splice(this.getProjectByID(projectID),1);
 
-    }
+    };
   
-    selectActiveProject(projectID) {
+    setActiveProject(projectID) {
     
-       return this.projects[this.getProjectByID(projectID)];
-      
-    }
+        this.activeProjectID = projectID;
+
+    };
 
 
-    drawHomeMenu() {
+    listProjects() {
 
-        let menuArray = [];
-        for (const project of this.projects) {
-
-            
-            if (project.todos[0] !== undefined) {
-                menuArray.push({title: project.title, firstTodo: project.todos[0]})
-            }
-            else {
-                menuArray.push({title: project.title})
-            }
-        }
-
-        return(menuArray);
-    }
+        return this.projects;
+    
+    };
 
 
     getProjectByID(projectID) {
@@ -47,7 +37,7 @@ class ProjectManager {
 
         return projectIndex;
     }
-}
+};
 
 const appProjectManager = new ProjectManager();
 
@@ -106,13 +96,13 @@ class Project {
     
         return this.todos[this.getTodoByID(todoID)];
        
-     };
+    };
 
     getTodoByID(todoID) {
         const todoIndex = this.todos.findIndex(t => t.id === todoID);
         return todoIndex;
     };
-}
+};
 
 class Todo {
     constructor(title, description, dueDate, status, priority) {
@@ -176,7 +166,7 @@ class Todo {
         }
     };
 
-}
+};
 
 class Note {
     constructor(textBody) {
@@ -187,7 +177,7 @@ class Note {
     updateTextBody(text) {
         this.textBody = text;
     }
-}
+};
 
 
 class CheckListItem {
@@ -210,23 +200,9 @@ class CheckListItem {
         }
     }
 
-}
+};
 
-const drawTodo = function(todo) {
-    console.log(`
-        |Title:     ${todo.title}               
-        |Description:      ${todo.description}              
-        |Due:       ${todo.dueDate}         
-        |Status: ${todo.status}
-        |Priority: ${todo.priority}
-        `)
 
-    console.log(`    
-        |Checklist:           
-        `)
-    
-        for (const item of todo.checkList) {console.log(`${item.checkBox} ${item.textLine}`)};
-}
 
 
 
