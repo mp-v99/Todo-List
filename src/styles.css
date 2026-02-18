@@ -8,6 +8,16 @@
     --text-font: Roboto, Arial, Helvetica, sans-serif;
 }
 
+/* @face rule for roboto font */
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('font-family/woff_fonts/Roboto-Regular.woff2') format('woff2'),
+        url('font-family/woff_fonts/Roboto-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    }
 
 
 
@@ -83,6 +93,6 @@ html *::-webkit-scrollbar {
     display: none;
   }
 
+/* End of normalize template */
 
-
-  
+ 
