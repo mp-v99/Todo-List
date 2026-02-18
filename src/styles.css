@@ -1,4 +1,16 @@
 
+/* Define custom properties for better styling control */
+
+:root {
+    --dominant-color: #eeeeee;
+    --dominant-secondary-color: #afafaf;
+    --theme-color: #7bd4a0;
+    --text-font: Roboto, Arial, Helvetica, sans-serif;
+}
+
+
+
+
 /*Normalize Template: */
 
 
@@ -73,4 +85,4 @@ html *::-webkit-scrollbar {
 
 
 
- 
+  
