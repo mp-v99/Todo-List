@@ -200,4 +200,4 @@ class CheckListItem {
 
 };
 
-export { ProjectManager, Project, Todo, Note, CheckListItem };
+export { ProjectManager };
