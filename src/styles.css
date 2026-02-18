@@ -95,4 +95,68 @@ html *::-webkit-scrollbar {
 
 /* End of normalize template */
 
- 
+  
+  
+
+      
+    /* Header: */
+    
+#header {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding-right: 0.5%;
+
+    background-color: var(--theme-color);
+    color: var(--dominant-color);
+
+
+
+    border-bottom: 0.2rem solid black;
+}
+
+/* The sidebar */
+
+
+#sidebar {
+    grid-column: 2 / 3;
+    grid-row: 2 / 4; 
+
+    background-color: var(--theme-color);
+
+    min-width: 100px;
+
+    border-left: 0.3rem solid black;
+    border-bottom: 0.5rem solid black;
+
+    border-radius: 0px 0px 0px 100px;
+}
+
+/* The main content */
+
+
+#main_content {
+    grid-column: 2 / 3;
+    grid-row: 2 / 4;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(366px, 1fr));
+    grid-auto-rows: minmax(440px, 460px);
+    gap: 30px;
+
+    min-width: 400px;
+    min-height: 800px;
+
+    padding: 30px;
+
+    color: var(--dominant-color);
+
+    overflow-y: auto;
+}
+
+    
+    
