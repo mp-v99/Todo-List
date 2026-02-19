@@ -1,5 +1,7 @@
 import { ProjectManager } from "./domain.js";
-import { showList } from "./UI-DOM.js";
+import { initUI, loadProjects } from "./UI-DOM.js"
+import "./styles.css"
+// import { showList } from "./UI-DOM.js";
 
 
 // Get present day date:
@@ -11,25 +13,20 @@ const today = new Date().toLocaleDateString("en-US")
 const appProjectManager = new ProjectManager();
 
 appProjectManager.addProject("My tasks", "Don't know where to start? Start by writing a todo!!", today);
+appProjectManager.addProject("Work", "Don't know where to start? Start by writing a todo!!", today);
+appProjectManager.addProject("Life", "Don't know where to start? Start by writing a todo!!", today);
+
+
 
 appProjectManager.setActiveProject(appProjectManager.projects[0].id);
 
-const defaultProject = appProjectManager.getActiveProject();
-defaultProject.addTodo("Create your first Todo!", "Leave a description here.", null, "To do", "Low");
+let activeProject = appProjectManager.getActiveProject();
+
+activeProject.addTodo("Write your first todo!", "This would be the description", "Due: March 7th", "In progress", "High");
+appProjectManager.projects[1].addTodo("Write your second todo!", "This would be the description", "Due: March 7th", "In progress", "High");
+appProjectManager.projects[2].addTodo("Write your thirds todo!", "This would be the description", "Due: March 7th", "In progress", "High");
+
+initUI(appProjectManager);
 
 
-console.log(`Default Project: ${defaultProject.title}`)
-console.log(`Todo: ${defaultProject.todos[0].title}`);
-
-defaultProject.todos[0].addListItem("create a low priority todo");
-defaultProject.todos[0].addListItem("create a medium priority todo");
-defaultProject.todos[0].addListItem("create a high priority todo");
-
-defaultProject.todos[0].checkList[0].toggleCheckBox();
-
-for (const listItem of defaultProject.todos[0].checkList) {
-    console.log(` ${listItem.textLine}
-    Checked: ${listItem.checkBox} `)
-}
-
-showList(appProjectManager.getActiveProject().todos[0]);
+loadProjects(appProjectManager.listProjects());
