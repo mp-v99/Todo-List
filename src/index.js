@@ -1,5 +1,5 @@
 import { ProjectManager } from "./domain.js";
-import { initUI, loadProjects} from "./UI-DOM.js"
+import { initUI, loadProject} from "./UI-DOM.js"
 import "./styles.css"
 // import { showList } from "./UI-DOM.js";
 
@@ -23,10 +23,10 @@ appProjectManager.setActiveProject(appProjectManager.projects[0].id);
 let activeProject = appProjectManager.getActiveProject();
 
 activeProject.addTodo("Write your first todo!", "This would be the description", "Due: March 7th", "In progress", "High");
-appProjectManager.projects[1].addTodo("Write your second todo!", "This would be the description", "Due: March 7th", "In progress", "High");
-appProjectManager.projects[2].addTodo("Write your thirds todo!", "This would be the description", "Due: March 7th", "In progress", "High");
+activeProject.addTodo("Write your second todo!", "This would be the description", "Due: March 7th", "In progress", "High");
+activeProject.addTodo("Write your thirds todo!", "This would be the description", "Due: March 7th", "In progress", "High");
 
 initUI(appProjectManager);
 
 
-loadProjects(appProjectManager);
+loadProject(appProjectManager, activeProject.id);
