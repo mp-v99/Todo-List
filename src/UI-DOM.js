@@ -1,12 +1,11 @@
 
 const loadProjects = function(projectManager) {
     const mainContainer = document.querySelector("#main_content");
-    const previousContent = document.querySelector("section");
     const newSection = document.createElement("section");
    
     newSection.id = "projects_section"
 
-    mainContainer.removeChild(previousContent);
+    mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
 
@@ -17,7 +16,6 @@ const loadProjects = function(projectManager) {
         const openProjectBtn = document.createElement("button");
 
         projectTitle.textContent = project.title;
-        projectTodoPreview.textContent = project.todos[0].title;
         projectCard.setAttribute("data-id", project.id);
         openProjectBtn.textContent = "Open";
         openProjectBtn.classList = "open_project";
@@ -40,7 +38,6 @@ const loadProjects = function(projectManager) {
 
 const loadAbout = function() {
     const mainContainer = document.querySelector("#main_content");
-    const previousContent = document.querySelector("section");
     const newSection = document.createElement("section");
     const aboutTitle = document.createElement("h3");
     const aboutArticle = document.createElement("p");
@@ -51,7 +48,7 @@ const loadAbout = function() {
 but for portfolio projects and demos?
 It looks lazy in 2026. Real-ish copy makes your project feel 10x more legit.`
 
-    mainContainer.removeChild(previousContent);
+    mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
     newSection.appendChild(aboutTitle);
@@ -63,12 +60,11 @@ It looks lazy in 2026. Real-ish copy makes your project feel 10x more legit.`
 
 const loadProject = function(projectManager, projectID) {
     const mainContainer = document.querySelector("#main_content");
-    const previousContent = document.querySelector("section");
     const newSection = document.createElement("section");
    
     newSection.id = "active_project_section"
 
-    mainContainer.removeChild(previousContent);
+    mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
     const projectTitle = document.createElement('h1');
@@ -79,10 +75,21 @@ const loadProject = function(projectManager, projectID) {
 
     for (const todo of projectManager.getActiveProject(projectID).todos) {
         const newTodo = document.createElement("li");
+        const todoCheckBox = document.createElement("input");
+        const todoTitle = document.createElement("h5");
+        const todoStatus = document.createElement("p");
+        const todoPriority = document.createElement("h6");
 
-        newTodo.textContent = todo.title;
+        todoCheckBox.type = "checkbox"
+        todoTitle.textContent = todo.title;
+        todoStatus.textContent = todo.status;
+        todoPriority.textContent = `Priority: ${todo.priority}`;
 
         listOfTodos.appendChild(newTodo);
+        newTodo.appendChild(todoCheckBox);
+        newTodo.appendChild(todoTitle);
+        newTodo.appendChild(todoStatus);
+        newTodo.appendChild(todoPriority);
     }
 
    newSection.appendChild(projectTitle);
