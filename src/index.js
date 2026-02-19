@@ -1,5 +1,5 @@
 import { ProjectManager } from "./domain.js";
-import { initUI, loadProjects } from "./UI-DOM.js"
+import { initUI, loadProjects} from "./UI-DOM.js"
 import "./styles.css"
 // import { showList } from "./UI-DOM.js";
 
@@ -29,4 +29,4 @@ appProjectManager.projects[2].addTodo("Write your thirds todo!", "This would be 
 initUI(appProjectManager);
 
 
-loadProjects(appProjectManager.listProjects());
+loadProjects(appProjectManager);
