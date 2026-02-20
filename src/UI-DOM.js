@@ -1,4 +1,4 @@
-import { loadProject } from "./projectView";
+import { loadProject, renderNotes } from "./projectView";
 
 
 const loadProjects = function(projectManager) {
@@ -65,6 +65,7 @@ It looks lazy in 2026. Real-ish copy makes your project feel 10x more legit.`
 
 const initUI = function(projectManager) {
     const projectsBtn = document.querySelector("#projects_btn");
+    const notesBtn = document.querySelector("#notes_btn");
     const aboutBtn = document.querySelector("#about_btn");
 
     projectsBtn.addEventListener("click", () => {
@@ -73,6 +74,21 @@ const initUI = function(projectManager) {
     aboutBtn.addEventListener("click", () => {
         loadAbout();
     });
+    notesBtn.addEventListener("click", () => {
+        const activeProject = projectManager.getActiveProject();
+        const mainContainer = document.querySelector("#main_content");
+        const newSection = document.createElement("section");
+        const notesHeader = document.createElement('h2');
+    
+        mainContainer.innerHTML = "";
+        mainContainer.appendChild(newSection);
+
+        notesHeader.textContent = "Notes:"
+
+        newSection.appendChild(notesHeader);
+        newSection.appendChild(renderNotes(activeProject.notes));
+        
+    })
    
 }
 
