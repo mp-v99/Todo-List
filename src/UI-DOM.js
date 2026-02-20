@@ -79,18 +79,19 @@ const initUI = function(projectManager) {
         const mainContainer = document.querySelector("#main_content");
         const newSection = document.createElement("section");
         const notesHeader = document.createElement('h2');
+
+        newSection.id = "notes_tab_section" 
     
         mainContainer.innerHTML = "";
         mainContainer.appendChild(newSection);
 
-        notesHeader.textContent = "Notes:"
+        notesHeader.textContent = `(${activeProject.title}) Notes:`
 
         newSection.appendChild(notesHeader);
         newSection.appendChild(renderNotes(activeProject.notes));
         
-    })
-   
-}
+    }) 
+};
 
 
 export {initUI, loadProjects};
