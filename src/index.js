@@ -36,5 +36,7 @@ activeProject.addNote("There is always a way forward, even in the dark.");
 
 initUI(appProjectManager);
 
+activeProject.todos[0].addListItem("Invite Sam");
+activeProject.todos[0].addListItem("Hide the ring");
 
 loadProject(appProjectManager, activeProject.id);
