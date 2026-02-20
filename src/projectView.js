@@ -7,38 +7,24 @@ const loadProject = function(projectManager, projectID) {
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
     const todosContainer = document.createElement("div");
-    const notesContainer = document.createElement("div");
-   
+    
     newSection.id = "active_project_section";
     todosContainer.classList.add("todos_list");
-    notesContainer.classList.add("notes_grid");
-
+    
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
-
-    
 
     const projectTitle = document.createElement('h1');
     const notesHeader = document.createElement('h2');
     
     projectTitle.textContent = `Project: ${activeProject.title}`;
     notesHeader.textContent = "Notes:"
-
-    
-  
-    for (const note of activeProject.notes) {
-        const newNote = document.createElement("article");
-       
-        newNote.textContent = note.textBody;
-        
-        notesContainer.appendChild(newNote);
-    }
     
     newSection.appendChild(projectTitle);
     newSection.appendChild(notesHeader);
     newSection.appendChild(todosContainer);
-    newSection.appendChild(notesContainer);
     todosContainer.appendChild(renderTodos(activeProject.todos));
+    newSection.appendChild(renderNotes(activeProject.notes));
 };
 
 const renderTodos = function(todosArray) {
@@ -67,6 +53,21 @@ const renderTodos = function(todosArray) {
 
 }
 
+const renderNotes = function(notesArray) {
+    const notesContainer = document.createElement("div");
+    notesContainer.classList.add("notes_grid");
+
+    for (const note of notesArray) {
+        const newNote = document.createElement("article");
+       
+        newNote.textContent = note.textBody;
+        
+        notesContainer.appendChild(newNote);
+    }
+
+    return notesContainer;
+}
 
 
-export {loadProject};
+
+export {loadProject, renderNotes};
