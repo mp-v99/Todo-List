@@ -1,5 +1,6 @@
 import { ProjectManager } from "./domain.js";
-import { initUI, loadProject} from "./UI-DOM.js"
+import { initUI } from "./UI-DOM.js"
+import { loadProject } from "./projectView.js"
 import "./styles.css"
 // import { showList } from "./UI-DOM.js";
 
@@ -24,7 +25,7 @@ let activeProject = appProjectManager.getActiveProject();
 
 activeProject.addTodo("Take the ring to mordor", "This would be the description", "Due: March 7th", "In progress", "High");
 activeProject.addTodo("Have second breakfast", "This would be the description", "Due: March 7th", "To do", "Low");
-activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "Due: March 7th", "Paused", "Medium");
+activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "Due: March 7th", "Paused", "Med");
 
 activeProject.addNote("Even the smallest steps still move the journey forward.");
 activeProject.addNote("Rest is part of the quest, not a failure of it.");
