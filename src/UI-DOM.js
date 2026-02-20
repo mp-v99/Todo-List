@@ -18,7 +18,7 @@ const loadProjects = function(projectManager) {
         projectTitle.textContent = project.title;
         projectCard.setAttribute("data-id", project.id);
         openProjectBtn.textContent = "Open";
-        openProjectBtn.classList = "open_project";
+        openProjectBtn.classList.add("open_project");
 
         newSection.appendChild(projectCard);
         projectCard.appendChild(projectTitle);
@@ -61,17 +61,24 @@ It looks lazy in 2026. Real-ish copy makes your project feel 10x more legit.`
 const loadProject = function(projectManager, projectID) {
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
+    const todosContainer = document.createElement("div");
+    const notesContainer = document.createElement("div");
    
-    newSection.id = "active_project_section"
+    newSection.id = "active_project_section";
+    todosContainer.classList.add("todos_list");
+    notesContainer.classList.add("notes_grid");
 
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
+
     const projectTitle = document.createElement('h1');
+    const notesHeader = document.createElement('h2');
     const listOfTodos = document.createElement('ul');
 
     projectManager.setActiveProject(projectID);
-    projectTitle.textContent = projectManager.getActiveProject(projectID).title;
+    projectTitle.textContent = `Project: ${projectManager.getActiveProject(projectID).title}`;
+    notesHeader.textContent = "Notes:"
 
     for (const todo of projectManager.getActiveProject(projectID).todos) {
         const newTodo = document.createElement("li");
@@ -92,8 +99,19 @@ const loadProject = function(projectManager, projectID) {
         newTodo.appendChild(todoPriority);
     }
 
-   newSection.appendChild(projectTitle);
-   newSection.appendChild(listOfTodos);
+    for (const note of projectManager.getActiveProject(projectID).notes) {
+        const newNote = document.createElement("article");
+       
+        newNote.textContent = note.textBody;
+        
+        notesContainer.appendChild(newNote);
+    }
+
+    newSection.appendChild(todosContainer);
+    newSection.appendChild(projectTitle);
+    newSection.appendChild(notesHeader);
+    newSection.appendChild(notesContainer);
+    todosContainer.appendChild(listOfTodos);
 }
 
 
