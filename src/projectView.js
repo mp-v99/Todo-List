@@ -33,20 +33,38 @@ const renderTodos = function(todosArray) {
     for (const todo of todosArray) {
         const newTodo = document.createElement("li");
         const todoCheckBox = document.createElement("input");
-        const todoTitle = document.createElement("h5");
+        const subjectContainer = document.createElement("div");
+        const todoSubject = document.createElement("button");
+        const statusContainer = document.createElement("div");
         const todoStatus = document.createElement("p");
-        const todoPriority = document.createElement("h6");
+        const priorityContainer = document.createElement("div");
+        const todoPriority = document.createElement("button");
 
+
+        subjectContainer.classList.add("todo_subject");
+        statusContainer.classList.add("todo_status");
+        priorityContainer.classList.add("todo_priority");
         todoCheckBox.type = "checkbox"
-        todoTitle.textContent = todo.title;
+        todoSubject.textContent = todo.title;
+        todoSubject.classList.add("todo_subject_btn");
         todoStatus.textContent = todo.status;
-        todoPriority.textContent = `Priority: ${todo.priority}`;
+        todoPriority.textContent = `${todo.priority}`;
+        todoPriority.classList = todo.priority;
 
         listOfTodos.appendChild(newTodo);
+        todoSubject.setAttribute("data-id", todo.id);
         newTodo.appendChild(todoCheckBox);
-        newTodo.appendChild(todoTitle);
-        newTodo.appendChild(todoStatus);
-        newTodo.appendChild(todoPriority);
+
+        newTodo.appendChild(subjectContainer);
+        subjectContainer.appendChild(todoSubject);
+        newTodo.appendChild(statusContainer);
+        statusContainer.appendChild(todoStatus);
+        newTodo.appendChild(priorityContainer);
+        priorityContainer.appendChild(todoPriority);
+
+        todoSubject.addEventListener("click", () => {
+            renderTodo(todo);
+        }) 
     }
 
     return listOfTodos;
@@ -68,6 +86,47 @@ const renderNotes = function(notesArray) {
     return notesContainer;
 }
 
+const renderTodo = function(todo) {
+    const currentSection = document.querySelector("section");
+    const todosContainer = document.querySelector(".todos_list");
 
+    currentSection.innerHTML = '';
+
+    const todoContainer = document.createElement("form");
+    todoContainer.classList.add("todo_container");
+
+    currentSection.appendChild(todoContainer);
+
+    const todoSubject = document.createElement("h5");
+    todoSubject.textContent = todo.title;
+    const todoDescription = document.createElement("p");
+    todoDescription.textContent = todo.description;
+    const todoStatus = document.createElement("button");
+    todoStatus.textContent = todo.status;
+    const todoPriority = document.createElement("button");
+    todoPriority.textContent = todo.priority;
+    const todoDueDate = document.createElement("p");
+    todoDueDate.textContent = todo.dueDate;
+    const todoChecklist = document.createElement("ul");
+
+
+    todoContainer.appendChild(todoSubject);
+    todoContainer.appendChild(todoDescription);
+    todoContainer.appendChild(todoStatus);
+    todoContainer.appendChild(todoPriority);
+    todoContainer.appendChild(todoDueDate);
+
+    todoContainer.appendChild(todoChecklist);
+
+    console.log(todo.checkList[0])
+
+    for (const listItem of todo.checkList) {
+        const listItemContainer = document.createElement("li");
+        listItemContainer.textContent = listItem.textLine;
+
+        todoChecklist.appendChild(listItemContainer);
+    }
+    
+}
 
 export {loadProject, renderNotes};
