@@ -1,6 +1,9 @@
 // import { initUI } from "./UI-DOM";
 
 const loadProject = function(projectManager, projectID) {
+    projectManager.setActiveProject(projectID);
+    const activeProject = projectManager.getActiveProject();
+
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
     const todosContainer = document.createElement("div");
@@ -13,16 +16,35 @@ const loadProject = function(projectManager, projectID) {
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
+    
 
     const projectTitle = document.createElement('h1');
     const notesHeader = document.createElement('h2');
-    const listOfTodos = document.createElement('ul');
-
-    projectManager.setActiveProject(projectID);
-    projectTitle.textContent = `Project: ${projectManager.getActiveProject(projectID).title}`;
+    
+    projectTitle.textContent = `Project: ${activeProject.title}`;
     notesHeader.textContent = "Notes:"
 
-    for (const todo of projectManager.getActiveProject(projectID).todos) {
+    
+  
+    for (const note of activeProject.notes) {
+        const newNote = document.createElement("article");
+       
+        newNote.textContent = note.textBody;
+        
+        notesContainer.appendChild(newNote);
+    }
+    
+    newSection.appendChild(projectTitle);
+    newSection.appendChild(notesHeader);
+    newSection.appendChild(todosContainer);
+    newSection.appendChild(notesContainer);
+    todosContainer.appendChild(renderTodos(activeProject.todos));
+};
+
+const renderTodos = function(todosArray) {
+    const listOfTodos = document.createElement('ul');
+
+    for (const todo of todosArray) {
         const newTodo = document.createElement("li");
         const todoCheckBox = document.createElement("input");
         const todoTitle = document.createElement("h5");
@@ -41,19 +63,10 @@ const loadProject = function(projectManager, projectID) {
         newTodo.appendChild(todoPriority);
     }
 
-    for (const note of projectManager.getActiveProject(projectID).notes) {
-        const newNote = document.createElement("article");
-       
-        newNote.textContent = note.textBody;
-        
-        notesContainer.appendChild(newNote);
-    }
+    return listOfTodos;
 
-    newSection.appendChild(todosContainer);
-    newSection.appendChild(projectTitle);
-    newSection.appendChild(notesHeader);
-    newSection.appendChild(notesContainer);
-    todosContainer.appendChild(listOfTodos);
 }
+
+
 
 export {loadProject};
