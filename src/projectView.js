@@ -23,11 +23,11 @@ const loadProject = function(projectManager, projectID) {
     newSection.appendChild(projectTitle);
     newSection.appendChild(notesHeader);
     newSection.appendChild(todosContainer);
-    todosContainer.appendChild(renderTodos(activeProject.todos));
+    todosContainer.appendChild(renderTodos(projectManager, activeProject.todos));
     newSection.appendChild(renderNotes(activeProject.notes));
 };
 
-const renderTodos = function(todosArray) {
+const renderTodos = function(projectManager, todosArray) {
     const listOfTodos = document.createElement('ul');
 
     for (const todo of todosArray) {
@@ -63,7 +63,7 @@ const renderTodos = function(todosArray) {
         priorityContainer.appendChild(todoPriority);
 
         todoSubject.addEventListener("click", () => {
-            renderTodo(todo);
+            renderTodo(projectManager, todo);
         }) 
     }
 
@@ -86,37 +86,63 @@ const renderNotes = function(notesArray) {
     return notesContainer;
 }
 
-const renderTodo = function(todo) {
-    const currentSection = document.querySelector("section");
-    const todosContainer = document.querySelector(".todos_list");
+const renderTodo = function(projectManager, todo) {
 
-    currentSection.innerHTML = '';
+    // const activeProject = projectManager.getActiveProject();
+    const mainContainer = document.querySelector("#main_content");
+    const newSection = document.createElement("section");
+    const todoHeader = document.createElement('h1');
 
-    const todoContainer = document.createElement("form");
-    todoContainer.classList.add("todo_container");
+    newSection.id = "active_todo_section" 
 
-    currentSection.appendChild(todoContainer);
+    mainContainer.innerHTML = "";
+    mainContainer.appendChild(newSection);
 
-    const todoSubject = document.createElement("h5");
-    todoSubject.textContent = todo.title;
-    const todoDescription = document.createElement("p");
-    todoDescription.textContent = todo.description;
+    todoHeader.textContent = todo.title;
+
+    const todoFormContainer = document.createElement("form");
+    todoFormContainer.classList.add("todo_container");
+
+    newSection.appendChild(todoHeader);
+    newSection.appendChild(todoFormContainer);
+
+ 
+
+    const statusLabel = document.createElement("p");
+    statusLabel.textContent = "Status:"
     const todoStatus = document.createElement("button");
     todoStatus.textContent = todo.status;
+
+    const priorityLabel = document.createElement("p");
+    priorityLabel.textContent = "Priority:"
     const todoPriority = document.createElement("button");
     todoPriority.textContent = todo.priority;
+
+    const dueDateLabel = document.createElement("p");
+    dueDateLabel.textContent = "Due:"
     const todoDueDate = document.createElement("p");
     todoDueDate.textContent = todo.dueDate;
+
+    const descriptionLabel = document.createElement("p");
+    descriptionLabel.textContent = "Description:"
+    const todoDescription = document.createElement("p");
+    todoDescription.textContent = todo.description;
+
     const todoChecklist = document.createElement("ul");
 
+   
+    
+    todoFormContainer.appendChild(statusLabel);
+    todoFormContainer.appendChild(todoStatus);
+    todoFormContainer.appendChild(priorityLabel);
+    todoFormContainer.appendChild(todoPriority);
+    todoFormContainer.appendChild(dueDateLabel);
+    todoFormContainer.appendChild(todoDueDate);
 
-    todoContainer.appendChild(todoSubject);
-    todoContainer.appendChild(todoDescription);
-    todoContainer.appendChild(todoStatus);
-    todoContainer.appendChild(todoPriority);
-    todoContainer.appendChild(todoDueDate);
+    todoFormContainer.appendChild(descriptionLabel);
+    todoFormContainer.appendChild(todoDescription);
 
-    todoContainer.appendChild(todoChecklist);
+    todoFormContainer.appendChild(todoChecklist);
 
     console.log(todo.checkList[0])
 
@@ -129,4 +155,4 @@ const renderTodo = function(todo) {
     
 }
 
-export {loadProject, renderNotes};
+export {loadProject, renderNotes, renderTodo};
