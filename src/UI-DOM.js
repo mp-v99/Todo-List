@@ -84,7 +84,7 @@ const initUI = function(projectManager) {
         const activeProject = projectManager.getActiveProject();
         const mainContainer = document.querySelector("#main_content");
         const newSection = document.createElement("section");
-        const notesHeader = document.createElement('h2');
+        const notesHeader = document.createElement('h4');
 
         newSection.id = "notes_tab_section" 
     
