@@ -332,6 +332,32 @@ html *::-webkit-scrollbar {
     border: 1px solid var(--soft-gray);
 }
 
+.todos_list #todos_header {
+    height: 30px;
+    border-bottom: solid 2px var(--soft-gray);
+
+    /* Copy todos <li> layout to keep consistency */
+
+    display: grid;
+    grid-template-columns: 10fr 50fr 25fr 15fr;
+
+    align-items: center;
+}
+
+#todos_header .subject_header {
+     /* Copy todos <li> layout to keep consistency */
+    grid-column: 2 / 3;
+}
+
+#todos_header .status_header {
+    grid-column: 3 / 4;
+}
+
+#todos_header .priority_header {
+    grid-column: 4 / 5;
+    
+}
+
 .todos_list>ul {
     gap: 1rem;
 
@@ -343,14 +369,14 @@ html *::-webkit-scrollbar {
 
 .todos_list>ul>li {
     background-color: var(--dominant-secondary-color);    
-    border: 1px solid var(--soft-gray);
+    /* border: 1px solid var(--soft-gray); */
     color: var(--dark-text-color);
     list-style: none;
 
     display: grid;
     align-content: center;
 
-    grid-template-columns: 10fr 50fr 30fr 10fr;
+    grid-template-columns: 10fr 50fr 25fr 15fr;
 
     height: fit-content;
     min-width: 354px;
@@ -381,10 +407,6 @@ html *::-webkit-scrollbar {
     grid-column: 2 / 3;
     overflow: hidden;
 
-    color: var(--dark-text-color);
-    border-left: 1px solid var(--theme-color);
-    border-right: 1px solid var(--theme-color);
-
     padding-left: 0.1rem;
 
     min-width: 170px;
@@ -394,13 +416,25 @@ html *::-webkit-scrollbar {
     white-space: nowrap;
 
     text-decoration: underline;
-    color: var(--dark-theme-color);
+    color: var(--soft-theme-color);
 
 }
 
 .todos_list>ul>li>.todo_status{
     grid-column: 3 / 4;
-    overflow: hidden;
+    overflow: auto;
+
+    text-align: center;
+    color: var(--dark-text-color);
+    font-weight: bold;
+    font-size: 13.3px;
+    background-color: var(--soft-theme-color);
+
+    max-width: fit-content;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+
+    border-radius: 5px;
 }
 
 .todo_status p {

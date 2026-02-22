@@ -30,7 +30,31 @@ const loadProject = function(projectManager, projectID) {
 const renderTodos = function(projectManager, todosArray) {
     const listOfTodos = document.createElement('ul');
 
+    const listHeader = document.createElement("header");
+
+    listHeader.id = "todos_header"
+    
+    const subjectHeader = document.createElement("h6");
+    const statusHeader = document.createElement("h6");
+    const priorityHeader = document.createElement("h6");
+
+
+    subjectHeader.classList.add("subject_header");
+    subjectHeader.textContent = "Task:"
+    statusHeader.classList.add("status_header");
+    statusHeader.textContent = "Status:"
+    priorityHeader.classList.add("priority_header");
+    priorityHeader.textContent = "Priority:";
+
+    listOfTodos.appendChild(listHeader);
+
+    listHeader.appendChild(subjectHeader);
+    listHeader.appendChild(statusHeader);
+    listHeader.appendChild(priorityHeader);
+
+
     for (const todo of todosArray) {
+
         const newTodo = document.createElement("li");
         const subjectContainer = document.createElement("div");
         const todoSubject = document.createElement("button");
