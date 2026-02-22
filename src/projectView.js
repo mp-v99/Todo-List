@@ -17,7 +17,7 @@ const renderProject = function(projectManager, projectID) {
     const projectTitle = document.createElement('h1');
     const notesHeader = document.createElement('h2');
     
-    projectTitle.textContent = `Project: ${activeProject.title}`;
+    projectTitle.textContent = `${activeProject.title}`;
     notesHeader.textContent = "Notes:"
     
     newSection.appendChild(projectTitle);
@@ -109,10 +109,11 @@ const renderNotes = function(notesArray) {
 
 const renderTodo = function(projectManager, todo) {
 
-    // const activeProject = projectManager.getActiveProject();
+    const activeProject = projectManager.getActiveProject();
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
     const todoHeader = document.createElement('h1');
+    const backBtn = document.createElement("button");
 
     newSection.id = "active_todo_section" 
 
@@ -120,11 +121,15 @@ const renderTodo = function(projectManager, todo) {
     mainContainer.appendChild(newSection);
 
     todoHeader.textContent = todo.title;
+    todoHeader.classList.add("active_todo_header");
+    backBtn.textContent = "Back"
+    backBtn.classList.add("back_btn");
 
     const todoFormContainer = document.createElement("form");
     todoFormContainer.classList.add("todo_container");
 
     newSection.appendChild(todoHeader);
+    newSection.appendChild(backBtn);
     newSection.appendChild(todoFormContainer);
 
  
@@ -173,6 +178,12 @@ const renderTodo = function(projectManager, todo) {
 
         todoChecklist.appendChild(listItemContainer);
     }
+
+    // add back btn functionality:
+
+    backBtn.addEventListener("click", () => {
+        renderProject(projectManager, activeProject.id)
+    })
     
 };
 
