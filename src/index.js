@@ -13,7 +13,7 @@ const today = new Date().toLocaleDateString("en-US")
 
 const appProjectManager = new ProjectManager();
 
-appProjectManager.addProject("My tasks", "Don't know where to start? Start by writing a todo!!", today);
+appProjectManager.addProject("Saving Middle Earth", "Don't know where to start? Start by writing a todo!!", today);
 appProjectManager.addProject("Work", "Don't know where to start? Start by writing a todo!!", today);
 appProjectManager.addProject("Life", "Don't know where to start? Start by writing a todo!!", today);
 
@@ -23,9 +23,9 @@ appProjectManager.setActiveProject(appProjectManager.projects[0].id);
 
 let activeProject = appProjectManager.getActiveProject();
 
-activeProject.addTodo("Take the ring to mordor", "This would be the description", "Due: March 7th", "In progress", "High");
-activeProject.addTodo("Have second breakfast", "This would be the description", "Due: March 7th", "To do", "Low");
-activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "Due: March 7th", "Paused", "Med");
+activeProject.addTodo("Take the ring to mordor", "This task represents the full journey from the safety of the Shire to the fires of Mount Doom. It involves long travel, resisting temptation, making hard choices under pressure, and trusting allies when the burden feels too heavy to carry alone. The goal is not just to reach Mordor, but to grow through the journey and protect the people who would be harmed if the task fails. Progress may be slow, dangerous, and emotionally exhausting, but every step forward matters.", "March 7th", "In progress", "High");
+activeProject.addTodo("Have second breakfast", "This would be the description", "March 7th", "To do", "Low");
+activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "March 7th", "Paused", "Med");
 
 activeProject.addNote("Even the smallest steps still move the journey forward.");
 activeProject.addNote("Rest is part of the quest, not a failure of it.");
@@ -36,7 +36,13 @@ activeProject.addNote("There is always a way forward, even in the dark.");
 
 initUI(appProjectManager);
 
-activeProject.todos[0].addListItem("Invite Sam");
-activeProject.todos[0].addListItem("Hide the ring");
+activeProject.todos[0].addListItem("invite Sam to join the journey");
+activeProject.todos[0].addListItem("pack essentials and supplies");
+activeProject.todos[0].addListItem("leave the Shire quietly");
+activeProject.todos[0].addListItem("avoid drawing attention from enemies");
+activeProject.todos[0].addListItem("decide on a safe route through Middle-earth");
+activeProject.todos[0].addListItem("find allies along the way");
+activeProject.todos[0].addListItem("rest and recover when exhaustion hits");
+
 
 loadProject(appProjectManager, activeProject.id);
