@@ -1,6 +1,6 @@
 // import { initUI } from "./UI-DOM";
 
-const loadProject = function(projectManager, projectID) {
+const renderProject = function(projectManager, projectID) {
     projectManager.setActiveProject(projectID);
     const activeProject = projectManager.getActiveProject();
 
@@ -34,9 +34,9 @@ const renderTodos = function(projectManager, todosArray) {
 
     listHeader.id = "todos_header"
     
-    const subjectHeader = document.createElement("h6");
-    const statusHeader = document.createElement("h6");
-    const priorityHeader = document.createElement("h6");
+    const subjectHeader = document.createElement("span");
+    const statusHeader = document.createElement("span");
+    const priorityHeader = document.createElement("span");
 
 
     subjectHeader.classList.add("subject_header");
@@ -176,4 +176,4 @@ const renderTodo = function(projectManager, todo) {
     
 };
 
-export {loadProject, renderNotes, renderTodo};
+export {renderProject, renderNotes, renderTodo};

@@ -1,4 +1,4 @@
-import { loadProject, renderNotes } from "./projectView";
+import { renderProject, renderNotes } from "./projectView";
 
 
 const loadProjects = function(projectManager) {
@@ -36,7 +36,7 @@ const loadProjects = function(projectManager) {
         
 
         openProjectBtn.addEventListener("click", () => {
-            loadProject(projectManager, projectCard.getAttribute("data-id"));
+            renderProject(projectManager, projectCard.getAttribute("data-id"));
         })
     }
 
