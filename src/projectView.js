@@ -32,7 +32,6 @@ const renderTodos = function(projectManager, todosArray) {
 
     for (const todo of todosArray) {
         const newTodo = document.createElement("li");
-        const todoCheckBox = document.createElement("input");
         const subjectContainer = document.createElement("div");
         const todoSubject = document.createElement("button");
         const statusContainer = document.createElement("div");
@@ -44,7 +43,6 @@ const renderTodos = function(projectManager, todosArray) {
         subjectContainer.classList.add("todo_subject");
         statusContainer.classList.add("todo_status");
         priorityContainer.classList.add("todo_priority");
-        todoCheckBox.type = "checkbox"
         todoSubject.textContent = todo.title;
         todoSubject.classList.add("todo_subject_btn");
         todoStatus.textContent = todo.status;
@@ -53,7 +51,6 @@ const renderTodos = function(projectManager, todosArray) {
 
         listOfTodos.appendChild(newTodo);
         todoSubject.setAttribute("data-id", todo.id);
-        newTodo.appendChild(todoCheckBox);
 
         newTodo.appendChild(subjectContainer);
         subjectContainer.appendChild(todoSubject);
@@ -153,6 +150,6 @@ const renderTodo = function(projectManager, todo) {
         todoChecklist.appendChild(listItemContainer);
     }
     
-}
+};
 
 export {loadProject, renderNotes, renderTodo};
