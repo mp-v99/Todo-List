@@ -179,7 +179,7 @@ html *::-webkit-scrollbar {
 
     background-color: var(--dominant-light-color);
 
-    overflow-y: auto;
+    overflow-y: scroll;
 
 
     padding-left: 1%;
@@ -276,7 +276,8 @@ html *::-webkit-scrollbar {
     display: grid;
     grid-template-columns: 90fr 10fr;
     grid-auto-rows: 10fr 90fr;
-
+    
+    overflow-y: scroll;
 }
 
 #notes_tab_section {
@@ -495,7 +496,9 @@ html *::-webkit-scrollbar {
     grid-template-rows: 10fr 90fr;
 
     padding: 2rem;
+    gap: 50px;
 
+    overflow-y: scroll;
 }
 
 
@@ -513,8 +516,7 @@ html *::-webkit-scrollbar {
 
     border: 1px solid var(--theme-color);
 
-    column-gap: 1rem;
-
+    gap: 1.5rem;
 }
 
 
@@ -523,5 +525,18 @@ html *::-webkit-scrollbar {
 }
 
 .todo_container>button {
-    text-align: start;
+    background-color: var(--dominant-light-color);
+
+    
+    align-self: center;
+    justify-self: start;
+
+    padding-left: 5%;
+    padding-right: 5%;
+
+    border-radius: 5px;
+
+    color: var(--theme-color);
+    border: 1px solid var(--theme-color);
+
 }
