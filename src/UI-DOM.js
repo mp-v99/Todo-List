@@ -2,6 +2,7 @@ import { loadProject, renderNotes } from "./projectView";
 
 
 const loadProjects = function(projectManager) {
+    const listOfProjects = projectManager.listProjects();
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
    
@@ -11,20 +12,25 @@ const loadProjects = function(projectManager) {
     mainContainer.appendChild(newSection);
 
 
-    for (const project of projectManager.listProjects()) {
+    for (const project of listOfProjects) {
         const projectCard = document.createElement("article")
         const projectTitle = document.createElement("h3");
-        const projectTodoPreview = document.createElement("p");
+        const projectDescription = document.createElement("p");
+     
         const openProjectBtn = document.createElement("button");
 
         projectTitle.textContent = project.title;
+        projectDescription.textContent = project.description.slice(0, 50).concat("...");
         projectCard.setAttribute("data-id", project.id);
+     
+
+        projectDescription.classList.add("project_description");
         openProjectBtn.textContent = "Open";
         openProjectBtn.classList.add("open_project");
 
         newSection.appendChild(projectCard);
         projectCard.appendChild(projectTitle);
-        projectCard.appendChild(projectTodoPreview);
+        projectCard.appendChild(projectDescription);
         projectCard.appendChild(openProjectBtn);
 
         
