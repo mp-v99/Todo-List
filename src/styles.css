@@ -389,22 +389,22 @@ html *::-webkit-scrollbar {
     /* Copy todos <li> layout to keep consistency */
 
     display: grid;
-    grid-template-columns: 10fr 50fr 25fr 15fr;
+    grid-template-columns: 50fr 25fr 15fr 10fr;
 
     align-items: center;
 }
 
 #todos_header .subject_header {
      /* Copy todos <li> layout to keep consistency */
-    grid-column: 2 / 3;
+    grid-column: 1 / 2;
 }
 
 #todos_header .status_header {
-    grid-column: 3 / 4;
+    grid-column: 2 / 3;
 }
 
 #todos_header .priority_header {
-    grid-column: 4 / 5;
+    grid-column: 3 / 4;
     
 }
 
@@ -426,7 +426,7 @@ html *::-webkit-scrollbar {
     display: grid;
     align-content: center;
 
-    grid-template-columns: 10fr 50fr 25fr 15fr;
+    grid-template-columns: 50fr 25fr 15fr 10fr;
 
     height: fit-content;
     min-width: 354px;
@@ -454,7 +454,7 @@ html *::-webkit-scrollbar {
 } */
 
 .todos_list>ul>li>.todo_subject {
-    grid-column: 2 / 3;
+    grid-column: 1 / 2;
     overflow: hidden;
 
     padding-left: 0.1rem;
@@ -471,7 +471,7 @@ html *::-webkit-scrollbar {
 }
 
 .todos_list>ul>li>.todo_status{
-    grid-column: 3 / 4;
+    grid-column: 2 / 3;
     overflow: auto;
 
     text-align: center;
@@ -493,7 +493,7 @@ html *::-webkit-scrollbar {
 }
 
 .todos_list>ul>li>.todo_priority{
-    grid-column: 4 / 5;
+    grid-column: 3 / 4;
 }
 
 .todo_priority button {
@@ -654,4 +654,15 @@ html *::-webkit-scrollbar {
 
 .todo_container>.priority_high {
     background-color: red;
+}
+
+
+/* active todo header input style */
+
+.header_input {
+
+    font-size: 32px;
+    
+
+    
 }
