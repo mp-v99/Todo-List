@@ -127,6 +127,7 @@ const renderTodo = function(projectManager, todo) {
 
     const todoFormContainer = document.createElement("form");
     todoFormContainer.classList.add("todo_container");
+    todoFormContainer.setAttribute("data-id", todo.id);
 
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
@@ -136,8 +137,21 @@ const renderTodo = function(projectManager, todo) {
 
     const statusLabel = document.createElement("p");
     statusLabel.textContent = "Status:"
-    const todoStatus = document.createElement("button");
-    todoStatus.textContent = todo.status;
+    const todoStatusBtn = document.createElement("button");
+    todoStatusBtn.type = 'button'
+    todoStatusBtn.classList.add("status_btn");
+
+    if (todo.status.toLowerCase() === "to do") {
+        todoStatusBtn.classList.add("_todo");
+    }
+    else if (todo.status.toLowerCase() === "in progress") {
+        todoStatusBtn.classList.add("status_progress");
+    }
+    else if (todo.status.toLowerCase() === "done") {
+        todoStatusBtn.classList.add("status_done");
+    }
+
+    todoStatusBtn.textContent = todo.status;
 
     const priorityLabel = document.createElement("p");
     priorityLabel.textContent = "Priority:"
@@ -159,7 +173,7 @@ const renderTodo = function(projectManager, todo) {
    
     
     todoFormContainer.appendChild(statusLabel);
-    todoFormContainer.appendChild(todoStatus);
+    todoFormContainer.appendChild(todoStatusBtn);
     todoFormContainer.appendChild(priorityLabel);
     todoFormContainer.appendChild(todoPriority);
     todoFormContainer.appendChild(dueDateLabel);
@@ -183,8 +197,32 @@ const renderTodo = function(projectManager, todo) {
 
     backBtn.addEventListener("click", () => {
         renderProject(projectManager, activeProject.id)
+    })   
+
+    // add update todo functionality:
+
+    todoStatusBtn.addEventListener("click", () => {
+        updateTodoStatus(activeProject, todo)
     })
-    
 };
+
+const updateTodoStatus = function(activeProject, todo) {
+    const statusBtn = document.querySelector('.status_btn');
+
+    if (statusBtn.textContent.toLowerCase() === "to do") {
+        activeProject.updateTodo(todo.id, {status: "In Progress"});
+        statusBtn.classList = ("status_btn status_progress");
+    }
+    else if (statusBtn.textContent.toLowerCase() === "in progress") {
+        activeProject.updateTodo(todo.id, {status: "Done"});
+        statusBtn.classList = "status_btn status_done";
+    }
+    else if (statusBtn.textContent.toLowerCase() === "done") {
+        activeProject.updateTodo(todo.id, {status: "To do"});
+        statusBtn.classList = "status_btn status_todo";
+    }
+
+    statusBtn.textContent = todo.status;
+}
 
 export {renderProject, renderNotes, renderTodo};
