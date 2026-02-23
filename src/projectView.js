@@ -71,7 +71,7 @@ const renderTodos = function(projectManager, todosArray) {
         todoSubject.classList.add("todo_subject_btn");
         todoStatus.textContent = todo.status;
         todoPriority.textContent = `${todo.priority}`;
-        todoPriority.classList = todo.priority;
+        todoPriority.classList = todo.priority.toLowerCase();
 
         listOfTodos.appendChild(newTodo);
         todoSubject.setAttribute("data-id", todo.id);
@@ -134,7 +134,7 @@ const renderTodo = function(projectManager, todo) {
     newSection.appendChild(todoFormContainer);
 
  
-
+    // Status:
     const statusLabel = document.createElement("p");
     statusLabel.textContent = "Status:"
     const todoStatusBtn = document.createElement("button");
@@ -142,7 +142,7 @@ const renderTodo = function(projectManager, todo) {
     todoStatusBtn.classList.add("status_btn");
 
     if (todo.status.toLowerCase() === "to do") {
-        todoStatusBtn.classList.add("_todo");
+        todoStatusBtn.classList.add("status_todo");
     }
     else if (todo.status.toLowerCase() === "in progress") {
         todoStatusBtn.classList.add("status_progress");
@@ -150,13 +150,29 @@ const renderTodo = function(projectManager, todo) {
     else if (todo.status.toLowerCase() === "done") {
         todoStatusBtn.classList.add("status_done");
     }
-
     todoStatusBtn.textContent = todo.status;
+
+    // Priority: 
 
     const priorityLabel = document.createElement("p");
     priorityLabel.textContent = "Priority:"
-    const todoPriority = document.createElement("button");
-    todoPriority.textContent = todo.priority;
+    const todoPriorityBtn = document.createElement("button");
+    todoPriorityBtn.type = 'button'
+    todoPriorityBtn.classList.add("priority_btn");
+
+    if (todo.priority.toLowerCase() === "low") {
+        todoPriorityBtn.classList.add("priority_low")
+    }
+    else if (todo.priority.toLowerCase() === "medium") {
+        todoPriorityBtn.classList.add("priority_medium");
+    }
+    else if (todo.priority.toLowerCase() === "high") {
+        todoPriorityBtn.classList.add("priority_high");
+    }
+    todoPriorityBtn.textContent = todo.priority;
+
+
+    // Due date: 
 
     const dueDateLabel = document.createElement("p");
     dueDateLabel.textContent = "Due:"
@@ -175,7 +191,7 @@ const renderTodo = function(projectManager, todo) {
     todoFormContainer.appendChild(statusLabel);
     todoFormContainer.appendChild(todoStatusBtn);
     todoFormContainer.appendChild(priorityLabel);
-    todoFormContainer.appendChild(todoPriority);
+    todoFormContainer.appendChild(todoPriorityBtn);
     todoFormContainer.appendChild(dueDateLabel);
     todoFormContainer.appendChild(todoDueDate);
 
@@ -204,6 +220,10 @@ const renderTodo = function(projectManager, todo) {
     todoStatusBtn.addEventListener("click", () => {
         updateTodoStatus(activeProject, todo)
     })
+
+    todoPriorityBtn.addEventListener("click", () => {
+        updateTodoPriority(activeProject, todo)
+    })
 };
 
 const updateTodoStatus = function(activeProject, todo) {
@@ -223,6 +243,25 @@ const updateTodoStatus = function(activeProject, todo) {
     }
 
     statusBtn.textContent = todo.status;
+}
+
+const updateTodoPriority = function(activeProject, todo) {
+    const priorityBtn = document.querySelector('.priority_btn');
+
+    if (priorityBtn.textContent.toLowerCase() === "low") {
+        activeProject.updateTodo(todo.id, {priority: "Medium"});
+        priorityBtn.classList = ("priority_btn priority_medium");
+    }
+    else if (priorityBtn.textContent.toLowerCase() === "medium") {
+        activeProject.updateTodo(todo.id, {priority: "High"});
+        priorityBtn.classList = "priority_btn priority_high";
+    }
+    else if (priorityBtn.textContent.toLowerCase() === "high") {
+        activeProject.updateTodo(todo.id, {priority: "Low"});
+        priorityBtn.classList = "priority_btn priority_low";
+    }
+
+    priorityBtn.textContent = todo.priority;
 }
 
 export {renderProject, renderNotes, renderTodo};
