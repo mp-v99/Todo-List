@@ -200,8 +200,6 @@ const renderTodo = function(projectManager, todo) {
 
     todoFormContainer.appendChild(todoChecklist);
 
-    console.log(todo.checkList[0])
-
     for (const listItem of todo.checkList) {
         const listItemContainer = document.createElement("li");
         listItemContainer.textContent = listItem.textLine;
@@ -217,14 +215,36 @@ const renderTodo = function(projectManager, todo) {
 
     // add update todo functionality:
 
-    todoStatusBtn.addEventListener("click", () => {
-        updateTodoStatus(activeProject, todo)
+    const todoHeaderInput = document.createElement('input')
+    todoHeaderInput.classList.add("header_input");
+    todoHeaderInput.type = "text"
+
+    todoHeader.addEventListener("click", () => {
+        newSection.replaceChild(todoHeaderInput, todoHeader);
+        todoHeaderInput.focus();
     })
 
+    todoHeaderInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            updateSubject(activeProject, todo, todoHeaderInput.value);
+            todoHeader.textContent = todoHeaderInput.value;
+            newSection.replaceChild(todoHeader, todoHeaderInput);
+        }
+
+    });
+
+    todoStatusBtn.addEventListener("click", () => {
+        updateTodoStatus(activeProject, todo);
+    });
+
     todoPriorityBtn.addEventListener("click", () => {
-        updateTodoPriority(activeProject, todo)
-    })
+        updateTodoPriority(activeProject, todo);
+    });
 };
+
+const updateSubject = function(activeProject, todo, inputValue) {
+    activeProject.updateTodo(todo.id, {title: inputValue});
+}
 
 const updateTodoStatus = function(activeProject, todo) {
     const statusBtn = document.querySelector('.status_btn');
