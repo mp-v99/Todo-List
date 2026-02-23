@@ -25,7 +25,7 @@ let activeProject = appProjectManager.getActiveProject();
 
 activeProject.addTodo("Take the ring to mordor", "This task represents the full journey from the safety of the Shire to the fires of Mount Doom. It involves long travel, resisting temptation, making hard choices under pressure, and trusting allies when the burden feels too heavy to carry alone. The goal is not just to reach Mordor, but to grow through the journey and protect the people who would be harmed if the task fails. Progress may be slow, dangerous, and emotionally exhausting, but every step forward matters.", "March 7th", "In progress", "High");
 activeProject.addTodo("Have second breakfast", "This would be the description", "March 7th", "To do", "Low");
-activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "March 7th", "Done", "Med");
+activeProject.addTodo("Unalive Gollum(?)", "This would be the description", "March 7th", "Done", "Medium");
 
 
 activeProject.addNote("Even the smallest steps still move the journey forward.");
