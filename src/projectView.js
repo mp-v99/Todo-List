@@ -179,10 +179,13 @@ const renderTodo = function(projectManager, todo) {
     const todoDueDate = document.createElement("p");
     todoDueDate.textContent = todo.dueDate;
 
+    // Description:
+
     const descriptionLabel = document.createElement("p");
     descriptionLabel.textContent = "Description:"
     const todoDescription = document.createElement("p");
     todoDescription.textContent = todo.description;
+    todoDescription.classList.add("description_text");
 
     const todoChecklist = document.createElement("ul");
 
@@ -213,11 +216,20 @@ const renderTodo = function(projectManager, todo) {
         renderProject(projectManager, activeProject.id)
     })   
 
-    // add update todo functionality:
+    // add inputs functionality:
 
     const todoHeaderInput = document.createElement('input')
     todoHeaderInput.classList.add("header_input");
     todoHeaderInput.type = "text"
+
+    const todoDueDateInput = document.createElement("input");
+    todoDueDateInput.classList.add("priority_input");
+    todoDueDateInput.type = "date"
+    todoDueDateInput.value = todoDueDate.textContent;
+
+    const todoDescriptionInput = document.createElement("textarea");
+    todoDescriptionInput.classList.add("description_input");
+    // todoDescriptionInput.type = "textarea"
 
     todoHeader.addEventListener("click", () => {
         newSection.replaceChild(todoHeaderInput, todoHeader);
@@ -225,10 +237,13 @@ const renderTodo = function(projectManager, todo) {
     })
 
     todoHeaderInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && todoHeaderInput.value.length > 0) {
             updateSubject(activeProject, todo, todoHeaderInput.value);
             todoHeader.textContent = todoHeaderInput.value;
             newSection.replaceChild(todoHeader, todoHeaderInput);
+        }
+        else if (e.key === "Enter" && todoHeaderInput.value.length === 0) {
+            alert("This field can't be empty")
         }
 
     });
@@ -240,11 +255,41 @@ const renderTodo = function(projectManager, todo) {
     todoPriorityBtn.addEventListener("click", () => {
         updateTodoPriority(activeProject, todo);
     });
+
+    todoDescription.addEventListener("click", () => {
+        todoDescriptionInput.value = todoDescription.textContent;
+        todoFormContainer.replaceChild(todoDescriptionInput, todoDescription);
+        todoDescriptionInput.focus();
+    });
+    todoDescriptionInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && todoDescriptionInput.value.length > 0) {
+            updateDescription(activeProject, todo, todoDescriptionInput.value);
+            todoDescription.textContent = todoDescriptionInput.value;
+            todoFormContainer.replaceChild(todoDescription, todoDescriptionInput);
+        }
+        else if (e.key === "Enter" && todoHeaderInput.value.length === 0) {
+            alert("This field can't be empty")
+        }
+    })
+
+    todoDueDate.addEventListener("click", () => {
+        todoFormContainer.replaceChild(todoDueDateInput, todoDueDate);
+    })
+
+    todoDueDateInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            updateTodoDueDate(activeProject, todo, todoHeaderInput.value);
+            todoDueDate.textContent = todoDueDateInput.value;
+            todoFormContainer.replaceChild(todoDueDate, todoDueDateInput);
+        }
+    })
+
+
 };
 
 const updateSubject = function(activeProject, todo, inputValue) {
     activeProject.updateTodo(todo.id, {title: inputValue});
-}
+};
 
 const updateTodoStatus = function(activeProject, todo) {
     const statusBtn = document.querySelector('.status_btn');
@@ -263,7 +308,7 @@ const updateTodoStatus = function(activeProject, todo) {
     }
 
     statusBtn.textContent = todo.status;
-}
+};
 
 const updateTodoPriority = function(activeProject, todo) {
     const priorityBtn = document.querySelector('.priority_btn');
@@ -282,6 +327,14 @@ const updateTodoPriority = function(activeProject, todo) {
     }
 
     priorityBtn.textContent = todo.priority;
+};
+
+const updateTodoDueDate = function(activeProject, todo, inputValue) {
+    activeProject.updateTodo(todo.id, {dueDate: inputValue})
+}
+
+const updateDescription = function(activeProject, todo, inputValue) {
+    activeProject.updateTodo(todo.id, {description: inputValue});
 }
 
 export {renderProject, renderNotes, renderTodo};
