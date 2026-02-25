@@ -8,7 +8,7 @@
     --dark-theme-color: #374151;
     --soft-theme-color: #669DF1;
     --soft-gray: #dfe1e6;
-    --dark-gray: #868686bd;
+    --dark-gray: #5c5c5cbd;
     --text-font: Roboto, Arial, Helvetica, sans-serif;
     --dark-text-color: #1d2025;
     --task-success: #82B536;
@@ -243,11 +243,11 @@ html *::-webkit-scrollbar {
     padding-left: 0.2rem;
     padding-right: 0.2rem;
 }
-#projects_section>article>p {
+#projects_section>article>.project_description {
     grid-column: 1 / 4;
     grid-row: 3 / 4;
 
-    color: var(--dark-text-color);
+    color: var(--dark-gray);
 
     font-size: 0.75em;
 }
@@ -282,6 +282,8 @@ html *::-webkit-scrollbar {
     overflow-y: scroll;
 
     min-height: 1000px;
+
+    color: var(--dark-gray);
 }
 
 
@@ -311,7 +313,7 @@ html *::-webkit-scrollbar {
 
 /* position project header */
 
-#active_project_section>h1 {
+#active_project_section>.active_project_title {
     grid-column: 1 / 2;
     grid-row: 1 / 2;    
 
@@ -321,7 +323,7 @@ html *::-webkit-scrollbar {
 
 /* position notes header */
 
-#active_project_section>h2 {
+#active_project_section>.active_project_notes_header {
     grid-column: 1 / 3;
     grid-row: 3 / 4;
     border-bottom: solid 2px var(--soft-gray);
@@ -335,7 +337,7 @@ html *::-webkit-scrollbar {
     display: grid;
 
     grid-template-columns: 1fr;
-    grid-auto-rows: minmax(50px, 100px);
+    grid-auto-rows: 10fr 90fr;
 
     background-color: var(--dominant--secondary-color);
 
@@ -386,6 +388,7 @@ html *::-webkit-scrollbar {
 }
 
 .todos_list #todos_header {
+    grid-row: 1 / 2;
     height: 30px;
     border-bottom: solid 2px var(--soft-gray);
 
@@ -412,11 +415,15 @@ html *::-webkit-scrollbar {
 }
 
 .todos_list>ul {
-    gap: 1rem;
+    grid-row: 2 / 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(36px, 50px);
+    /* border: 0.1rem solid var(--soft-gray); */
+
+    overflow-y: scroll;
 
     padding: 0;
-
-    display: grid;
 }
 
 
@@ -432,12 +439,14 @@ html *::-webkit-scrollbar {
     grid-template-columns: 50fr 25fr 15fr 10fr;
 
     height: fit-content;
-    min-width: 354px;
+    /* min-width: 405px; */
 
-    padding-top: 0.5%;
-    padding-bottom: 0.5%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
     gap: 0.2rem;
+
+    border-bottom: 0.1rem solid var(--soft-gray);
 }
 
 /* .todos_list>ul>li>input[type="checkbox"] {
@@ -477,26 +486,49 @@ html *::-webkit-scrollbar {
     grid-column: 2 / 3;
     overflow: auto;
 
-    text-align: center;
     color: var(--dark-text-color);
     font-weight: bold;
     font-size: 0.75rem;
-    background-color: var(--soft-theme-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.todo_status button {
+    white-space: nowrap;
 
     max-width: fit-content;
     padding-left: 0.2rem;
     padding-right: 0.2rem;
-
-    border-radius: 5px;
 }
 
-.todo_status p {
-    white-space: nowrap;
+.todo_status>.status_todo {
+    color: var(--dark-gray);
+    border: 1px solid var(--dark-text-color);
+}
 
+.todo_status>.status_progress {
+    color: var(--theme-color);
+    border: 1px solid var(--theme-color);
+}
+
+
+.todo_status>.status_done {
+    color: var(--dark-text-color);
+    background-color: var(--task-success);
+    border: 1px solid var(--task-success);
+    font-weight: bold;
 }
 
 .todos_list>ul>li>.todo_priority{
     grid-column: 3 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 46px;
+    overflow-x: hidden;
 }
 
 .todo_priority button {
@@ -509,7 +541,7 @@ html *::-webkit-scrollbar {
 
     border-radius: 7px;
 
-    min-width: 40px;
+    min-width: 60px;
 }
 
 .todo_priority .high {
@@ -623,8 +655,8 @@ html *::-webkit-scrollbar {
 }
 
 .todo_container>.status_todo {
-    color: var(--dark-text-color);
-    border: 1px solid var(--dark-text-color);
+    color: var(--dark-gray);
+    border: 1px solid var(--dark-gray);
 }
 
 .todo_container>.status_progress {

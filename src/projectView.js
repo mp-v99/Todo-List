@@ -14,8 +14,10 @@ const renderProject = function(projectManager, projectID) {
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
-    const projectTitle = document.createElement('h1');
-    const notesHeader = document.createElement('h2');
+    const projectTitle = document.createElement('h2');
+    projectTitle.classList.add("active_project_title");
+    const notesHeader = document.createElement('h3');
+    notesHeader.classList.add("active_project_notes_header");
     
     projectTitle.textContent = `${activeProject.title}`;
     notesHeader.textContent = "Notes:"
@@ -23,11 +25,11 @@ const renderProject = function(projectManager, projectID) {
     newSection.appendChild(projectTitle);
     newSection.appendChild(notesHeader);
     newSection.appendChild(todosContainer);
-    todosContainer.appendChild(renderTodos(projectManager, activeProject.todos));
+    todosContainer.appendChild(renderTodos(projectManager, activeProject.todos, todosContainer));
     newSection.appendChild(renderNotes(activeProject.notes));
 };
 
-const renderTodos = function(projectManager, todosArray) {
+const renderTodos = function(projectManager, todosArray, todosContainer) {
     const listOfTodos = document.createElement('ul');
 
     const listHeader = document.createElement("header");
@@ -46,7 +48,7 @@ const renderTodos = function(projectManager, todosArray) {
     priorityHeader.classList.add("priority_header");
     priorityHeader.textContent = "Priority:";
 
-    listOfTodos.appendChild(listHeader);
+    todosContainer.appendChild(listHeader);
 
     listHeader.appendChild(subjectHeader);
     listHeader.appendChild(statusHeader);
@@ -59,7 +61,7 @@ const renderTodos = function(projectManager, todosArray) {
         const subjectContainer = document.createElement("div");
         const todoSubject = document.createElement("button");
         const statusContainer = document.createElement("div");
-        const todoStatus = document.createElement("p");
+        const todoStatus = document.createElement("button");
         const priorityContainer = document.createElement("div");
         const todoPriority = document.createElement("button");
 
@@ -70,6 +72,17 @@ const renderTodos = function(projectManager, todosArray) {
         todoSubject.textContent = todo.title;
         todoSubject.classList.add("todo_subject_btn");
         todoStatus.textContent = todo.status;
+
+        if (todo.status.toLowerCase() === "to do") {
+            todoStatus.classList.add("status_todo");
+        }
+        else if (todo.status.toLowerCase() === "in progress") {
+            todoStatus.classList.add("status_progress");
+        }
+        else if (todo.status.toLowerCase() === "done") {
+            todoStatus.classList.add("status_done");
+        }
+
         todoPriority.textContent = `${todo.priority}`;
         todoPriority.classList = todo.priority.toLowerCase();
 
