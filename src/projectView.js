@@ -218,15 +218,10 @@ const renderTodo = function(projectManager, todo) {
 
     // add inputs functionality:
 
-
     const todoDueDateInput = document.createElement("input");
     todoDueDateInput.classList.add("priority_input");
     todoDueDateInput.type = "date"
     todoDueDateInput.value = todoDueDate.textContent;
-
-    const todoDescriptionInput = document.createElement("textarea");
-    todoDescriptionInput.classList.add("description_input");
-    // todoDescriptionInput.type = "textarea"
 
     todoHeader.addEventListener("click", () => {
         replaceHeaderWithInput(activeProject, todo);
@@ -241,32 +236,20 @@ const renderTodo = function(projectManager, todo) {
     });
 
     todoDescription.addEventListener("click", () => {
-        todoDescriptionInput.value = todoDescription.textContent;
-        todoFormContainer.replaceChild(todoDescriptionInput, todoDescription);
-        todoDescriptionInput.focus();
+        replaceDescriptionWithInput(activeProject, todo);
     });
-    todoDescriptionInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && todoDescriptionInput.value.length > 0) {
-            updateDescription(activeProject, todo, todoDescriptionInput.value);
-            todoDescription.textContent = todoDescriptionInput.value;
-            todoFormContainer.replaceChild(todoDescription, todoDescriptionInput);
-        }
-        else if (e.key === "Enter" && todoHeaderInput.value.length === 0) {
-            alert("This field can't be empty")
-        }
-    })
 
     todoDueDate.addEventListener("click", () => {
         todoFormContainer.replaceChild(todoDueDateInput, todoDueDate);
-    })
+    });
 
     todoDueDateInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
-            updateTodoDueDate(activeProject, todo, todoHeaderInput.value);
+            updateTodoDueDate(activeProject, todo, todoDueDateInput.value);
             todoDueDate.textContent = todoDueDateInput.value;
             todoFormContainer.replaceChild(todoDueDate, todoDueDateInput);
         }
-    })
+    });
 
 
 };
@@ -294,7 +277,30 @@ const replaceHeaderWithInput = function(activeProject, todo) {
         
     });
 
-}
+};
+
+const replaceDescriptionWithInput = function(activeProject, todo) {
+    const todoContainer = document.querySelector(".todo_container");
+    const descriptionField = document.querySelector(".description_text");
+    const todoDescriptionInput = document.createElement("textarea");
+    todoDescriptionInput.classList.add("description_input");
+
+    todoDescriptionInput.value = descriptionField.textContent;
+    todoContainer.replaceChild(todoDescriptionInput, descriptionField);
+    todoDescriptionInput.focus();
+
+    todoDescriptionInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && todoDescriptionInput.value.length > 0) {
+            updateDescription(activeProject, todo, todoDescriptionInput.value);
+            descriptionField.textContent = todoDescriptionInput.value;
+            todoContainer.replaceChild(descriptionField, todoDescriptionInput);
+        }
+        else if (e.key === "Enter" && todoDescriptionInput.value.length === 0) {
+            alert("This field can't be empty")
+        }
+    });
+
+};
 const updateSubject = function(activeProject, todo, inputValue) {
     activeProject.updateTodo(todo.id, {title: inputValue});
 };
