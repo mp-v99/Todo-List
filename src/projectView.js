@@ -218,9 +218,6 @@ const renderTodo = function(projectManager, todo) {
 
     // add inputs functionality:
 
-    const todoHeaderInput = document.createElement('input')
-    todoHeaderInput.classList.add("header_input");
-    todoHeaderInput.type = "text"
 
     const todoDueDateInput = document.createElement("input");
     todoDueDateInput.classList.add("priority_input");
@@ -232,21 +229,8 @@ const renderTodo = function(projectManager, todo) {
     // todoDescriptionInput.type = "textarea"
 
     todoHeader.addEventListener("click", () => {
-        newSection.replaceChild(todoHeaderInput, todoHeader);
-        todoHeaderInput.focus();
+        replaceHeaderWithInput(activeProject, todo);
     })
-
-    todoHeaderInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && todoHeaderInput.value.length > 0) {
-            updateSubject(activeProject, todo, todoHeaderInput.value);
-            todoHeader.textContent = todoHeaderInput.value;
-            newSection.replaceChild(todoHeader, todoHeaderInput);
-        }
-        else if (e.key === "Enter" && todoHeaderInput.value.length === 0) {
-            alert("This field can't be empty")
-        }
-
-    });
 
     todoStatusBtn.addEventListener("click", () => {
         updateTodoStatus(activeProject, todo);
@@ -287,6 +271,30 @@ const renderTodo = function(projectManager, todo) {
 
 };
 
+const replaceHeaderWithInput = function(activeProject, todo) {
+    const todoHeader = document.querySelector(".active_todo_header");
+    const currentSection = document.querySelector("#active_todo_section");
+    const todoHeaderInput = document.createElement('input')
+    todoHeaderInput.classList.add("header_input");
+    todoHeaderInput.type = "text"
+
+
+    currentSection.replaceChild(todoHeaderInput, todoHeader);
+    todoHeaderInput.focus();
+
+    todoHeaderInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && todoHeaderInput.value.length > 0) {
+            updateSubject(activeProject, todo, todoHeaderInput.value);
+            todoHeader.textContent = todoHeaderInput.value;
+            currentSection.replaceChild(todoHeader, todoHeaderInput);
+        }
+        else if (e.key === "Enter" && todoHeaderInput.value.length === 0) {
+            alert("This field can't be empty")
+        }
+        
+    });
+
+}
 const updateSubject = function(activeProject, todo, inputValue) {
     activeProject.updateTodo(todo.id, {title: inputValue});
 };
