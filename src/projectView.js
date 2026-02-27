@@ -138,6 +138,11 @@ const renderTodo = function(projectManager, todo) {
     backBtn.textContent = "Back"
     backBtn.classList.add("back_btn");
 
+    const checkListHeader = document.createElement("h4");
+    checkListHeader.textContent = "Subtasks:"
+    const todoChecklist = document.createElement("ul");
+
+
     const todoFormContainer = document.createElement("form");
     todoFormContainer.classList.add("todo_container");
     todoFormContainer.setAttribute("data-id", todo.id);
@@ -145,6 +150,8 @@ const renderTodo = function(projectManager, todo) {
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
     newSection.appendChild(todoFormContainer);
+    newSection.appendChild(checkListHeader);
+    newSection.appendChild(todoChecklist);
 
  
     // Status:
@@ -198,11 +205,7 @@ const renderTodo = function(projectManager, todo) {
     descriptionLabel.textContent = "Description:"
     const todoDescription = document.createElement("p");
     todoDescription.textContent = todo.description;
-    todoDescription.classList.add("description_text");
-
-    const todoChecklist = document.createElement("ul");
-
-   
+    todoDescription.classList.add("description_text");   
     
     todoFormContainer.appendChild(statusLabel);
     todoFormContainer.appendChild(todoStatusBtn);
@@ -210,11 +213,10 @@ const renderTodo = function(projectManager, todo) {
     todoFormContainer.appendChild(todoPriorityBtn);
     todoFormContainer.appendChild(dueDateLabel);
     todoFormContainer.appendChild(todoDueDate);
-
     todoFormContainer.appendChild(descriptionLabel);
     todoFormContainer.appendChild(todoDescription);
 
-    todoFormContainer.appendChild(todoChecklist);
+ 
 
     for (const listItem of todo.checkList) {
         const listItemContainer = document.createElement("li");
