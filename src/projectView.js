@@ -220,9 +220,17 @@ const renderTodo = function(projectManager, todo) {
 
     for (const listItem of todo.checkList) {
         const listItemContainer = document.createElement("li");
-        listItemContainer.textContent = listItem.textLine;
+        const textLineContainer = document.createElement("div");
+        const textLine = document.createElement("p");
+        textLine.textContent = listItem.textLine;
+        const statusToggle = document.createElement("input");
+        statusToggle.type = "checkbox";
+        statusToggle.class = "subtask_status"
 
-        todoChecklist.appendChild(listItemContainer);
+        textLineContainer.appendChild(textLine);
+        listItemContainer.appendChild(textLineContainer);
+        todoChecklist.appendChild(statusToggle);
+        textLineContainer.appendChild(listItemContainer);
     }
 
     // add back btn functionality:
@@ -277,6 +285,7 @@ const replaceHeaderWithInput = function(activeProject, todo) {
     todoHeaderInput.type = "text"
 
 
+    todoHeaderInput.value = todoHeader.textContent;
     currentSection.replaceChild(todoHeaderInput, todoHeader);
     todoHeaderInput.focus();
 
