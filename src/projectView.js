@@ -225,12 +225,16 @@ const renderTodo = function(projectManager, todo) {
         textLine.textContent = listItem.textLine;
         const statusToggle = document.createElement("input");
         statusToggle.type = "checkbox";
-        statusToggle.class = "subtask_status"
-
+        
+        textLineContainer.appendChild(statusToggle);
         textLineContainer.appendChild(textLine);
         listItemContainer.appendChild(textLineContainer);
-        todoChecklist.appendChild(statusToggle);
-        textLineContainer.appendChild(listItemContainer);
+        todoChecklist.appendChild(listItemContainer);
+
+        statusToggle.addEventListener("click", () => {
+            listItem.toggleCheckBox();
+            console.log(listItem.checkBox);
+        })
     }
 
     // add back btn functionality:
