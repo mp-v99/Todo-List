@@ -138,20 +138,22 @@ const renderTodo = function(projectManager, todo) {
     backBtn.textContent = "Back"
     backBtn.classList.add("back_btn");
 
-    const checkListHeader = document.createElement("h4");
-    checkListHeader.textContent = "Subtasks:"
-    const todoChecklist = document.createElement("ul");
-
-
     const todoFormContainer = document.createElement("form");
     todoFormContainer.classList.add("todo_container");
     todoFormContainer.setAttribute("data-id", todo.id);
 
+    const checkListContainer = document.createElement("div");
+    checkListContainer.classList.add("check_list_container")
+    const checkListHeader = document.createElement("h4");
+    checkListHeader.textContent = "Subtasks:"
+    const todoChecklist = document.createElement("ul");
+
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
     newSection.appendChild(todoFormContainer);
-    newSection.appendChild(checkListHeader);
-    newSection.appendChild(todoChecklist);
+    newSection.appendChild(checkListContainer);
+    checkListContainer.appendChild(checkListHeader);
+    checkListContainer.appendChild(todoChecklist);
 
  
     // Status:
