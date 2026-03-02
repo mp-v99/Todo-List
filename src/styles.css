@@ -8,7 +8,7 @@
     --dark-theme-color: #374151;
     --soft-theme-color: #669DF1;
     --soft-gray: #f0f1f2;
-    --dark-gray: #3d3d3dbd;
+    --dark-gray: #181818bd;
     --text-font: Roboto, Arial, Helvetica, sans-serif;
     --dark-text-color: #1d2025;
     --task-success: #82B536;
@@ -191,10 +191,10 @@ html *::-webkit-scrollbar {
     overflow-y: scroll;
 
 
-    padding-left: 1%;
-    padding-top: 1%;
-    padding-right: 1%;
-    padding-bottom: 3%;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
 }
 
 /* Articles Layout: */
@@ -296,15 +296,14 @@ html *::-webkit-scrollbar {
 
 #notes_tab_section {
     flex: 1;
-    padding-left: 2%;
+
 
     display: grid;
     grid-template-rows: 5fr 95fr;
 
     gap: 1rem;
 
-    overflow-y: auto;
-
+    overflow-y: auto;    
 }
 
 #notes_tab_section>h4 {
@@ -315,6 +314,17 @@ html *::-webkit-scrollbar {
 
 #notes_tab_section>.notes_grid {
     grid-row: 2 / 3;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-auto-rows: minmax(210px, 230px);
+    gap: 1rem;
+
+    grid-auto-flow: row;
+
+    padding: 1rem;
+
+    overflow-y: auto;
 }
 
 /* position project header */
@@ -329,16 +339,19 @@ html *::-webkit-scrollbar {
 
 /* position notes header */
 
-#active_project_section>.active_project_notes_header {
+#active_project_section .active_project_notes_header {
     grid-column: 1 / 3;
     grid-row: 3 / 4;
-    border-bottom: solid 2px var(--soft-gray);
+    padding-bottom: 0.5rem;
+    border-bottom: solid 0.2rem var(--soft-gray);
 
     align-self: center;
+
+    
 }
 
 .todos_list {
-    grid-column: 1 / 2;
+    grid-column: 1 / 3;
     grid-row: 2 / 3;
     display: grid;
 
@@ -347,14 +360,13 @@ html *::-webkit-scrollbar {
 
     background-color: var(--dominant--secondary-color);
 
-    border-right: 0.2rem solid var(--soft-gray);
     padding-right: 2%;
     padding-top: 2%;
 
     overflow-y: auto;
 }
 
-.notes_grid {
+#active_project_section .notes_grid {
     grid-column: 1 / 3;
     grid-row: 4 / 5;
 
@@ -366,8 +378,7 @@ html *::-webkit-scrollbar {
 
     grid-auto-flow: row;
 
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
     
 
     overflow-y: auto;
@@ -391,12 +402,16 @@ html *::-webkit-scrollbar {
     border: 1px solid var(--soft-gray);
 
     overflow: hidden;
+
+    box-shadow: 0.01rem 0.01rem 0.2rem 0.01rem #918f8f49;
+
 }
 
 .todos_list #todos_header {
     grid-row: 1 / 2;
     height: 30px;
-    border-bottom: solid 2px var(--soft-gray);
+    padding-bottom: 0.5rem;
+    border-bottom: solid 0.2rem var(--soft-gray);
 
     /* Copy todos <li> layout to keep consistency */
 
@@ -569,22 +584,11 @@ html *::-webkit-scrollbar {
     flex: 1;
     display: grid;
     grid-template-columns: 80fr 20fr;
-    grid-template-rows: 10fr 50fr 10fr 30fr;
+    grid-template-rows: 10fr 70fr 30fr;   
 
-    padding: 2rem;
-    gap: 50px;
-    max-height: 1200px;
-    overflow-y: scroll;
-}
+    min-height: 1000px;
 
-#active_todo_section h4 {
-    grid-column: 1 / 3;
-    grid-row: 3 / 4;
-}
-
-#active_todo_section ul {
-    grid-column: 1 / 3;
-    grid-row: 4 / 5;
+    gap: 1rem;
 }
 
 #active_todo_section .active_todo_header {
@@ -603,10 +607,10 @@ html *::-webkit-scrollbar {
     border-radius: 0.5rem;
     padding-top: 0.1rem;
     padding-left: 0.3rem;
+    color: var(--dark-gray)
 }
 
 #active_todo_section .active_todo_header:hover {
-    color: var(--dark-text-color);
     background-color: var(--soft-gray);
 }
 
@@ -616,8 +620,7 @@ html *::-webkit-scrollbar {
     grid-row: 1 / 2;
 
     background-color: var(--dominant-light-color);
-    border: 1px solid var(--dark-text-color);
-    color: var(--dark-text-color);
+    color: var(--dark-gray);
     text-decoration: underline;
     font-weight: bold;
 
@@ -627,10 +630,7 @@ html *::-webkit-scrollbar {
     align-self: center;
     justify-self: end;
 
-    padding-left: 1.2rem;
     padding-right: 0.5rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
 
     border-radius: 100% 0px 0px 100%;
 }
@@ -647,9 +647,10 @@ html *::-webkit-scrollbar {
 
     padding: 2rem;
 
-    border: 1px solid var(--dark-gray);
+    border: 0.1rem solid var(--soft-gray);
 
     gap: 1.5rem;
+    color: var(--dark-gray)
 }
 
 
@@ -751,6 +752,8 @@ html *::-webkit-scrollbar {
     border: 1px solid var(--theme-color);
     padding-top: 0.1rem;
     padding-left: 0.3rem;
+
+    color: var(--dark-gray);
 }
 
 .header_input:focus,
@@ -774,4 +777,74 @@ html *::-webkit-scrollbar {
 
     grid-column: 1 / 3;
     grid-row: 5 / 6;
+
+    color: var(--dark-gray);
+}
+
+
+#active_todo_section>.check_list_container {
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
+
+    max-height: 350px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10fr 90fr;
+}
+
+.check_list_container div {
+    display: grid;
+    align-content: center;
+
+    grid-template-columns: 5fr 95fr;
+
+    height: fit-content;
+    /* min-width: 405px; */
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+}
+
+.check_list_container li input{
+    grid-column: 1 / 2;
+    accent-color: var(--theme-color);
+    border: 1px solid var(--soft-gray);
+}
+
+.check_list_container li p {
+    grid-column: 2 / 3;
+
+    min-width: 321px;
+    overflow-x: auto;
+
+    cursor: pointer;
+}
+
+.check_list_container li p:hover {
+   background-color: var(--soft-gray);
+}
+
+.check_list_container>h4 {
+    grid-row: 1 / 2;
+
+    align-self: center;
+
+    color: var(--dark-gray);
+}
+
+.check_list_container>ul {
+    grid-row: 2 / 3;
+    color: var(--dark-gray);
+
+    background-color: var(--dominant-secondary-color);    
+    list-style: none;
+
+    gap: 0.2rem;
+
+    overflow-y: scroll;
+    border: 1px solid var(--soft-gray);
+
+    padding: 0;
 }
