@@ -225,7 +225,8 @@ const renderTodo = function(projectManager, todo) {
         const textLineContainer = document.createElement("div");
         const textLine = document.createElement("p");
         textLine.textContent = listItem.textLine;
-        textLine.classList.add('checklist_item')
+        textLine.classList.add('checklist_item');
+        textLine.id = listItem.id;
         const statusToggle = document.createElement("input");
         statusToggle.type = "checkbox";
         
@@ -239,7 +240,9 @@ const renderTodo = function(projectManager, todo) {
             console.log(listItem.checkBox);
         })
 
-  
+        textLine.addEventListener("click", () => {
+            replaceElementWithInput(textLine, textLineContainer, activeProject, todo);
+        })
     }
 
     // add back btn functionality:
@@ -310,10 +313,14 @@ const replaceElementWithInput = function(element, section, activeProject, todo) 
             else if (element.classList.contains("description_text")) {
                 updateDescription(activeProject, todo, input.value)
             }
+            else if (element.classList.contains("checklist_item")) {
+                todo.updateListItem(element.id, input.value)
+                console.log(todo.checkList)
+            }
             element.textContent = input.value;
             section.replaceChild(element, input);
         }
-        else if (e.key === "Enter" && element.value.length === 0) {
+        else if (e.key === "Enter" && input.value.length === 0) {
             alert("This field can't be empty");
         }
     });
