@@ -229,6 +229,12 @@ const renderTodo = function(projectManager, todo) {
         textLine.id = listItem.id;
         const statusToggle = document.createElement("input");
         statusToggle.type = "checkbox";
+        if (listItem.checkBox) {
+            statusToggle.checked = true;
+        }
+        else if (!listItem.checkBox) {
+            statusToggle.checked = false;
+        }
         
         textLineContainer.appendChild(statusToggle);
         textLineContainer.appendChild(textLine);
@@ -236,8 +242,8 @@ const renderTodo = function(projectManager, todo) {
         todoChecklist.appendChild(listItemContainer);
 
         statusToggle.addEventListener("click", () => {
-            listItem.toggleCheckBox();
-            console.log(listItem.checkBox);
+            todo.toggleListItem(listItem.id);
+            console.log(todo.checkList);
         })
 
         textLine.addEventListener("click", () => {
