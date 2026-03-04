@@ -1,4 +1,5 @@
 // import { initUI } from "./UI-DOM";
+import {loadProjects} from "./UI-DOM.js";
 
 const renderProject = function(projectManager, projectID) {
     projectManager.setActiveProject(projectID);
@@ -6,9 +7,11 @@ const renderProject = function(projectManager, projectID) {
 
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
+    const projectDetails = document.createElement("div");
     const todosContainer = document.createElement("div");
     
     newSection.id = "active_project_section";
+    projectDetails.classList.add("project_details");
     todosContainer.classList.add("todos_list");
     
     mainContainer.innerHTML = '';
@@ -16,17 +19,39 @@ const renderProject = function(projectManager, projectID) {
 
     const projectTitle = document.createElement('h2');
     projectTitle.classList.add("active_project_title");
+    const projectsBackBtn = document.createElement("button");
+    projectsBackBtn.classList.add("back_to_projects_btn");
     const notesHeader = document.createElement('h3');
     notesHeader.classList.add("active_project_notes_header");
+    const descriptionHeader = document.createElement("h3");
+    const projectDescription = document.createElement("p");
+    const projectCreatedAt = document.createElement("p");
+    descriptionHeader.classList.add("description_header");
+    projectDescription.classList.add("project_description");
+    projectCreatedAt.classList.add("project_created_at");
     
     projectTitle.textContent = `${activeProject.title}`;
+    projectsBackBtn.textContent = "Back"
     notesHeader.textContent = "Notes:"
+    descriptionHeader.textContent = "Description"
+    projectDescription.textContent = activeProject.description;
+    projectCreatedAt.textContent = `Created at: ${activeProject.createdAt}`
     
     newSection.appendChild(projectTitle);
+    newSection.appendChild(projectsBackBtn);
+    newSection.appendChild(projectDetails);
     newSection.appendChild(notesHeader);
     newSection.appendChild(todosContainer);
     todosContainer.appendChild(renderTodos(projectManager, activeProject.todos, todosContainer));
     newSection.appendChild(renderNotes(activeProject.notes));
+
+    projectDetails.appendChild(descriptionHeader);
+    projectDetails.appendChild(projectDescription);
+    projectDetails.appendChild(projectCreatedAt);
+
+    projectsBackBtn.addEventListener("click", () => {
+        loadProjects(projectManager);
+    })
 };
 
 const renderTodos = function(projectManager, todosArray, todosContainer) {
@@ -303,10 +328,13 @@ const renderTodo = function(projectManager, todo) {
         const input = document.createElement("input");
         input.type = "text";        
         input.classList.add('checklist_item_input');
-        
+        const statusToggle = document.createElement("input");
+        statusToggle.type = "checkbox";
+       
+        inputContainer.appendChild(statusToggle);
         inputContainer.appendChild(input);
         listItemContainer.appendChild(inputContainer);
-        todoChecklist.prepend(listItemContainer);
+        todoChecklist.appendChild(listItemContainer);
         input.focus();
 
         input.addEventListener("keydown", (e) => {
@@ -317,8 +345,7 @@ const renderTodo = function(projectManager, todo) {
           
 
             if (e.key === "Enter" && input.value.length > 0) {
-                const statusToggle = document.createElement("input");
-                statusToggle.type = "checkbox";
+               
                 
                
                 todo.addListItem(input.value)           
@@ -326,7 +353,7 @@ const renderTodo = function(projectManager, todo) {
                 element.id = todo.checkList[0].id;
                 
                 inputContainer.replaceChild(element, input);
-                inputContainer.prepend(statusToggle);
+               
                 element.addEventListener("click", () => {
                     replaceElementWithInput(element, inputContainer, activeProject, todo);
                 });
@@ -376,6 +403,7 @@ const replaceElementWithInput = function(element, section, activeProject, todo) 
         else if (e.key === "Enter" && input.value.length === 0) {
             alert("This field can't be empty");
         }
+  
     });
 
 };
