@@ -117,7 +117,7 @@ class Todo {
 
         const checkListItem = new CheckListItem(text);
 
-        this.checkList.unshift(checkListItem);
+        this.checkList.push(checkListItem);
     };
 
     removeListItem(listItemID) {
