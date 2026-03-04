@@ -55,6 +55,14 @@ class Project {
         this.notes = [];
     }
 
+    updateTitle(title) {
+        this.title = title;
+    }
+
+    updateDescription(description) {
+        this.description = description;
+    }
+
     addTodo(title, description, dueDate, status, priority) {     
 
         const todo = new Todo(title, description, dueDate, status, priority);
