@@ -138,7 +138,7 @@ const renderTodo = function(projectManager, todo) {
     backBtn.textContent = "Back"
     backBtn.classList.add("back_btn");
 
-    const todoFormContainer = document.createElement("form");
+    const todoFormContainer = document.createElement("div");
     todoFormContainer.classList.add("todo_container");
     todoFormContainer.setAttribute("data-id", todo.id);
 
@@ -146,6 +146,9 @@ const renderTodo = function(projectManager, todo) {
     checkListContainer.classList.add("check_list_container")
     const checkListHeader = document.createElement("h4");
     checkListHeader.textContent = "Subtasks:"
+    const addListItemBtn = document.createElement("button");
+    addListItemBtn.classList.add("add_subtask");
+    addListItemBtn.textContent = "+";
     const todoChecklist = document.createElement("ul");
 
     newSection.appendChild(todoHeader);
@@ -153,6 +156,7 @@ const renderTodo = function(projectManager, todo) {
     newSection.appendChild(todoFormContainer);
     newSection.appendChild(checkListContainer);
     checkListContainer.appendChild(checkListHeader);
+    checkListContainer.appendChild(addListItemBtn);
     checkListContainer.appendChild(todoChecklist);
 
  
@@ -292,6 +296,46 @@ const renderTodo = function(projectManager, todo) {
         }
     });
 
+    // add subtask functionality:
+
+    addListItemBtn.addEventListener("click", () => {
+        const listItemContainer = document.createElement("li");
+        const inputContainer = document.createElement("div");
+        const input = document.createElement("input");
+        input.type = "text";        
+        input.classList.add('checklist_item_input');
+        
+        inputContainer.appendChild(input);
+        listItemContainer.appendChild(inputContainer);
+        todoChecklist.prepend(listItemContainer);
+
+        input.addEventListener("keydown", (e) => {
+            const element = document.createElement("p");
+            element.classList.add('checklist_item');
+
+            input.classList.add(`${element.classList}_input`);
+            input.focus();
+
+
+            if (e.key === "Enter" && input.value.length > 0) {
+                const statusToggle = document.createElement("input");
+                statusToggle.type = "checkbox";
+                inputContainer.appendChild(statusToggle);
+                todo.addListItem(input.value)           
+                element.textContent = input.value;
+                element.id = todo.checkList[0].id;
+                
+               
+                inputContainer.replaceChild(element, input);
+                element.addEventListener("click", () => {
+                    replaceElementWithInput(element, inputContainer, activeProject, todo);
+                })
+            }
+            else if (e.key === "Enter" && input.value.length === 0) {
+                alert("This field can't be empty");
+            }
+        });
+    });
 
 };
 
