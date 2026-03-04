@@ -1,4 +1,3 @@
-// import { initUI } from "./UI-DOM";
 import {loadProjects} from "./UI-DOM.js";
 
 const renderProject = function(projectManager, projectID) {
@@ -51,6 +50,14 @@ const renderProject = function(projectManager, projectID) {
 
     projectsBackBtn.addEventListener("click", () => {
         loadProjects(projectManager);
+    })
+
+    projectTitle.addEventListener("click", () => {
+        replaceProjectElementWithInput(projectTitle, newSection, activeProject)
+    })
+
+    projectDescription.addEventListener("click", () => {
+        replaceProjectElementWithInput(projectDescription, projectDetails, activeProject)
     })
 };
 
@@ -396,6 +403,41 @@ const replaceElementWithInput = function(element, section, activeProject, todo) 
             else if (element.classList.contains("checklist_item")) {
                 todo.updateListItem(element.id, input.value)
                 console.log(todo.checkList)
+            }
+            element.textContent = input.value;
+            section.replaceChild(element, input);
+        }
+        else if (e.key === "Enter" && input.value.length === 0) {
+            alert("This field can't be empty");
+        }
+  
+    });
+
+};
+
+const replaceProjectElementWithInput = function(element, section, activeProject) {
+    let input;
+    // Header is an input. Description is a text area:
+    if (element.classList.contains('active_project_title')) {
+        input = document.createElement('input');
+        input.type = "text";
+    }
+    else {
+        input = document.createElement("textarea");
+    }
+
+    input.classList.add(`${element.classList}_input`)
+    input.value = element.textContent;
+    section.replaceChild(input, element);
+    input.focus();
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && input.value.length > 0) {
+            if(element.classList.contains("active_project_title")) {
+                activeProject.updateTitle(input.value);
+            }
+            else if (element.classList.contains("project_description")) {
+                activeProject.updateDescription(input.value)
             }
             element.textContent = input.value;
             section.replaceChild(element, input);
