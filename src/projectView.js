@@ -247,12 +247,11 @@ const renderTodo = function(projectManager, todo) {
 
         statusToggle.addEventListener("click", () => {
             todo.toggleListItem(listItem.id);
-            console.log(todo.checkList);
-        })
+        });
 
         textLine.addEventListener("click", () => {
             replaceElementWithInput(textLine, textLineContainer, activeProject, todo);
-        })
+        });
     }
 
     // add back btn functionality:
@@ -308,28 +307,32 @@ const renderTodo = function(projectManager, todo) {
         inputContainer.appendChild(input);
         listItemContainer.appendChild(inputContainer);
         todoChecklist.prepend(listItemContainer);
+        input.focus();
 
         input.addEventListener("keydown", (e) => {
             const element = document.createElement("p");
             element.classList.add('checklist_item');
 
             input.classList.add(`${element.classList}_input`);
-            input.focus();
-
+          
 
             if (e.key === "Enter" && input.value.length > 0) {
                 const statusToggle = document.createElement("input");
                 statusToggle.type = "checkbox";
-                inputContainer.appendChild(statusToggle);
+                
+               
                 todo.addListItem(input.value)           
                 element.textContent = input.value;
                 element.id = todo.checkList[0].id;
                 
-               
                 inputContainer.replaceChild(element, input);
+                inputContainer.prepend(statusToggle);
                 element.addEventListener("click", () => {
                     replaceElementWithInput(element, inputContainer, activeProject, todo);
-                })
+                });
+                statusToggle.addEventListener("click", () => {
+                    todo.toggleListItem(element.id);
+                });
             }
             else if (e.key === "Enter" && input.value.length === 0) {
                 alert("This field can't be empty");
