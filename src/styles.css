@@ -282,14 +282,16 @@ html *::-webkit-scrollbar {
 #active_project_section {
     flex: 1;
     display: grid;
-    grid-template-columns: 85fr 15fr;
-    grid-auto-rows: 10fr 50fr 10fr 30fr;
+    grid-template-columns: 80fr 20fr;
+    grid-template-rows: 10fr 10fr 40fr 10fr 30fr;   
     
     overflow-y: scroll;
 
-    min-height: 1000px;
+    height: 1200px;
 
     color: var(--dark-gray);
+
+    gap: 1rem;
 }
 
 
@@ -337,11 +339,83 @@ html *::-webkit-scrollbar {
     justify-self: start;
 }
 
+#active_project_section>.back_to_projects_btn {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+
+    background-color: var(--dominant-light-color);
+    color: var(--dark-gray);
+    text-decoration: underline;
+    font-weight: bold;
+
+    height: fit-content;
+    width: fit-content;
+
+    align-self: center;
+    justify-self: end;
+
+    padding-right: 0.5rem;
+
+    border-radius: 100% 0px 0px 100%;
+}
+
+#active_project_section>.project_details {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+
+    /* border: 0.1rem solid var(--soft-gray); */
+    z-index: 1;
+
+    border-radius: 1rem;
+
+    padding: 1rem;
+
+    display: grid;
+
+    grid-template-columns: 10fr 60fr 30fr;
+    grid-template-rows: 10fr 80fr 10fr;
+
+    gap: 1rem;
+}
+
+.project_details>.description_header {
+    color: var(--dark-gray);
+    line-height: 1.5;
+
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.project_details>.project_description {
+    color: var(--dark-gray);
+    line-height: 1.5;
+
+    grid-column: 1 / 4;
+    grid-row: 2 / 3;
+
+    border: 0.1rem solid var(--soft-gray);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.project_details>.project_created_at {
+    color: var(--dark-gray);
+    line-height: 1.5;
+
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+
+    align-self: center;
+    justify-self: end;
+
+    min-width: 150px;
+}
+
 /* position notes header */
 
 #active_project_section .active_project_notes_header {
     grid-column: 1 / 3;
-    grid-row: 3 / 4;
+    grid-row: 4 / 5;
     padding-bottom: 0.5rem;
     border-bottom: solid 0.2rem var(--soft-gray);
 
@@ -352,7 +426,7 @@ html *::-webkit-scrollbar {
 
 .todos_list {
     grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
     display: grid;
 
     grid-template-columns: 1fr;
@@ -360,15 +434,12 @@ html *::-webkit-scrollbar {
 
     background-color: var(--dominant--secondary-color);
 
-    padding-right: 2%;
-    padding-top: 2%;
-
     overflow-y: auto;
 }
 
 #active_project_section .notes_grid {
     grid-column: 1 / 3;
-    grid-row: 4 / 5;
+    grid-row: 5 / 6;
 
     flex: 1;
     display: grid;
@@ -419,11 +490,15 @@ html *::-webkit-scrollbar {
     grid-template-columns: 50fr 25fr 15fr 10fr;
 
     align-items: center;
+
+    gap: 0.2rem;
 }
 
 #todos_header .subject_header {
      /* Copy todos <li> layout to keep consistency */
     grid-column: 1 / 2;
+    min-width: 170px;
+
 }
 
 #todos_header .status_header {
@@ -743,25 +818,31 @@ html *::-webkit-scrollbar {
 
 /* active todo header input style */
 
-.header_input {
+.active_todo_header_input {
+    align-self: center;
+    justify-self: start;
 
     font-size: 24px;
     
     border-radius: 0.5rem;
 
     border: 1px solid var(--theme-color);
-    padding-top: 0.1rem;
     padding-left: 0.3rem;
 
     color: var(--dark-gray);
+    max-height: 31px;
+
+    width: 100%;
+    max-width: 1000px;
+
 }
 
-.header_input:focus,
-.description_input:focus {
+.active_todo_header_input:focus,
+.description_text_input:focus {
     outline: none;
 }
 
-.todo_container .description_input {
+.todo_container .description_text_input {
     width: 100%;
     min-height: 336px;
     height: 336px;
@@ -779,6 +860,11 @@ html *::-webkit-scrollbar {
     grid-row: 5 / 6;
 
     color: var(--dark-gray);
+
+    white-space: pre-line;
+
+    resize: none;
+
 }
 
 
@@ -789,8 +875,42 @@ html *::-webkit-scrollbar {
     max-height: 350px;
 
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 95fr 5fr;
     grid-template-rows: 10fr 90fr;
+
+    gap: 0.1rem;
+}
+
+.check_list_container>.add_subtask {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+
+    color: var(--dark-gray);
+    font-size: 23px;
+    background-color: var(--soft-gray);
+    border-radius: 0.5rem;
+
+    /* height: fit-content;
+    width: fit-content; */
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+
+    align-self: center;
+    justify-self: center;
+
+    display: flex;
+    justify-content: flex-start;
+}
+
+.check_list_container>.add_subtask:hover {
+    scale: 1.05;
+}
+
+.check_list_container>.add_subtask:active {
+    scale: 1;
 }
 
 .check_list_container div {
@@ -800,6 +920,7 @@ html *::-webkit-scrollbar {
     grid-template-columns: 5fr 95fr;
 
     height: fit-content;
+    ;
     /* min-width: 405px; */
 
     padding-top: 0.5rem;
@@ -807,7 +928,7 @@ html *::-webkit-scrollbar {
 
 }
 
-.check_list_container li input{
+.check_list_container li>input[type="checkbox"] {
     grid-column: 1 / 2;
     accent-color: var(--theme-color);
     border: 1px solid var(--soft-gray);
@@ -827,6 +948,7 @@ html *::-webkit-scrollbar {
 }
 
 .check_list_container>h4 {
+    grid-column: 1 / 2;
     grid-row: 1 / 2;
 
     align-self: center;
@@ -834,7 +956,10 @@ html *::-webkit-scrollbar {
     color: var(--dark-gray);
 }
 
+
+
 .check_list_container>ul {
+    grid-column: 1 / 3;
     grid-row: 2 / 3;
     color: var(--dark-gray);
 
@@ -848,3 +973,56 @@ html *::-webkit-scrollbar {
 
     padding: 0;
 }
+
+.check_list_container input[type="text"] {
+    grid-column: 2 / 3;
+    max-height: 19px;
+}
+
+.check_list_container input[type="text"]:focus {
+    outline: 0;
+    border: 1px solid var(--theme-color);
+}
+
+/* About Section Style */
+
+#about_section {
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10fr 90fr;
+
+    padding: 5rem;
+
+    gap: 5rem;
+}
+
+#about_section h2 {
+    grid-row: 1 / 2;
+    align-self: center;
+    justify-self: center;
+
+    background-color: var(--theme-color);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-radius: 0.3rem;
+    color: var(--soft-gray);
+}
+
+#about_section div {
+    grid-row: 2 / 3;
+
+    box-shadow: 0.01rem 0.01rem 0.2rem 0.01rem #918f8f49;
+    border-radius: 0.5rem;
+
+    padding: 1rem;
+
+    line-height: 1.5;
+
+    max-height: 1000px;
+
+    overflow-y: auto;
+}
+

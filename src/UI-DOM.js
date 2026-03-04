@@ -44,26 +44,23 @@ const loadProjects = function(projectManager) {
 }
 
 
-const loadAbout = function() {
+const renderAbout = function() {
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
-    const aboutTitle = document.createElement("h3");
+    const aboutTitle = document.createElement("h2");
+    const aboutArticleContainer = document.createElement("div");
     const aboutArticle = document.createElement("p");
     newSection.id = "about_section";
 
     aboutTitle.textContent = "Kong-Dō"
-    aboutArticle.textContent = `Lorem Ipsum is still fine for pure layout testing,
-but for portfolio projects and demos?
-It looks lazy in 2026. Real-ish copy makes your project feel 10x more legit.`
+    aboutArticle.textContent = `This Todo application is a lightweight task management tool inspired by workflow systems like Jira, designed to organize work through projects, tasks, and detailed checklists. Each project acts as a container for multiple todos, allowing users to separate responsibilities across different contexts such as personal tasks, work, or long-term goals. Todos include a title, description, status, priority level, due date, and an expandable checklist for breaking larger tasks into manageable steps. Rather than relying on traditional form submissions, the app emphasizes inline editing: users can update fields such as status, priority, and description directly within the interface, creating a fast and fluid editing experience. The system supports creating, updating, and removing projects, tasks, notes, and checklist items, making it a full CRUD application. Behind the interface, the project is built with modular JavaScript architecture, separating domain logic from UI rendering to keep the codebase maintainable and scalable. The result is a structured yet flexible productivity tool focused on clarity, incremental progress, and simple task management.`
 
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
 
     newSection.appendChild(aboutTitle);
-    newSection.appendChild(aboutArticle);
-
-
-    
+    newSection.appendChild(aboutArticleContainer);
+    aboutArticleContainer.appendChild(aboutArticle);
 }
 
 
@@ -78,7 +75,7 @@ const initUI = function(projectManager) {
         loadProjects(projectManager);
     });
     aboutBtn.addEventListener("click", () => {
-        loadAbout();
+        renderAbout();
     });
     notesBtn.addEventListener("click", () => {
         const activeProject = projectManager.getActiveProject();
