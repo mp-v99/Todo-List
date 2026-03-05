@@ -202,6 +202,55 @@ html *::-webkit-scrollbar {
 #projects_section {
     flex: 1;
     display: grid;
+    grid-template-rows: 3fr 97fr;
+
+    grid-auto-flow: row;
+
+    gap: 2%;
+
+    padding: 2%;
+}
+
+#projects_section_header {
+    grid-row: 1 / 2;
+    color: var(--theme-color);
+
+    border-bottom: solid 0.2rem var(--soft-gray);
+
+    display: grid;
+    grid-template-columns: 20fr 60fr 20fr;
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 0.3rem;
+
+}
+
+#projects_section_header>h2 {
+    grid-column: 1 / 2;
+}
+
+#projects_section_header>button {
+    grid-column: 3 / 4;
+
+    background-color: var(--dominant-light-color);
+    
+    align-self: center;
+    justify-self: end;
+
+    padding-left: 5%;
+    padding-right: 5%;
+
+    border-radius: 5px;
+
+    color: var(--theme-color);
+    border: 1px solid var(--theme-color);
+}
+
+
+#projects_section_grid {
+    grid-row: 2 / 3;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-auto-rows: minmax(200px, 220px);
 
@@ -212,11 +261,7 @@ html *::-webkit-scrollbar {
     padding: 2%;
 }
 
-#projects_section>h1 {
-    grid-column:  1 / -1;
-}
-
-#projects_section>article {
+#projects_section_grid>article {
     display: grid;
     grid-template-columns: 10fr 25fr 25fr 40fr;
     grid-template-rows: 10fr 25fr 25fr 40fr;
@@ -236,10 +281,10 @@ html *::-webkit-scrollbar {
     padding-left: 1rem;
 }
 
-#projects_section>article>h3 {
+#projects_section_grid>article>h3 {
     grid-column: 1 / 5;
     grid-row: 1 / 3;
-    color: var(--theme-color);
+    color: var(--dark-gray);
     /* border-radius:5px 0px 0px 5px; */
 
     align-self: center;
@@ -249,7 +294,7 @@ html *::-webkit-scrollbar {
     padding-left: 0.2rem;
     padding-right: 0.2rem;
 }
-#projects_section>article>.project_description {
+#projects_section_grid>article>.project_description {
     grid-column: 1 / 4;
     grid-row: 3 / 4;
 
@@ -258,7 +303,7 @@ html *::-webkit-scrollbar {
     font-size: 0.75em;
 }
     
-#projects_section>article>button {
+#projects_section_grid>article>button {
     grid-column: 4 / 5;
     grid-row: 4 / 5;
 

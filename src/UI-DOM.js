@@ -1,15 +1,28 @@
 import { renderProject, renderNotes } from "./projectView";
 
 
-const loadProjects = function(projectManager) {
+const renderProjects = function(projectManager) {
     const listOfProjects = projectManager.listProjects();
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
+    const sectionHeader = document.createElement("header");
+    const headerTitle = document.createElement("h2");
+    const addProjectBtn = document.createElement("button");
+    const projectsGrid = document.createElement("div");
    
-    newSection.id = "projects_section"
+    newSection.id = "projects_section";
+    sectionHeader.id = "projects_section_header";
+    projectsGrid.id = "projects_section_grid";
+
+    headerTitle.textContent = "Projects";
+    addProjectBtn.textContent = " + New Project"
 
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
+    newSection.appendChild(sectionHeader);
+    newSection.appendChild(projectsGrid);
+    sectionHeader.appendChild(headerTitle);
+    sectionHeader.appendChild(addProjectBtn);
 
 
     for (const project of listOfProjects) {
@@ -28,7 +41,7 @@ const loadProjects = function(projectManager) {
         openProjectBtn.textContent = "Open";
         openProjectBtn.classList.add("open_project");
 
-        newSection.appendChild(projectCard);
+        projectsGrid.appendChild(projectCard);
         projectCard.appendChild(projectTitle);
         projectCard.appendChild(projectDescription);
         projectCard.appendChild(openProjectBtn);
@@ -72,7 +85,7 @@ const initUI = function(projectManager) {
     const aboutBtn = document.querySelector("#about_btn");
 
     projectsBtn.addEventListener("click", () => {
-        loadProjects(projectManager);
+        renderProjects(projectManager);
     });
     aboutBtn.addEventListener("click", () => {
         renderAbout();
@@ -97,4 +110,4 @@ const initUI = function(projectManager) {
 };
 
 
-export {initUI, loadProjects};
+export {initUI, renderProjects};
