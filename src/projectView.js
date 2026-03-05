@@ -1,4 +1,4 @@
-import {loadProjects} from "./UI-DOM.js";
+import {renderProjects} from "./UI-DOM.js";
 
 const renderProject = function(projectManager, projectID) {
     projectManager.setActiveProject(projectID);
@@ -53,7 +53,7 @@ const renderProject = function(projectManager, projectID) {
     projectDetails.appendChild(projectCreatedAt);
 
     projectsBackBtn.addEventListener("click", () => {
-        loadProjects(projectManager);
+        renderProjects(projectManager);
     })
 
     projectTitle.addEventListener("click", () => {
