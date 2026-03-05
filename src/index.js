@@ -1,6 +1,6 @@
 import { ProjectManager } from "./domain.js";
-import { initUI } from "./UI-DOM.js"
-import { renderProject } from "./projectView.js"
+import { initUI, renderProjects } from "./UI-DOM.js"
+// import { renderProject } from "./projectView.js"
 import "./styles.css"
 // import { showList } from "./UI-DOM.js";
 
@@ -46,4 +46,4 @@ activeProject.todos[0].addListItem("find allies along the way");
 activeProject.todos[0].addListItem("rest and recover when exhaustion hits");
 
 
-renderProject(appProjectManager, activeProject.id);
+renderProjects(appProjectManager)
