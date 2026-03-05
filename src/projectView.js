@@ -63,7 +63,7 @@ const renderProject = function(projectManager, projectID) {
 
 const renderTodos = function(projectManager, todosArray, todosContainer) {
     const listOfTodos = document.createElement('ul');
-
+    const activeProject = projectManager.getActiveProject();
     const listHeader = document.createElement("header");
 
     listHeader.id = "todos_header"
@@ -116,7 +116,17 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         }
 
         todoPriority.textContent = `${todo.priority}`;
-        todoPriority.classList = todo.priority.toLowerCase();
+        todoPriority.classList.add('priority_btn')
+
+        if (todo.priority.toLowerCase() === "low") {
+            todoPriority.classList.add("priority_low")
+        }
+        else if (todo.priority.toLowerCase() === "medium") {
+            todoPriority.classList.add("priority_medium");
+        }
+        else if (todo.priority.toLowerCase() === "high") {
+            todoPriority.classList.add("priority_high");
+        }
 
         listOfTodos.appendChild(newTodo);
         todoSubject.setAttribute("data-id", todo.id);
@@ -131,6 +141,14 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         todoSubject.addEventListener("click", () => {
             renderTodo(projectManager, todo);
         }) 
+        todoStatus.addEventListener("click", () => {
+            updateTodoStatus(todoStatus, activeProject, todo);
+        });
+
+        todoPriority.addEventListener("click", () => {
+            updateTodoPriority(todoPriority, activeProject, todo)
+        })
+    
     }
 
     return listOfTodos;
@@ -304,11 +322,11 @@ const renderTodo = function(projectManager, todo) {
     })
 
     todoStatusBtn.addEventListener("click", () => {
-        updateTodoStatus(activeProject, todo);
+        updateTodoStatus(todoStatusBtn, activeProject, todo);
     });
 
     todoPriorityBtn.addEventListener("click", () => {
-        updateTodoPriority(activeProject, todo);
+        updateTodoPriority(todoPriorityBtn, activeProject, todo);
     });
 
     todoDescription.addEventListener("click", () => {
@@ -454,9 +472,8 @@ const updateSubject = function(activeProject, todo, inputValue) {
     activeProject.updateTodo(todo.id, {title: inputValue});
 };
 
-const updateTodoStatus = function(activeProject, todo) {
-    const statusBtn = document.querySelector('.status_btn');
-
+const updateTodoStatus = function(statusBtn, activeProject, todo) {
+  
     if (statusBtn.textContent.toLowerCase() === "to do") {
         activeProject.updateTodo(todo.id, {status: "In Progress"});
         statusBtn.classList = ("status_btn status_progress");
@@ -473,8 +490,7 @@ const updateTodoStatus = function(activeProject, todo) {
     statusBtn.textContent = todo.status;
 };
 
-const updateTodoPriority = function(activeProject, todo) {
-    const priorityBtn = document.querySelector('.priority_btn');
+const updateTodoPriority = function(priorityBtn, activeProject, todo) {
 
     if (priorityBtn.textContent.toLowerCase() === "low") {
         activeProject.updateTodo(todo.id, {priority: "Medium"});
