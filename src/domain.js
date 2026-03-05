@@ -73,7 +73,7 @@ class Project {
     addNote(text) {
 
         const note = new Note(text);
-        this.notes.push(note);
+        this.notes.unshift(note);
 
     };
 
