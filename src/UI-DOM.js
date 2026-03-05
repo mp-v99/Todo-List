@@ -91,7 +91,7 @@ const initUI = function(projectManager) {
         notesHeader.textContent = `(${activeProject.title}) Notes:`
 
         newSection.appendChild(notesHeader);
-        newSection.appendChild(renderNotes(activeProject.notes));
+        newSection.appendChild(renderNotes(activeProject));
         
     }) 
 };
