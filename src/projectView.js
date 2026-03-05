@@ -22,6 +22,8 @@ const renderProject = function(projectManager, projectID) {
     projectsBackBtn.classList.add("back_to_projects_btn");
     const notesHeader = document.createElement('h3');
     notesHeader.classList.add("active_project_notes_header");
+    const addNoteBtn = document.createElement("button");
+    addNoteBtn.classList.add("add_note_btn");
     const descriptionHeader = document.createElement("h3");
     const projectDescription = document.createElement("p");
     const projectCreatedAt = document.createElement("p");
@@ -32,6 +34,7 @@ const renderProject = function(projectManager, projectID) {
     projectTitle.textContent = `${activeProject.title}`;
     projectsBackBtn.textContent = "Back"
     notesHeader.textContent = "Notes:"
+    addNoteBtn.textContent = "+";
     descriptionHeader.textContent = "Description"
     projectDescription.textContent = activeProject.description;
     projectCreatedAt.textContent = `Created at: ${activeProject.createdAt}`
@@ -39,10 +42,11 @@ const renderProject = function(projectManager, projectID) {
     newSection.appendChild(projectTitle);
     newSection.appendChild(projectsBackBtn);
     newSection.appendChild(projectDetails);
-    newSection.appendChild(notesHeader);
     newSection.appendChild(todosContainer);
+    newSection.appendChild(notesHeader);
+    newSection.appendChild(addNoteBtn);
     todosContainer.appendChild(renderTodos(projectManager, activeProject.todos, todosContainer));
-    newSection.appendChild(renderNotes(activeProject.notes));
+    newSection.appendChild(renderNotes(activeProject));
 
     projectDetails.appendChild(descriptionHeader);
     projectDetails.appendChild(projectDescription);
@@ -58,6 +62,11 @@ const renderProject = function(projectManager, projectID) {
 
     projectDescription.addEventListener("click", () => {
         replaceProjectElementWithInput(projectDescription, projectDetails, activeProject)
+    })
+
+    addNoteBtn.addEventListener("click", () => {
+        // activeProject.addNote("New note");
+        renderNewNote(activeProject);
     })
 };
 
@@ -155,19 +164,60 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
 
 }
 
-const renderNotes = function(notesArray) {
+const renderNotes = function(activeProject) {
     const notesContainer = document.createElement("div");
     notesContainer.classList.add("notes_grid");
 
-    for (const note of notesArray) {
+    for (const note of activeProject.notes) {
         const newNote = document.createElement("article");
+        newNote.classList.add("note_article");
+        newNote.id = note.id;
+
        
         newNote.textContent = note.textBody;
         
         notesContainer.appendChild(newNote);
+
+        newNote.addEventListener("click", () => {
+            replaceProjectElementWithInput(newNote, notesContainer, activeProject);
+        })
     }
 
     return notesContainer;
+}
+
+const renderNewNote = function(activeProject) {
+    const notesContainer = document.querySelector(".notes_grid");
+    const noteInput = document.createElement("textarea");
+    noteInput.classList.add("note_article_input")
+
+    notesContainer.prepend(noteInput);
+    noteInput.focus();
+
+    noteInput.addEventListener("keydown", (e) => {
+        const noteArticle = document.createElement("article");
+        noteArticle.classList.add('note_article');
+      
+        if (e.key === "Enter" && noteInput.value.length > 0) {
+           
+            activeProject.addNote(noteInput.value);         
+            noteArticle.textContent = noteInput.value;
+            noteArticle.id = activeProject.notes[0].id;
+            
+            notesContainer.replaceChild(noteArticle, noteInput);
+           
+            noteArticle.addEventListener("click", () => {
+                replaceProjectElementWithInput(noteArticle, notesContainer, activeProject);
+            });
+
+        }
+        else if (e.key === "Enter" && noteInput.value.length === 0) {
+            alert("This field can't be empty");
+        }
+    });
+
+
+
 }
 
 const renderTodo = function(projectManager, todo) {
@@ -197,7 +247,7 @@ const renderTodo = function(projectManager, todo) {
     const checkListHeader = document.createElement("h4");
     checkListHeader.textContent = "Subtasks:"
     const addListItemBtn = document.createElement("button");
-    addListItemBtn.classList.add("add_subtask");
+    addListItemBtn.classList.add("add_subtask_btn");
     addListItemBtn.textContent = "+";
     const todoChecklist = document.createElement("ul");
 
@@ -300,7 +350,7 @@ const renderTodo = function(projectManager, todo) {
         });
 
         textLine.addEventListener("click", () => {
-            replaceElementWithInput(textLine, textLineContainer, activeProject, todo);
+            replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
         });
     }
 
@@ -318,7 +368,7 @@ const renderTodo = function(projectManager, todo) {
     todoDueDateInput.value = todoDueDate.textContent;
 
     todoHeader.addEventListener("click", () => {
-        replaceElementWithInput(todoHeader, newSection, activeProject, todo);
+        replaceTodoElementWithInput(todoHeader, newSection, activeProject, todo);
     })
 
     todoStatusBtn.addEventListener("click", () => {
@@ -330,7 +380,7 @@ const renderTodo = function(projectManager, todo) {
     });
 
     todoDescription.addEventListener("click", () => {
-        replaceElementWithInput(todoDescription, todoFormContainer, activeProject, todo);
+        replaceTodoElementWithInput(todoDescription, todoFormContainer, activeProject, todo);
     });
 
     todoDueDate.addEventListener("click", () => {
@@ -378,7 +428,7 @@ const renderTodo = function(projectManager, todo) {
                 inputContainer.replaceChild(element, input);
                
                 element.addEventListener("click", () => {
-                    replaceElementWithInput(element, inputContainer, activeProject, todo);
+                    replaceTodoElementWithInput(element, inputContainer, activeProject, todo);
                 });
                 statusToggle.addEventListener("click", () => {
                     todo.toggleListItem(element.id);
@@ -392,7 +442,7 @@ const renderTodo = function(projectManager, todo) {
 
 };
 
-const replaceElementWithInput = function(element, section, activeProject, todo) {
+const replaceTodoElementWithInput = function(element, section, activeProject, todo) {
     let input;
     // Header is an input. Description is a text area:
     if (element.classList.contains('active_todo_header') || element.classList.contains('checklist_item') ) {
@@ -454,6 +504,9 @@ const replaceProjectElementWithInput = function(element, section, activeProject)
             }
             else if (element.classList.contains("project_description")) {
                 activeProject.updateDescription(input.value)
+            }
+            else if (element.classList.contains("note_article")) {
+                activeProject.updateNote(element.id, input.value)
             }
             element.textContent = input.value;
             section.replaceChild(element, input);
