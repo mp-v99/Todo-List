@@ -371,11 +371,9 @@ const renderTodo = function(projectManager, todo) {
 
             if (e.key === "Enter" && input.value.length > 0) {
                
-                
-               
                 todo.addListItem(input.value)           
                 element.textContent = input.value;
-                element.id = todo.checkList[0].id;
+                element.id = todo.checkList[todo.checkList.length - 1].id;
                 
                 inputContainer.replaceChild(element, input);
                
