@@ -35,7 +35,7 @@ activeProject.addNote("You don’t have to see the whole path to take the next s
 activeProject.addNote("Burden shared is burden made lighter.");
 activeProject.addNote("There is always a way forward, even in the dark.");
 
-initUI(appProjectManager);
+initUI(appProjectManager, today);
 
 activeProject.todos[0].addListItem("invite Sam to join the journey");
 activeProject.todos[0].addListItem("pack essentials and supplies");
@@ -46,4 +46,4 @@ activeProject.todos[0].addListItem("find allies along the way");
 activeProject.todos[0].addListItem("rest and recover when exhaustion hits");
 
 
-renderProjects(appProjectManager)
+renderProjects(appProjectManager, today)

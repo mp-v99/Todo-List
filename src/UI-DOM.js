@@ -1,7 +1,7 @@
 import { renderProject, renderNotes } from "./projectView";
 
 
-const renderProjects = function(projectManager) {
+const renderProjects = function(projectManager, today) {
     const listOfProjects = projectManager.listProjects();
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
@@ -23,7 +23,6 @@ const renderProjects = function(projectManager) {
     newSection.appendChild(projectsGrid);
     sectionHeader.appendChild(headerTitle);
     sectionHeader.appendChild(addProjectBtn);
-
 
     for (const project of listOfProjects) {
         const projectCard = document.createElement("article")
@@ -49,11 +48,45 @@ const renderProjects = function(projectManager) {
         
 
         openProjectBtn.addEventListener("click", () => {
-            renderProject(projectManager, projectCard.getAttribute("data-id"));
+            renderProject(projectManager, projectCard.getAttribute("data-id"), today);
         })
     }
 
+    addProjectBtn.addEventListener("click", () => {
+        renderOverlay(projectManager, today);
+    })
+
  
+}
+
+const renderProjectCard = function(projectsGrid, projectManager, today) {
+    const projectCard = document.createElement("article")
+    const projectTitle = document.createElement("h3");
+    const projectDescription = document.createElement("p");
+    const arrayLength = projectManager.projects.length;
+    const project = projectManager.projects[arrayLength -1];
+ 
+    const openProjectBtn = document.createElement("button");
+
+    projectTitle.textContent = project.title;
+    projectDescription.textContent = project.description.slice(0, 50).concat("...");
+    projectCard.setAttribute("data-id", project.id);
+ 
+
+    projectDescription.classList.add("project_description");
+    openProjectBtn.textContent = "Open";
+    openProjectBtn.classList.add("open_project");
+
+    projectsGrid.appendChild(projectCard);
+    projectCard.appendChild(projectTitle);
+    projectCard.appendChild(projectDescription);
+    projectCard.appendChild(openProjectBtn);
+
+    
+
+    openProjectBtn.addEventListener("click", () => {
+        renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+    })
 }
 
 
@@ -76,16 +109,77 @@ const renderAbout = function() {
     aboutArticleContainer.appendChild(aboutArticle);
 }
 
+const renderNewProjectForm = function(formOverlay, projectManager, today) {
+    const body = document.querySelector("body");
+    const projectsGrid = document.querySelector("#projects_section_grid");
+
+    const projectForm = document.createElement("form");
+    projectForm.id = "project_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = " + New Project"
+    const titleLabel = document.createElement("label");
+    const titleInput = document.createElement("input");
+    titleLabel.textContent = "Title:"
+    titleLabel.classList.add("project_title_label");
+    titleLabel.htmlFor = "project_title_input"
+    titleInput.id = "project_title_input";
+    titleInput.type = "text";
+    titleInput.placeholder = "Todo List App";
+    titleInput.required = true;
+    const descriptionLabel = document.createElement("label");
+    const descriptionInput = document.createElement("textarea");
+    descriptionLabel.textContent = "Description:"
+    descriptionLabel.classList.add("project_description_label");
+    descriptionLabel.htmlFor = "project_description_input";
+    descriptionInput.id = "project_description_input";
+    descriptionInput.placeholder = "A project from The Odin Project designed to practice modular architecture and system-oriented thinking in JavaScript."
+    descriptionInput.required = true;
+    const submitProjectBtn = document.createElement("button");
+    submitProjectBtn.textContent = "Submit"
+    submitProjectBtn.type = "submit"
+
+    formOverlay.appendChild(projectForm);
+    projectForm.appendChild(formHeader);
+    projectForm.appendChild(titleLabel);
+    projectForm.appendChild(titleInput);
+    projectForm.appendChild(descriptionLabel);
+    projectForm.appendChild(descriptionInput);
+    projectForm.appendChild(submitProjectBtn);
 
 
+    projectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        projectManager.addProject(titleInput.value, descriptionInput.value, today)
+        console.log(projectManager.projects[projectManager.projects.length - 1].createdAt)
+        renderProjectCard(projectsGrid, projectManager, today);   
+        body.removeChild(formOverlay); 
+    })
+}
 
-const initUI = function(projectManager) {
+
+const renderOverlay = function(projectManager, today) {
+    const formOverlay = document.createElement("dialog");
+    const body = document.querySelector("body");
+    formOverlay.id = "form_overlay";
+    body.appendChild(formOverlay);
+
+    renderNewProjectForm(formOverlay, projectManager, today);
+
+    formOverlay.addEventListener("click", (e) => {
+        if (e.target === formOverlay) {
+            body.removeChild(formOverlay);
+        }
+    })
+}
+
+
+const initUI = function(projectManager, today) {
     const projectsBtn = document.querySelector("#projects_btn");
     const notesBtn = document.querySelector("#notes_btn");
     const aboutBtn = document.querySelector("#about_btn");
 
     projectsBtn.addEventListener("click", () => {
-        renderProjects(projectManager);
+        renderProjects(projectManager, today);
     });
     aboutBtn.addEventListener("click", () => {
         renderAbout();
