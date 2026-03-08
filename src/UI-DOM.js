@@ -146,7 +146,19 @@ const renderNewProjectForm = function(formOverlay, projectManager, today) {
     projectForm.appendChild(descriptionInput);
     projectForm.appendChild(submitProjectBtn);
 
+    function closeForm() {
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
 
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+    
     projectForm.addEventListener("submit", (e) => {
         e.preventDefault();
         projectManager.addProject(titleInput.value, descriptionInput.value, today)
@@ -154,6 +166,8 @@ const renderNewProjectForm = function(formOverlay, projectManager, today) {
         renderProjectCard(projectsGrid, projectManager, today);   
         body.removeChild(formOverlay); 
     })
+
+    document.addEventListener("keydown", handleEscape);
 }
 
 
