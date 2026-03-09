@@ -92,8 +92,9 @@ button {
   }
 
 html body::-webkit-scrollbar {
-    display: none;
-  }
+    scrollbar-width: none;
+    width: 0;
+}
 
 /* End of normalize template */  
 
@@ -195,9 +196,7 @@ html body::-webkit-scrollbar {
 
     gap: 1.5rem;
 
-    padding: 1rem;
-
-    overflow-y: scroll;
+    /* padding: 1rem; */
 }
 
 #projects_section_header {
@@ -208,11 +207,9 @@ html body::-webkit-scrollbar {
     display: grid;
     grid-template-columns: 20fr 60fr 20fr;
 
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    padding: 1rem 0.3rem;    
 
+    /* background-color: var(--soft-gray); */
 }
 
 #projects_section_header>h2 {
@@ -220,9 +217,8 @@ html body::-webkit-scrollbar {
     /* background-color: var(--theme-color); */
 
     grid-column: 1 / 2;
-
-    text-align: center;
     align-self: center;
+    justify-self: center;
 }
 
 #projects_section_header>button {
@@ -233,7 +229,7 @@ html body::-webkit-scrollbar {
     align-self: center;
     justify-self: center;
 
-    padding: 0.3rem 0.5rem;
+    padding: 0.1rem 0.2rem;
 
     border-radius: 5px;
 
@@ -253,6 +249,7 @@ html body::-webkit-scrollbar {
     gap: 2%;
 
     padding: 2%;
+    overflow-y: auto;
 }
 
 #projects_section_grid>article {
@@ -309,8 +306,8 @@ html body::-webkit-scrollbar {
     align-self: center;
     justify-self: end;
 
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 
     border-radius: 5px;
 
@@ -470,8 +467,6 @@ html body::-webkit-scrollbar {
     gap: 1rem;
     padding: 1rem;
 }
-
-
 
 #notes_tab_section {
     flex: 1;
@@ -775,7 +770,7 @@ html body::-webkit-scrollbar {
     grid-auto-rows: minmax(36px, 50px);
     /* border: 0.1rem solid var(--soft-gray); */
 
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 
     padding: 0;
 }
@@ -918,9 +913,10 @@ html body::-webkit-scrollbar {
     grid-template-columns: 80fr 20fr;
     grid-template-rows: 10fr 70fr 30fr;   
 
-    min-height: 1000px;
 
     gap: 1rem;
+    padding: 1rem;
+    overflow-y: scroll;
 }
 
 #active_todo_section .active_todo_header {
@@ -1134,7 +1130,7 @@ html body::-webkit-scrollbar {
     grid-column: 1 / 3;
     grid-row: 3 / 4;
 
-    max-height: 350px;
+    height: 350px;
 
     display: grid;
     grid-template-columns: 95fr 5fr;
@@ -1232,7 +1228,7 @@ html body::-webkit-scrollbar {
 
     gap: 0.2rem;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     border: 1px solid var(--soft-gray);
 
     padding: 0;
