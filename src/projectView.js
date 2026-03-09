@@ -238,10 +238,6 @@ const renderTodo = function(projectManager, todo) {
     backBtn.textContent = "Back"
     backBtn.classList.add("back_btn");
 
-    const todoFormContainer = document.createElement("div");
-    todoFormContainer.classList.add("todo_container");
-    todoFormContainer.setAttribute("data-id", todo.id);
-
     const checkListContainer = document.createElement("div");
     checkListContainer.classList.add("check_list_container")
     const checkListHeader = document.createElement("h4");
@@ -253,77 +249,12 @@ const renderTodo = function(projectManager, todo) {
 
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
-    newSection.appendChild(todoFormContainer);
+    renderTodoDetails(newSection, activeProject, todo);
     newSection.appendChild(checkListContainer);
     checkListContainer.appendChild(checkListHeader);
     checkListContainer.appendChild(addListItemBtn);
     checkListContainer.appendChild(todoChecklist);
-
- 
-    // Status:
-    const statusLabel = document.createElement("p");
-    statusLabel.textContent = "Status:"
-    const todoStatusBtn = document.createElement("button");
-    todoStatusBtn.type = 'button'
-    todoStatusBtn.classList.add("status_btn");
-
-    if (todo.status.toLowerCase() === "to do") {
-        todoStatusBtn.classList.add("status_todo");
-    }
-    else if (todo.status.toLowerCase() === "in progress") {
-        todoStatusBtn.classList.add("status_progress");
-    }
-    else if (todo.status.toLowerCase() === "done") {
-        todoStatusBtn.classList.add("status_done");
-    }
-    todoStatusBtn.textContent = todo.status;
-
-    // Priority: 
-
-    const priorityLabel = document.createElement("p");
-    priorityLabel.textContent = "Priority:"
-    const todoPriorityBtn = document.createElement("button");
-    todoPriorityBtn.type = 'button'
-    todoPriorityBtn.classList.add("priority_btn");
-
-    if (todo.priority.toLowerCase() === "low") {
-        todoPriorityBtn.classList.add("priority_low")
-    }
-    else if (todo.priority.toLowerCase() === "medium") {
-        todoPriorityBtn.classList.add("priority_medium");
-    }
-    else if (todo.priority.toLowerCase() === "high") {
-        todoPriorityBtn.classList.add("priority_high");
-    }
-    todoPriorityBtn.textContent = todo.priority;
-
-
-    // Due date: 
-
-    const dueDateLabel = document.createElement("p");
-    dueDateLabel.textContent = "Due:"
-    const todoDueDate = document.createElement("p");
-    todoDueDate.textContent = todo.dueDate;
-
-    // Description:
-
-    const descriptionLabel = document.createElement("p");
-    descriptionLabel.textContent = "Description:"
-    const todoDescription = document.createElement("p");
-    todoDescription.textContent = todo.description;
-    todoDescription.classList.add("description_text");   
-    
-    todoFormContainer.appendChild(statusLabel);
-    todoFormContainer.appendChild(todoStatusBtn);
-    todoFormContainer.appendChild(priorityLabel);
-    todoFormContainer.appendChild(todoPriorityBtn);
-    todoFormContainer.appendChild(dueDateLabel);
-    todoFormContainer.appendChild(todoDueDate);
-    todoFormContainer.appendChild(descriptionLabel);
-    todoFormContainer.appendChild(todoDescription);
-
- 
-
+  
     for (const listItem of todo.checkList) {
         const listItemContainer = document.createElement("li");
         const textLineContainer = document.createElement("div");
@@ -362,38 +293,9 @@ const renderTodo = function(projectManager, todo) {
 
     // add inputs functionality:
 
-    const todoDueDateInput = document.createElement("input");
-    todoDueDateInput.classList.add("priority_input");
-    todoDueDateInput.type = "date"
-    todoDueDateInput.value = todoDueDate.textContent;
-
     todoHeader.addEventListener("click", () => {
         replaceTodoElementWithInput(todoHeader, newSection, activeProject, todo);
     })
-
-    todoStatusBtn.addEventListener("click", () => {
-        updateTodoStatus(todoStatusBtn, activeProject, todo);
-    });
-
-    todoPriorityBtn.addEventListener("click", () => {
-        updateTodoPriority(todoPriorityBtn, activeProject, todo);
-    });
-
-    todoDescription.addEventListener("click", () => {
-        replaceTodoElementWithInput(todoDescription, todoFormContainer, activeProject, todo);
-    });
-
-    todoDueDate.addEventListener("click", () => {
-        todoFormContainer.replaceChild(todoDueDateInput, todoDueDate);
-    });
-
-    todoDueDateInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            updateTodoDueDate(activeProject, todo, todoDueDateInput.value);
-            todoDueDate.textContent = todoDueDateInput.value;
-            todoFormContainer.replaceChild(todoDueDate, todoDueDateInput);
-        }
-    });
 
     // add subtask functionality:
 
@@ -439,7 +341,6 @@ const renderTodo = function(projectManager, todo) {
             }
         });
     });
-
 };
 
 const replaceTodoElementWithInput = function(element, section, activeProject, todo) {
@@ -521,6 +422,105 @@ const replaceProjectElementWithInput = function(element, section, activeProject)
 
 const updateSubject = function(activeProject, todo, inputValue) {
     activeProject.updateTodo(todo.id, {title: inputValue});
+};
+
+const renderTodoDetails = function(newSection, activeProject, todo) {
+    const todoDetails = document.createElement("div");
+    todoDetails.classList.add("todo_details_container");
+    todoDetails.setAttribute("data-id", todo.id);
+    newSection.appendChild(todoDetails);
+
+     // Status:
+     const statusLabel = document.createElement("p");
+     statusLabel.textContent = "Status:"
+     const todoStatusBtn = document.createElement("button");
+     todoStatusBtn.type = 'button'
+     todoStatusBtn.classList.add("status_btn");
+ 
+     if (todo.status.toLowerCase() === "to do") {
+         todoStatusBtn.classList.add("status_todo");
+     }
+     else if (todo.status.toLowerCase() === "in progress") {
+         todoStatusBtn.classList.add("status_progress");
+     }
+     else if (todo.status.toLowerCase() === "done") {
+         todoStatusBtn.classList.add("status_done");
+     }
+     todoStatusBtn.textContent = todo.status;
+ 
+     // Priority: 
+ 
+     const priorityLabel = document.createElement("p");
+     priorityLabel.textContent = "Priority:"
+     const todoPriorityBtn = document.createElement("button");
+     todoPriorityBtn.type = 'button'
+     todoPriorityBtn.classList.add("priority_btn");
+ 
+     if (todo.priority.toLowerCase() === "low") {
+         todoPriorityBtn.classList.add("priority_low")
+     }
+     else if (todo.priority.toLowerCase() === "medium") {
+         todoPriorityBtn.classList.add("priority_medium");
+     }
+     else if (todo.priority.toLowerCase() === "high") {
+         todoPriorityBtn.classList.add("priority_high");
+     }
+     todoPriorityBtn.textContent = todo.priority;
+ 
+ 
+     // Due date: 
+ 
+     const dueDateLabel = document.createElement("p");
+     dueDateLabel.textContent = "Due:"
+     const todoDueDate = document.createElement("p");
+     todoDueDate.textContent = todo.dueDate;
+
+     const todoDueDateInput = document.createElement("input");
+     todoDueDateInput.classList.add("priority_input");
+     todoDueDateInput.type = "date"
+     todoDueDateInput.value = todoDueDate.textContent;
+ 
+     // Description:
+ 
+     const descriptionLabel = document.createElement("p");
+     descriptionLabel.textContent = "Description:"
+     const todoDescription = document.createElement("p");
+     todoDescription.textContent = todo.description;
+     todoDescription.classList.add("description_text");   
+
+    todoDetails.appendChild(statusLabel);
+    todoDetails.appendChild(todoStatusBtn);
+    todoDetails.appendChild(priorityLabel);
+    todoDetails.appendChild(todoPriorityBtn);
+    todoDetails.appendChild(dueDateLabel);
+    todoDetails.appendChild(todoDueDate);
+    todoDetails.appendChild(descriptionLabel);
+    todoDetails.appendChild(todoDescription);
+
+    todoDescription.addEventListener("click", () => {
+        replaceTodoElementWithInput(todoDescription, todoDetails, activeProject, todo);
+    });
+
+    todoDueDate.addEventListener("click", () => {
+        todoDetails.replaceChild(todoDueDateInput, todoDueDate);
+    });
+
+    todoDueDateInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            updateTodoDueDate(activeProject, todo, todoDueDateInput.value);
+            todoDueDate.textContent = todoDueDateInput.value;
+            todoDetails.replaceChild(todoDueDate, todoDueDateInput);
+        }
+    });
+
+    todoStatusBtn.addEventListener("click", () => {
+        updateTodoStatus(todoStatusBtn, activeProject, todo);
+    });
+
+    todoPriorityBtn.addEventListener("click", () => {
+        updateTodoPriority(todoPriorityBtn, activeProject, todo);
+    });
+ 
 };
 
 const updateTodoStatus = function(statusBtn, activeProject, todo) {
