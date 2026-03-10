@@ -16,6 +16,7 @@ const renderProjects = function(projectManager, today) {
 
     headerTitle.textContent = "Projects";
     addProjectBtn.textContent = " + New Project"
+    addProjectBtn.classList.add("add_project_btn");
 
     mainContainer.innerHTML = '';
     mainContainer.appendChild(newSection);
@@ -56,13 +57,12 @@ const renderProjects = function(projectManager, today) {
         })
 
         deleteProjectBtn.addEventListener("click", () => {
-            projectManager.removeProject(projectCard.getAttribute("data-id"));
-            projectsGrid.removeChild(projectCard);
+            renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
         })
     }
 
     addProjectBtn.addEventListener("click", () => {
-        renderOverlay(projectManager, today);
+        renderOverlay(projectManager, today, addProjectBtn);
     })
 
  
@@ -101,8 +101,7 @@ const renderProjectCard = function(projectsGrid, projectManager, today) {
         renderProject(projectManager, projectCard.getAttribute("data-id"), today);
     })
     deleteProjectBtn.addEventListener("click", () => {
-        projectManager.removeProject(projectCard.getAttribute("data-id"));
-        projectsGrid.removeChild(projectCard);
+        renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
     })
 }
 
@@ -186,14 +185,71 @@ const renderNewProjectForm = function(formOverlay, projectManager, today) {
     document.addEventListener("keydown", handleEscape);
 }
 
+const renderDeleteCard = function(formOverlay, projectManager, projectCard, projectTitle) {
+    const body = document.querySelector("body");
+    const projectsGrid = document.querySelector("#projects_section_grid");
 
-const renderOverlay = function(projectManager, today) {
+    const deleteProjectForm = document.createElement("form");
+    deleteProjectForm.id = "delete_project_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = "Delete Project?"
+    const formDescription = document.createElement("p");
+    formDescription.innerHTML = `This will delete the project: <strong>${projectTitle.textContent}</strong>`
+    const submitDeleteFormBtn = document.createElement("button");
+    submitDeleteFormBtn.classList.add("submit_delete_form_btn");
+    submitDeleteFormBtn.innerHTML = `<strong>Delete Project</strong>`;
+    submitDeleteFormBtn.type = "submit";
+    const cancelDeleteFormBtn = document.createElement("button");
+    cancelDeleteFormBtn.classList.add("cancel_delete_form_btn");
+    cancelDeleteFormBtn.innerHTML = `<strong>Cancel</strong>`;
+    cancelDeleteFormBtn.type = "button"
+
+    formOverlay.appendChild(deleteProjectForm);
+    deleteProjectForm.appendChild(formHeader);
+    deleteProjectForm.appendChild(formDescription);
+    deleteProjectForm.appendChild(cancelDeleteFormBtn);
+    deleteProjectForm.appendChild(submitDeleteFormBtn);
+
+    function closeForm() {
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+    
+    deleteProjectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        projectManager.removeProject(projectCard.getAttribute("data-id"));
+        projectsGrid.removeChild(projectCard);
+        body.removeChild(formOverlay); 
+    })
+
+    cancelDeleteFormBtn.addEventListener("click", () => {
+        closeForm();
+    })
+
+    document.addEventListener("keydown", handleEscape);
+}
+
+const renderOverlay = function(projectManager, today, btn, projectCard, projectTitle) {
     const formOverlay = document.createElement("dialog");
     const body = document.querySelector("body");
     formOverlay.id = "form_overlay";
     body.appendChild(formOverlay);
 
-    renderNewProjectForm(formOverlay, projectManager, today);
+
+    if (btn.classList.contains("add_project_btn")) {
+        renderNewProjectForm(formOverlay, projectManager, today);
+    }
+    else if (btn.classList.contains("delete_project")) {
+        renderDeleteCard(formOverlay, projectManager, projectCard, projectTitle);
+    }
 
     formOverlay.addEventListener("click", (e) => {
         if (e.target === formOverlay) {
