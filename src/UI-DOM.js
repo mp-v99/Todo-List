@@ -29,6 +29,7 @@ const renderProjects = function(projectManager, today) {
         const projectTitle = document.createElement("h3");
         const projectDescription = document.createElement("p");
      
+        const deleteProjectBtn = document.createElement("button");
         const openProjectBtn = document.createElement("button");
 
         projectTitle.textContent = project.title;
@@ -37,18 +38,26 @@ const renderProjects = function(projectManager, today) {
      
 
         projectDescription.classList.add("project_description");
+        deleteProjectBtn.textContent = "X"
         openProjectBtn.textContent = "Open";
+        deleteProjectBtn.classList.add("delete_project");
         openProjectBtn.classList.add("open_project");
 
         projectsGrid.appendChild(projectCard);
         projectCard.appendChild(projectTitle);
         projectCard.appendChild(projectDescription);
+        projectCard.appendChild(deleteProjectBtn);
         projectCard.appendChild(openProjectBtn);
 
         
 
         openProjectBtn.addEventListener("click", () => {
             renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+        })
+
+        deleteProjectBtn.addEventListener("click", () => {
+            projectManager.removeProject(projectCard.getAttribute("data-id"));
+            projectsGrid.removeChild(projectCard);
         })
     }
 
@@ -66,6 +75,7 @@ const renderProjectCard = function(projectsGrid, projectManager, today) {
     const arrayLength = projectManager.projects.length;
     const project = projectManager.projects[arrayLength -1];
  
+    const deleteProjectBtn = document.createElement("button");
     const openProjectBtn = document.createElement("button");
 
     projectTitle.textContent = project.title;
@@ -74,18 +84,25 @@ const renderProjectCard = function(projectsGrid, projectManager, today) {
  
 
     projectDescription.classList.add("project_description");
+    deleteProjectBtn.textContent = "X"
     openProjectBtn.textContent = "Open";
+    deleteProjectBtn.classList.add("delete_project");
     openProjectBtn.classList.add("open_project");
 
     projectsGrid.appendChild(projectCard);
     projectCard.appendChild(projectTitle);
     projectCard.appendChild(projectDescription);
+    projectCard.appendChild(deleteProjectBtn);
     projectCard.appendChild(openProjectBtn);
 
     
 
     openProjectBtn.addEventListener("click", () => {
         renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+    })
+    deleteProjectBtn.addEventListener("click", () => {
+        projectManager.removeProject(projectCard.getAttribute("data-id"));
+        projectsGrid.removeChild(projectCard);
     })
 }
 
@@ -162,7 +179,6 @@ const renderNewProjectForm = function(formOverlay, projectManager, today) {
     projectForm.addEventListener("submit", (e) => {
         e.preventDefault();
         projectManager.addProject(titleInput.value, descriptionInput.value, today)
-        console.log(projectManager.projects[projectManager.projects.length - 1].createdAt)
         renderProjectCard(projectsGrid, projectManager, today);   
         body.removeChild(formOverlay); 
     })

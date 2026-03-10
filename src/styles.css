@@ -294,7 +294,7 @@ html body::-webkit-scrollbar {
     padding-right: 0.2rem;
 }
     
-#projects_section_grid>article>button {
+#projects_section_grid>article>.open_project {
     grid-column: 4 / 5;
     grid-row: 4 / 5;
 
@@ -313,6 +313,38 @@ html body::-webkit-scrollbar {
     border: 1px solid var(--theme-color);
 }
 
+#projects_section_grid>article>.delete_project {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+
+    align-self: self-start;
+    justify-self: end;
+
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    /* border: 1px solid red; */
+
+    /* padding: 0.1rem 0.3rem; */
+    height: fit-content;
+    width: fit-content;
+
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+#projects_section_grid>article:hover>.delete_project {
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
+
+    pointer-events: auto;
+}
+ 
 #form_overlay {
     position: fixed;
     top: 0;
@@ -930,7 +962,7 @@ html body::-webkit-scrollbar {
 
 #todo_form {
     min-width: 250px;
-    height: fit-content;
+    height: 80vh;
     width: 70vw;
 
     display: grid;
@@ -940,13 +972,13 @@ html body::-webkit-scrollbar {
     padding: 2rem;
 
     background-color: var(--dominant-light-color);
-    /* background-color: red; */
     color: var(--dark-text-color);
     z-index: 1;
 
     border-radius: 0.5rem;
 
     gap: 1rem;
+    overflow: auto;
 }
 
 #todo_form h2 {
