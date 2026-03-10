@@ -58,8 +58,6 @@ body {
     background-color: var(--dominant-secondary-color);
 
     padding-top: 93px;
-
-    overflow: hidden;
 }
 /* improve media defaults */
 img, picture, video, canvas, svg {
@@ -196,18 +194,18 @@ html body::-webkit-scrollbar {
 
     gap: 1.5rem;
 
-    /* padding: 1rem; */
+    padding: 1rem;
 }
 
 #projects_section_header {
     grid-row: 1 / 2;
 
-    border-bottom: solid 0.2rem var(--soft-gray);
+    /* border-bottom: solid 0.2rem var(--soft-gray); */
 
     display: grid;
     grid-template-columns: 20fr 60fr 20fr;
 
-    padding: 1rem 0.3rem;    
+    padding: 0rem 0.3rem;    
 
     /* background-color: var(--soft-gray); */
 }
@@ -229,7 +227,7 @@ html body::-webkit-scrollbar {
     align-self: center;
     justify-self: center;
 
-    padding: 0.1rem 0.2rem;
+    padding: 0.3rem 0.5rem;
 
     border-radius: 5px;
 
@@ -330,6 +328,10 @@ html body::-webkit-scrollbar {
     background-color: var(--overlay-color);
 
     border: none;
+
+    overflow-y: auto;
+
+    padding-top: 1rem;
 }
 
 #project_form {
@@ -733,7 +735,7 @@ html body::-webkit-scrollbar {
 
 .todos_list #todos_header {
     grid-row: 1 / 2;
-    height: 30px;
+    height: 40px;
     padding-bottom: 0.5rem;
     border-bottom: solid 0.2rem var(--soft-gray);
 
@@ -761,6 +763,25 @@ html body::-webkit-scrollbar {
 #todos_header .priority_header {
     grid-column: 3 / 4;
     
+}
+
+#todos_header .add_todo_btn {
+    grid-column: 4 / 5;
+
+    color: var(--dark-gray);
+    font-size: 23px;
+    background-color: var(--soft-gray);
+    border-radius: 0.5rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+
+    justify-self: center; 
 }
 
 .todos_list>ul {
@@ -905,6 +926,185 @@ html body::-webkit-scrollbar {
 }
 
 
+/* Add todo form  */
+
+#todo_form {
+    min-width: 250px;
+    height: fit-content;
+    width: 70vw;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 48px 20px 30px 20px 30px 20px 30px 20px 300px 100px;
+
+    padding: 2rem;
+
+    background-color: var(--dominant-light-color);
+    /* background-color: red; */
+    color: var(--dark-text-color);
+    z-index: 1;
+
+    border-radius: 0.5rem;
+
+    gap: 1rem;
+}
+
+#todo_form h2 {
+    grid-row: 1 / 2;
+
+    color: var(--theme-color);
+
+    align-self: center;
+    justify-self: center;
+}
+
+#todo_form .todo_title_label {
+    grid-row: 2 / 3;
+
+    align-self: center;
+    justify-self: start;
+
+    cursor: pointer;
+}
+
+#todo_form #todo_title_input {
+    grid-row: 3 / 4;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    max-height: 50px;
+    width: 100%;
+
+    border: 1px solid var(--soft-gray);
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+
+    color: var(--dark-gray);
+    background-color: var(--dominant-light-color);
+}
+
+#todo_form .todo_description_label {
+    grid-row: 8 / 9;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    cursor: pointer;
+}
+
+#todo_form #todo_description_input {
+    grid-row: 9 / 10;
+    
+    align-self: flex-start;
+    justify-self: start;
+
+    height: 90%;
+    width: 100%;
+
+    resize: none;
+    border: 1px solid var(--soft-gray);
+    border-radius: 0.2rem;
+    background-color: var(--dominant-light-color);
+
+    padding: 0.4rem;
+
+    color: var(--dark-gray);
+}
+
+#todo_form .todo_due_date_label {
+    grid-row: 4 / 5;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    cursor: pointer;
+}
+
+#todo_form #todo_due_date_input {
+    grid-row: 5 / 6;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    max-height: 50px;
+    width: 100%;
+
+    border: 1px solid var(--soft-gray);
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+
+    color: var(--dark-gray);
+    background-color: var(--dominant-light-color);
+}
+
+#todo_form .todo_priority_label {
+    grid-row: 6 / 7;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    cursor: pointer;
+}
+
+#todo_form #todo_priority_input {
+    grid-row: 7 / 8;
+
+    align-self: flex-start;
+    justify-self: start;
+
+    width: fit-content;
+    
+    padding: 0.1rem 1rem;
+    
+    border-radius: 0.4rem;
+
+    outline: 0;
+
+    cursor: pointer;
+
+    border: 0;
+    color: var(--dominant-light-color);
+    font-weight: bold;
+}
+
+#todo_form #todo_title_input:hover,
+#todo_form #todo_description_input:hover,
+#todo_form #todo_due_date_input:hover {
+    background-color: var(--soft-gray);
+}
+
+
+#todo_form #todo_title_input:focus,
+#todo_form #todo_description_input:focus,
+#todo_form #todo_due_date_input:focus {
+    outline: 0;
+    border: 1px solid var(--theme-color);
+    color: var(--dark-gray);
+    background-color: var(--dominant-light-color);
+
+}
+
+#todo_form>button {
+    grid-row: 10 / 11;
+
+    align-self: center;
+    justify-self: center;
+
+    
+    padding: 0.1rem 0.8rem;
+    
+
+    background-color: var(--dominant-light-color);
+    border: 1px solid var(--theme-color);
+    color: var(--theme-color);
+    border-radius: 0.4rem;
+
+    outline: 0;
+}
+
+
+
 /* Active Todo Styling: */
 
 #active_todo_section {
@@ -965,7 +1165,7 @@ html body::-webkit-scrollbar {
     border-radius: 100% 0px 0px 100%;
 }
 
-.todo_container {
+.todo_details_container {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
     display: grid;
@@ -988,7 +1188,7 @@ html body::-webkit-scrollbar {
 
 /* active todo: status style */
 
-.todo_container>.status_btn {
+.todo_details_container>.status_btn {
     background-color: var(--dominant-light-color);
 
     width: fit-content;
@@ -1003,18 +1203,18 @@ html body::-webkit-scrollbar {
 
 }
 
-.todo_container>.status_todo {
+.todo_details_container>.status_todo {
     color: var(--dark-gray);
     border: 1px solid var(--dark-gray);
 }
 
-.todo_container>.status_progress {
+.todo_details_container>.status_progress {
     color: var(--theme-color);
     border: 1px solid var(--theme-color);
 }
 
 
-.todo_container>.status_done {
+.todo_details_container>.status_done {
     color: var(--dark-text-color);
     background-color: var(--task-success);
     border: 1px solid var(--task-success);
@@ -1023,7 +1223,7 @@ html body::-webkit-scrollbar {
 
 /* active todo: priority style */
 
-.todo_container>.priority_btn {
+.todo_details_container>.priority_btn {
     color: var(--dominant-light-color);
     font-weight: bold;
 
@@ -1039,23 +1239,26 @@ html body::-webkit-scrollbar {
 
 }
 
-.todo_container>.priority_low,
-#active_project_section .priority_low {
+.todo_details_container>.priority_low,
+#active_project_section .priority_low,
+#todo_form .priority_low {
     background-color: var(--soft-theme-color);
 }
 
-.todo_container>.priority_medium,
- #active_project_section .priority_medium {
+.todo_details_container>.priority_medium,
+ #active_project_section .priority_medium,
+ #todo_form .priority_medium {
     background-color: var(--dark-theme-color);
 }
 
 
-.todo_container>.priority_high,
-#active_project_section .priority_high {
+.todo_details_container>.priority_high,
+#active_project_section .priority_high,
+#todo_form .priority_high {
     background-color: red;
 }
 
-.todo_container .description_text {
+.todo_details_container .description_text {
     grid-column: 1 / 3;
     grid-row: 5 / 6;
     width: 100%;
@@ -1070,7 +1273,7 @@ html body::-webkit-scrollbar {
     border-radius: 0.5rem;
 }
 
-.todo_container .description_text:hover {
+.todo_details_container .description_text:hover {
     background-color: var(--soft-gray);
 }
 
@@ -1100,7 +1303,7 @@ html body::-webkit-scrollbar {
     outline: none;
 }
 
-.todo_container .description_text_input {
+.todo_details_container .description_text_input {
     width: 100%;
     min-height: 336px;
     height: 336px;
@@ -1164,12 +1367,14 @@ html body::-webkit-scrollbar {
 }
 
 .check_list_container>.add_subtask_btn:hover,
-#active_project_section>.add_note_btn:hover {
+#active_project_section>.add_note_btn:hover,
+#todos_header>.add_todo_btn:hover {
     background-color: rgba(190, 190, 190, 0.432);
 }
 
 .check_list_container>.add_subtask_btn:active,
-#active_project_section>.add_note_btn:active {
+#active_project_section>.add_note_btn:active,
+#todos_header>.add_todo_btn:active {
     background-color: rgb(190, 190, 190);
 }
 

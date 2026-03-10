@@ -32,8 +32,8 @@ const renderProject = function(projectManager, projectID, today) {
     projectCreatedAt.classList.add("project_created_at");
     
     projectTitle.textContent = `${activeProject.title}`;
-    projectsBackBtn.textContent = "Back"
-    notesHeader.textContent = "Notes:"
+    projectsBackBtn.textContent = "Back";
+    notesHeader.textContent = "Notes:";
     addNoteBtn.textContent = "+";
     descriptionHeader.textContent = "Description"
     projectDescription.textContent = activeProject.description;
@@ -70,8 +70,188 @@ const renderProject = function(projectManager, projectID, today) {
     })
 };
 
+const renderTodoItem = function(listOfTodos, activeProject, todo, projectManager) {
+    const newTodo = document.createElement("li");
+    const subjectContainer = document.createElement("div");
+    const todoSubject = document.createElement("button");
+    const statusContainer = document.createElement("div");
+    const todoStatus = document.createElement("button");
+    const priorityContainer = document.createElement("div");
+    const todoPriority = document.createElement("button");
+
+
+    subjectContainer.classList.add("todo_subject");
+    statusContainer.classList.add("todo_status");
+    priorityContainer.classList.add("todo_priority");
+    todoSubject.textContent = todo.title;
+    todoSubject.classList.add("todo_subject_btn");
+    todoStatus.textContent = todo.status;
+
+    if (todo.status.toLowerCase() === "to do") {
+        todoStatus.classList.add("status_todo");
+    }
+    else if (todo.status.toLowerCase() === "in progress") {
+        todoStatus.classList.add("status_progress");
+    }
+    else if (todo.status.toLowerCase() === "done") {
+        todoStatus.classList.add("status_done");
+    }
+
+    todoPriority.textContent = `${todo.priority}`;
+    todoPriority.classList.add('priority_btn')
+
+    if (todo.priority.toLowerCase() === "low") {
+        todoPriority.classList.add("priority_low")
+    }
+    else if (todo.priority.toLowerCase() === "medium") {
+        todoPriority.classList.add("priority_medium");
+    }
+    else if (todo.priority.toLowerCase() === "high") {
+        todoPriority.classList.add("priority_high");
+    }
+
+    listOfTodos.appendChild(newTodo);
+    todoSubject.setAttribute("data-id", todo.id);
+
+    newTodo.appendChild(subjectContainer);
+    subjectContainer.appendChild(todoSubject);
+    newTodo.appendChild(statusContainer);
+    statusContainer.appendChild(todoStatus);
+    newTodo.appendChild(priorityContainer);
+    priorityContainer.appendChild(todoPriority);
+
+    todoSubject.addEventListener("click", () => {
+        renderTodo(activeProject, todo, projectManager);
+    }) 
+    todoStatus.addEventListener("click", () => {
+        updateTodoStatus(todoStatus, activeProject, todo);
+    });
+
+    todoPriority.addEventListener("click", () => {
+        updateTodoPriority(todoPriority, activeProject, todo)
+    })
+
+}
+
+const renderNewTodoForm = function(formOverlay, activeProject, projectManager) {
+    const body = document.querySelector("body");
+    const todosList = document.querySelector(".list_of_todos");
+  
+    const todoForm = document.createElement("form");
+    todoForm.id = "todo_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = " + New Todo"
+    const titleLabel = document.createElement("label");
+    const titleInput = document.createElement("input");
+    titleLabel.textContent = "Title:";
+    titleLabel.classList.add("todo_title_label");
+    titleLabel.htmlFor = "todo_title_input"
+    titleInput.id = "todo_title_input";
+    titleInput.type = "text";
+    titleInput.placeholder = "Implement localStorage persistence";
+    titleInput.required = true;
+    const descriptionLabel = document.createElement("label");
+    const descriptionInput = document.createElement("textarea");
+    descriptionLabel.textContent = "Description:"
+    descriptionLabel.classList.add("todo_description_label");
+    descriptionLabel.htmlFor = "todo_description_input";
+    descriptionInput.id = "todo_description_input";
+    descriptionInput.placeholder = "Save projects and todos to localStorage so the app persists after refresh."
+    descriptionInput.required = true;
+    const dueDateLabel = document.createElement("label");
+    const dueDateInput = document.createElement("input");
+    dueDateLabel.textContent = "Due:";
+    dueDateLabel.classList.add("todo_due_date_label");
+    dueDateLabel.htmlFor = "todo_due_date_input"
+    dueDateInput.id = "todo_due_date_input";
+    dueDateInput.type = "date";
+    dueDateInput.required = true;
+    const priorityLabel = document.createElement("label");
+    const priorityInput = document.createElement("input");
+    priorityLabel.textContent = "Priority:";
+    priorityLabel.classList.add("todo_priority_label");
+    priorityLabel.htmlFor = "todo_priority_input";
+    priorityInput.id = "todo_priority_input";
+    priorityInput.type = "button";
+    priorityInput.value = "Low";
+    priorityInput.classList = "priority_low";
+    
+    const submitProjectBtn = document.createElement("button");
+    submitProjectBtn.textContent = "Submit"
+    submitProjectBtn.type = "submit"
+
+    formOverlay.appendChild(todoForm);
+    todoForm.appendChild(formHeader);
+    todoForm.appendChild(titleLabel);
+    todoForm.appendChild(titleInput);
+    todoForm.appendChild(dueDateLabel);
+    todoForm.appendChild(dueDateInput);
+    todoForm.appendChild(priorityLabel);
+    todoForm.appendChild(priorityInput);
+    todoForm.appendChild(descriptionLabel);
+    todoForm.appendChild(descriptionInput);
+    todoForm.appendChild(submitProjectBtn);
+
+    function closeForm() {formOverlay
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+
+    priorityInput.addEventListener("click", () => {
+        // alert(priorityInput.value);
+        if (priorityInput.value.toLowerCase() === "low") {
+            priorityInput.value = "Medium";
+            priorityInput.classList = "priority_medium";
+        }
+        else if (priorityInput.value.toLowerCase() === "medium") {
+            priorityInput.value = "High";
+            priorityInput.classList = "priority_high";
+        }
+        else if (priorityInput.value.toLowerCase() === "high") {
+            priorityInput.value = "Low";
+            priorityInput.classList = "priority_low";
+        }    
+    })
+
+
+
+    todoForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        activeProject.addTodo(titleInput.value, descriptionInput.value, dueDateInput.value, "To do", priorityInput.value);
+        const todo = activeProject.todos[activeProject.todos.length - 1];
+        renderTodoItem(todosList, activeProject, todo, projectManager);   
+        body.removeChild(formOverlay); 
+    })
+
+    document.addEventListener("keydown", handleEscape);
+};
+
+const renderOverlay = function(activeProject, projectManager) {
+    const formOverlay = document.createElement("dialog");
+    const body = document.querySelector("body");
+    formOverlay.id = "form_overlay";
+    body.appendChild(formOverlay);
+
+    renderNewTodoForm(formOverlay, activeProject, projectManager);
+
+    formOverlay.addEventListener("click", (e) => {
+        if (e.target === formOverlay) {
+            body.removeChild(formOverlay);
+        }
+    })
+}
+
 const renderTodos = function(projectManager, todosArray, todosContainer) {
     const listOfTodos = document.createElement('ul');
+    listOfTodos.classList.add("list_of_todos")
     const activeProject = projectManager.getActiveProject();
     const listHeader = document.createElement("header");
 
@@ -80,6 +260,8 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
     const subjectHeader = document.createElement("span");
     const statusHeader = document.createElement("span");
     const priorityHeader = document.createElement("span");
+    const addTodoBtn = document.createElement("button");
+
 
 
     subjectHeader.classList.add("subject_header");
@@ -88,12 +270,15 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
     statusHeader.textContent = "Status:"
     priorityHeader.classList.add("priority_header");
     priorityHeader.textContent = "Priority:";
+    addTodoBtn.classList.add("add_todo_btn");
+    addTodoBtn.textContent = "+";
 
     todosContainer.appendChild(listHeader);
 
     listHeader.appendChild(subjectHeader);
     listHeader.appendChild(statusHeader);
     listHeader.appendChild(priorityHeader);
+    listHeader.appendChild(addTodoBtn);
 
 
     for (const todo of todosArray) {
@@ -148,7 +333,7 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         priorityContainer.appendChild(todoPriority);
 
         todoSubject.addEventListener("click", () => {
-            renderTodo(projectManager, todo);
+            renderTodo(activeProject, todo, projectManager);
         }) 
         todoStatus.addEventListener("click", () => {
             updateTodoStatus(todoStatus, activeProject, todo);
@@ -159,6 +344,10 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         })
     
     }
+
+    addTodoBtn.addEventListener("click", () => {
+        renderOverlay(activeProject, projectManager)
+    })
 
     return listOfTodos;
 
@@ -220,9 +409,8 @@ const renderNewNote = function(activeProject) {
 
 }
 
-const renderTodo = function(projectManager, todo) {
+const renderTodo = function(activeProject, todo, projectManager) {
 
-    const activeProject = projectManager.getActiveProject();
     const mainContainer = document.querySelector("#main_content");
     const newSection = document.createElement("section");
     const todoHeader = document.createElement('h1');
