@@ -46,7 +46,7 @@ const renderProject = function(projectManager, projectID, today) {
     newSection.appendChild(notesHeader);
     newSection.appendChild(addNoteBtn);
     todosContainer.appendChild(renderTodos(projectManager, activeProject.todos, todosContainer));
-    newSection.appendChild(renderNotes(activeProject));
+    newSection.appendChild(renderNotes(activeProject, projectManager));
 
     projectDetails.appendChild(descriptionHeader);
     projectDetails.appendChild(projectDescription);
@@ -353,24 +353,48 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
 
 }
 
-const renderNotes = function(activeProject) {
+const renderNotes = function(activeProject, projectManager) {
     const notesContainer = document.createElement("div");
     notesContainer.classList.add("notes_grid");
 
-    for (const note of activeProject.notes) {
-        const newNote = document.createElement("article");
-        newNote.classList.add("note_article");
-        newNote.id = note.id;
-
-       
-        newNote.textContent = note.textBody;
+    if (!activeProject) {
+        for (const project of projectManager.projects) {
+            for (const note of project.notes) {
+                const newNote = document.createElement("article");
+                newNote.classList.add("note_article");
+                newNote.id = note.id;
         
-        notesContainer.appendChild(newNote);
-
-        newNote.addEventListener("click", () => {
-            replaceProjectElementWithInput(newNote, notesContainer, activeProject);
-        })
+               
+                newNote.textContent = note.textBody;
+                
+                notesContainer.appendChild(newNote);
+        
+                newNote.addEventListener("click", () => {
+                    replaceProjectElementWithInput(newNote, notesContainer, activeProject);
+                })
+            }
+        }
     }
+
+    else if (activeProject) {
+        for (const note of activeProject.notes) {
+            const newNote = document.createElement("article");
+            newNote.classList.add("note_article");
+            newNote.id = note.id;
+    
+           
+            newNote.textContent = note.textBody;
+            
+            notesContainer.appendChild(newNote);
+    
+            newNote.addEventListener("click", () => {
+                replaceProjectElementWithInput(newNote, notesContainer, activeProject);
+            })
+        }
+    }
+    
+
+   
 
     return notesContainer;
 }
@@ -581,30 +605,49 @@ const replaceProjectElementWithInput = function(element, section, activeProject)
         input = document.createElement("textarea");
     }
 
+    const inputContainer = document.createElement("form");
+    inputContainer.classList = "inline_edit_form";
     input.classList.add(`${element.classList}_input`)
+    input.id = `${element.classList}_input`
     input.value = element.textContent;
-    section.replaceChild(input, element);
+    const submitBtn = document.createElement("button");
+    submitBtn.classList.add("submit_input_btn");
+    submitBtn.htmlFor = `${element.classList}_input`;
+    submitBtn.textContent = "Ready";
+    inputContainer.appendChild(input);
+    inputContainer.appendChild(submitBtn);
+    section.replaceChild(inputContainer, element);
     input.focus();
 
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && input.value.length > 0) {
-            if(element.classList.contains("active_project_title")) {
-                activeProject.updateTitle(input.value);
-            }
-            else if (element.classList.contains("project_description")) {
+    inputContainer.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if(element.classList.contains("active_project_title")) {
+            activeProject.updateTitle(input.value);
+        }
+        else if (element.classList.contains("project_description")) {
+            activeProject.updateDescription(input.value)
+        }
+        else if (element.classList.contains("note_article")) {
+            activeProject.updateNote(element.id, input.value)
+        }
+        element.textContent = input.value;
+        section.replaceChild(element, inputContainer);
+        
+    });
+
+    inputContainer.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && e.ctrlKey) {
+            if (element.classList.contains("project_description")) {
                 activeProject.updateDescription(input.value)
             }
             else if (element.classList.contains("note_article")) {
                 activeProject.updateNote(element.id, input.value)
             }
             element.textContent = input.value;
-            section.replaceChild(element, input);
+            section.replaceChild(element, inputContainer);
         }
-        else if (e.key === "Enter" && input.value.length === 0) {
-            alert("This field can't be empty");
-        }
-  
-    });
+    })
 
 };
 
