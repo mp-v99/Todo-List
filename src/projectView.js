@@ -65,8 +65,7 @@ const renderProject = function(projectManager, projectID, today) {
     })
 
     addNoteBtn.addEventListener("click", () => {
-        // activeProject.addNote("New note");
-        renderNewNote(activeProject);
+        renderNoteModal(activeProject)
     })
 };
 
@@ -234,6 +233,62 @@ const renderNewTodoForm = function(formOverlay, activeProject, projectManager) {
     document.addEventListener("keydown", handleEscape);
 };
 
+
+const renderNoteModal = function(activeProject, note) {
+    const body = document.querySelector("body");
+    const formOverlay = document.createElement("dialog");
+    formOverlay.id = "form_note_overlay";
+    body.appendChild(formOverlay);
+  
+    const noteForm = document.createElement("form");
+    noteForm.id = "note_form";
+    const noteInput = document.createElement("textarea");
+    noteInput.classList.add("note_article_input");
+    if (note) {
+        noteInput.value = note.textContent;
+    }
+    
+    const submitProjectBtn = document.createElement("button");
+    submitProjectBtn.textContent = "Ready"
+    submitProjectBtn.type = "submit"
+
+    formOverlay.appendChild(noteForm);
+    noteForm.appendChild(noteInput);
+    noteForm.appendChild(submitProjectBtn);
+
+    function closeForm() {formOverlay
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+
+    noteForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (note) {
+            activeProject.updateNote(note.id, noteInput.value);
+            note.textContent = noteInput.value;
+            body.removeChild(formOverlay);
+        }
+
+        else if (!note) {
+            activeProject.addNote(noteInput.value);
+            const newNoteID = activeProject.notes[0].id;
+            renderNewNote(noteInput.value, newNoteID, activeProject)
+            body.removeChild(formOverlay); 
+        }
+    })
+
+    document.addEventListener("keydown", handleEscape);
+};
+
 const renderOverlay = function(activeProject, projectManager) {
     const formOverlay = document.createElement("dialog");
     const body = document.querySelector("body");
@@ -370,7 +425,7 @@ const renderNotes = function(activeProject, projectManager) {
                 notesContainer.appendChild(newNote);
         
                 newNote.addEventListener("click", () => {
-                    replaceProjectElementWithInput(newNote, notesContainer, activeProject);
+                    renderNoteModal(project, newNote);
                 })
             }
         }
@@ -388,7 +443,7 @@ const renderNotes = function(activeProject, projectManager) {
             notesContainer.appendChild(newNote);
     
             newNote.addEventListener("click", () => {
-                replaceProjectElementWithInput(newNote, notesContainer, activeProject);
+                renderNoteModal(activeProject, newNote);
             })
         }
     }
@@ -399,38 +454,18 @@ const renderNotes = function(activeProject, projectManager) {
     return notesContainer;
 }
 
-const renderNewNote = function(activeProject) {
+const renderNewNote = function(textValue, noteID, activeProject) {
     const notesContainer = document.querySelector(".notes_grid");
-    const noteInput = document.createElement("textarea");
-    noteInput.classList.add("note_article_input")
+    const noteElement = document.createElement("article");
+    noteElement.id = noteID;
+    noteElement.classList.add("note_article");
+    noteElement.textContent = textValue;
 
-    notesContainer.prepend(noteInput);
-    noteInput.focus();
+    notesContainer.prepend(noteElement);
 
-    noteInput.addEventListener("keydown", (e) => {
-        const noteArticle = document.createElement("article");
-        noteArticle.classList.add('note_article');
-      
-        if (e.key === "Enter" && noteInput.value.length > 0) {
-           
-            activeProject.addNote(noteInput.value);         
-            noteArticle.textContent = noteInput.value;
-            noteArticle.id = activeProject.notes[0].id;
-            
-            notesContainer.replaceChild(noteArticle, noteInput);
-           
-            noteArticle.addEventListener("click", () => {
-                replaceProjectElementWithInput(noteArticle, notesContainer, activeProject);
-            });
-
-        }
-        else if (e.key === "Enter" && noteInput.value.length === 0) {
-            alert("This field can't be empty");
-        }
-    });
-
-
-
+    noteElement.addEventListener("click", () => {
+        renderNoteModal(activeProject, noteElement)
+    })
 }
 
 const renderTodo = function(activeProject, todo, projectManager) {
