@@ -14,8 +14,8 @@ const today = new Date().toLocaleDateString("en-US")
 const appProjectManager = new ProjectManager();
 
 appProjectManager.addProject("Saving Middle Earth", "This project is about carrying a burden that was never meant for one person alone. The road ahead is uncertain, and every step brings new dangers, doubts, and hard choices. I will rely on the Fellowship not only for protection, but for strength when my own courage falters. If we stay together, look after one another, and keep moving forward even when the path grows dark, then perhaps Middle-earth can be spared from what threatens it.", today);
-appProjectManager.addProject("Work", "Don't know where to start? Start by writing a todo!!", today);
-appProjectManager.addProject("Life", "Don't know where to start? Start by writing a todo!!", today);
+appProjectManager.addProject("Work", "Track tasks, deadlines, meetings, and notes related to work responsibilities.", today);
+appProjectManager.addProject("Life", "Track personal tasks, errands, and everyday goals.", today);
 
 
 
