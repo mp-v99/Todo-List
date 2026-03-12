@@ -281,10 +281,10 @@ const initUI = function(projectManager, today) {
         mainContainer.innerHTML = "";
         mainContainer.appendChild(newSection);
 
-        notesHeader.textContent = `(${activeProject.title}) Notes:`
+        notesHeader.textContent = `All Notes:`
 
         newSection.appendChild(notesHeader);
-        newSection.appendChild(renderNotes(activeProject));
+        newSection.appendChild(renderNotes(null, projectManager));
         
     }) 
 };
