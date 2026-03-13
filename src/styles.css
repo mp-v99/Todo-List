@@ -337,9 +337,10 @@ html body::-webkit-scrollbar {
     pointer-events: none;
 }
 
-#projects_section_grid>article:hover>.delete_project {
+#projects_section_grid>article:hover>.delete_project,
+.todos_list>.list_of_todos>li:hover .delete_todo {
     opacity: 1;
-    transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 
     pointer-events: auto;
 }
@@ -1047,6 +1048,30 @@ html body::-webkit-scrollbar {
     gap: 0.2rem;
 
     border-bottom: 0.1rem solid var(--soft-gray);
+}
+
+.list_of_todos>li>div>.delete_todo {
+    grid-column: 4 / 5;
+
+    align-self: center;
+    justify-self: center;
+
+    background-color: red;
+    color: white;
+    font-weight: bold;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: 0.1rem 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+
+    border-radius: 0.3rem;
 }
 
 /* .todos_list>ul>li>input[type="checkbox"] {
