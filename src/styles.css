@@ -886,13 +886,17 @@ html body::-webkit-scrollbar {
    justify-content: space-around;
 
     width: clamp(410px, 100%, 430px);
-    height: 410px;
+    height: 510px;
 
-    background-color: transparent;
+    background-color: var(--theme-color);
 
     overflow: auto;
 
-    gap: 0.3rem;
+    gap: 1rem;
+
+    padding: 1rem;
+
+    border-radius: 1rem;
 }
 
 #note_form .note_article_input {
@@ -920,9 +924,9 @@ html body::-webkit-scrollbar {
 #note_form button {
     width: fit-content;
     align-self: flex-end;
-    background-color: var(--theme-color);
-    border: 1px solid var(--theme-color);
-    color: var(--dominant-light-color);
+    background-color: var(--dominant-light-color);
+    border: 1px solid var(--dominant--secondary-color);
+    color: var(--theme-color);
     font-weight: bold;
 
     padding: 0.1rem 0.3rem;
