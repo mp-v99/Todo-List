@@ -351,14 +351,20 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         const todoStatus = document.createElement("button");
         const priorityContainer = document.createElement("div");
         const todoPriority = document.createElement("button");
+        const deleteBtnContainer = document.createElement("div");
+        const todoDeleteBtn = document.createElement("button");
 
 
         subjectContainer.classList.add("todo_subject");
         statusContainer.classList.add("todo_status");
         priorityContainer.classList.add("todo_priority");
+        todoDeleteBtn.classList.add("delete_todo");
         todoSubject.textContent = todo.title;
         todoSubject.classList.add("todo_subject_btn");
+        newTodo.setAttribute("data-id", todo.id);
+
         todoStatus.textContent = todo.status;
+        todoDeleteBtn.textContent = "X";
 
         if (todo.status.toLowerCase() === "to do") {
             todoStatus.classList.add("status_todo");
@@ -392,16 +398,22 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         statusContainer.appendChild(todoStatus);
         newTodo.appendChild(priorityContainer);
         priorityContainer.appendChild(todoPriority);
+        newTodo.appendChild(deleteBtnContainer);
+        deleteBtnContainer.appendChild(todoDeleteBtn);
 
         todoSubject.addEventListener("click", () => {
             renderTodo(activeProject, todo, projectManager);
-        }) 
+        })
         todoStatus.addEventListener("click", () => {
             updateTodoStatus(todoStatus, activeProject, todo);
         });
 
         todoPriority.addEventListener("click", () => {
             updateTodoPriority(todoPriority, activeProject, todo)
+        });
+
+        todoDeleteBtn.addEventListener("click", () => {
+            renderTodoDeleteCard(activeProject, newTodo, todoSubject)
         })
     
     }
@@ -412,6 +424,61 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
 
     return listOfTodos;
 
+}
+
+const renderTodoDeleteCard = function(activeProject, todoElement, todoTitle) {
+    const body = document.querySelector("body");
+    const listOfTodos = document.querySelector(".list_of_todos");
+    const formOverlay = document.createElement("dialog");
+    formOverlay.id = "form_note_overlay";
+    body.appendChild(formOverlay);
+
+    const deleteTodoForm = document.createElement("form");
+    deleteTodoForm.id = "delete_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = "Delete Todo?"
+    const formDescription = document.createElement("p");
+    formDescription.innerHTML = `This will delete the todo: <strong>${todoTitle.textContent}</strong>`
+    const submitDeleteFormBtn = document.createElement("button");
+    submitDeleteFormBtn.classList.add("submit_delete_form_btn");
+    submitDeleteFormBtn.innerHTML = `<strong>Delete Todo</strong>`;
+    submitDeleteFormBtn.type = "submit";
+    const cancelDeleteFormBtn = document.createElement("button");
+    cancelDeleteFormBtn.classList.add("cancel_delete_form_btn");
+    cancelDeleteFormBtn.innerHTML = `<strong>Cancel</strong>`;
+    cancelDeleteFormBtn.type = "button"
+
+    formOverlay.appendChild(deleteTodoForm);
+    deleteTodoForm.appendChild(formHeader);
+    deleteTodoForm.appendChild(formDescription);
+    deleteTodoForm.appendChild(cancelDeleteFormBtn);
+    deleteTodoForm.appendChild(submitDeleteFormBtn);
+
+    function closeForm() {
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+    
+    deleteTodoForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        activeProject.removeTodo(todoElement.getAttribute("data-id"));
+        listOfTodos.removeChild(todoElement);
+        body.removeChild(formOverlay); 
+    })
+
+    cancelDeleteFormBtn.addEventListener("click", () => {
+        closeForm();
+    })
+
+    document.addEventListener("keydown", handleEscape);
 }
 
 const renderNotes = function(activeProject, projectManager) {
