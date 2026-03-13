@@ -190,7 +190,7 @@ const renderDeleteCard = function(formOverlay, projectManager, projectCard, proj
     const projectsGrid = document.querySelector("#projects_section_grid");
 
     const deleteProjectForm = document.createElement("form");
-    deleteProjectForm.id = "delete_project_form";
+    deleteProjectForm.id = "delete_form";
     const formHeader = document.createElement("h2");
     formHeader.textContent = "Delete Project?"
     const formDescription = document.createElement("p");
