@@ -946,6 +946,7 @@ html body::-webkit-scrollbar {
 
     /* width: clamp(210px, 100%, 230px); */
     height: 210px;
+    white-space: pre-line;
 
     border: 1px solid var(--soft-gray);
 
