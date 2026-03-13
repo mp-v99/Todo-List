@@ -286,6 +286,12 @@ const renderNoteModal = function(activeProject, note) {
         }
     })
 
+    formOverlay.addEventListener("click", (e) => {
+        if (e.target === formOverlay) {
+            body.removeChild(formOverlay);
+        }
+    })    
+
     document.addEventListener("keydown", handleEscape);
 };
 
