@@ -88,7 +88,8 @@ button {
     cursor: pointer;
   }
 
-html body::-webkit-scrollbar {
+html body::-webkit-scrollbar,
+html .note_article::-webkit-scrollbar {
     scrollbar-width: none;
     width: 0;
 }
@@ -250,6 +251,7 @@ html body::-webkit-scrollbar {
 }
 
 #projects_section_grid>article {
+    position: relative;
     display: grid;
     grid-template-columns: 10fr 25fr 25fr 40fr;
     grid-template-rows: 10fr 25fr 25fr 40fr;
@@ -313,8 +315,9 @@ html body::-webkit-scrollbar {
 }
 
 #projects_section_grid>article>.delete_project {
-    grid-column: 4 / 5;
-    grid-row: 1 / 2;
+    position: absolute;
+    right: 0;
+    top: 0;
 
     align-self: self-start;
     justify-self: end;
@@ -338,7 +341,8 @@ html body::-webkit-scrollbar {
 }
 
 #projects_section_grid>article:hover>.delete_project,
-.todos_list>.list_of_todos>li:hover .delete_todo {
+.todos_list>.list_of_todos>li:hover .delete_todo,
+.todos_list>.list_of_todos>li:hover .todo_delete {
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 
@@ -932,7 +936,9 @@ html body::-webkit-scrollbar {
     padding: 0.1rem 0.3rem;
 }
 
-.notes_grid>.note_article{
+.notes_grid>.note_article {
+    position: relative;
+
     display: flex;
 
     padding-left: 0.7rem;
@@ -948,20 +954,65 @@ html body::-webkit-scrollbar {
     height: 210px;
     white-space: pre-line;
 
-    border: 1px solid var(--soft-gray);
-
-    overflow: auto;
+    /* overflow: auto; */
 
     box-shadow: 0.01rem 0.01rem 0.2rem 0.01rem #918f8f49;
 
     resize: none;
 
-    overflow-wrap: anywhere;
+    /* overflow-wrap: anywhere; */
 
     cursor: pointer;
 
 }
 
+.note_article>.delete_note_container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    align-self: center;
+    justify-self: center;
+
+    background-color: transparent;
+
+    color: white;
+    font-weight: bold;
+
+    height: 1.5rem;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    opacity: 0;
+    z-index: 1;
+}
+
+.note_article>.delete_note_container>.delete_note {
+    background-color: red;
+    color: var(--dominant-light-color);
+    font-weight: bold;
+    height: 100%;
+    width: 10%;
+
+    align-self: center;
+    justify-self: center;
+
+    padding: 0.2rem 0.2rem;
+
+    border-radius: 0.5rem;
+
+}
+
+.note_article:hover {
+    background-color: var(--soft-gray);
+
+}
+
+.note_article:hover .delete_note_container {
+    opacity: 1;
+}
 
 
 .todos_list #todos_header {
@@ -1050,28 +1101,31 @@ html body::-webkit-scrollbar {
     border-bottom: 0.1rem solid var(--soft-gray);
 }
 
-.list_of_todos>li>div>.delete_todo {
+.list_of_todos>li>.todo_delete{
     grid-column: 4 / 5;
 
-    align-self: center;
-    justify-self: center;
+    display: flex;
 
-    background-color: red;
-    color: white;
-    font-weight: bold;
-
+    grid-column: 4 / 5;
+    color: var(--dark-gray);
+    font-size: 23px;
+    border-radius: 0.5rem;
     height: fit-content;
     width: fit-content;
-
-    padding: 0.1rem 0.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    justify-self: center;
+    background-color: red;
 
     opacity: 0;
-    pointer-events: none;
+}
 
-    border-radius: 0.3rem;
+.list_of_todos>li>div>.delete_todo {
+    flex: 1;
+    
+    color: white;
 }
 
 /* .todos_list>ul>li>input[type="checkbox"] {
@@ -1097,6 +1151,10 @@ html body::-webkit-scrollbar {
     padding-left: 0.1rem;
 
     min-width: 170px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .todo_subject .todo_subject_btn {
@@ -1326,10 +1384,11 @@ html body::-webkit-scrollbar {
 #todo_form #todo_title_input:hover,
 #todo_form #todo_description_input:hover,
 #todo_form #todo_due_date_input:hover,
-#notes_tab_section>.notes_grid article:hover,
-#active_project_section .notes_grid .note_article:hover {
+#notes_tab_section>.notes_grid article:hover {
     background-color: var(--soft-gray);
 }
+
+
 
 
 #todo_form #todo_title_input:focus,

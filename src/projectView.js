@@ -358,6 +358,7 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
         subjectContainer.classList.add("todo_subject");
         statusContainer.classList.add("todo_status");
         priorityContainer.classList.add("todo_priority");
+        deleteBtnContainer.classList.add("todo_delete");
         todoDeleteBtn.classList.add("delete_todo");
         todoSubject.textContent = todo.title;
         todoSubject.classList.add("todo_subject_btn");
@@ -481,6 +482,61 @@ const renderTodoDeleteCard = function(activeProject, todoElement, todoTitle) {
     document.addEventListener("keydown", handleEscape);
 }
 
+const renderNoteDeleteCard = function(activeProject, noteElement) {
+    const body = document.querySelector("body");
+    const notesGrid = document.querySelector(".notes_grid");
+    const formOverlay = document.createElement("dialog");
+    formOverlay.id = "form_note_overlay";
+    body.appendChild(formOverlay);
+
+    const deleteNoteForm = document.createElement("form");
+    deleteNoteForm.id = "delete_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = "Delete Note?"
+    const formDescription = document.createElement("p");
+    formDescription.innerHTML = `This will delete the note`
+    const submitDeleteFormBtn = document.createElement("button");
+    submitDeleteFormBtn.classList.add("submit_delete_form_btn");
+    submitDeleteFormBtn.innerHTML = `<strong>Delete Todo</strong>`;
+    submitDeleteFormBtn.type = "submit";
+    const cancelDeleteFormBtn = document.createElement("button");
+    cancelDeleteFormBtn.classList.add("cancel_delete_form_btn");
+    cancelDeleteFormBtn.innerHTML = `<strong>Cancel</strong>`;
+    cancelDeleteFormBtn.type = "button"
+
+    formOverlay.appendChild(deleteNoteForm);
+    deleteNoteForm.appendChild(formHeader);
+    deleteNoteForm.appendChild(formDescription);
+    deleteNoteForm.appendChild(cancelDeleteFormBtn);
+    deleteNoteForm.appendChild(submitDeleteFormBtn);
+
+    function closeForm() {
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+    
+    deleteNoteForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        activeProject.removeNote(noteElement.getAttribute("data-id"));
+        notesGrid.removeChild(noteElement);
+        body.removeChild(formOverlay); 
+    })
+
+    cancelDeleteFormBtn.addEventListener("click", () => {
+        closeForm();
+    })
+
+    document.addEventListener("keydown", handleEscape);
+}
+
 const renderNotes = function(activeProject, projectManager) {
     const notesContainer = document.createElement("div");
     notesContainer.classList.add("notes_grid");
@@ -489,6 +545,9 @@ const renderNotes = function(activeProject, projectManager) {
         for (const project of projectManager.projects) {
             for (const note of project.notes) {
                 const newNote = document.createElement("article");
+                const deleteBtnContainer = document.createElement("div");
+                const deleteNoteBtn = document.createElement("button");
+                deleteBtnContainer.classList.add("delete_note_container")
                 newNote.classList.add("note_article");
                 newNote.id = note.id;
         
@@ -507,17 +566,29 @@ const renderNotes = function(activeProject, projectManager) {
     else if (activeProject) {
         for (const note of activeProject.notes) {
             const newNote = document.createElement("article");
+            const deleteBtnContainer = document.createElement("div");
+            const deleteNoteBtn = document.createElement("button");
+            deleteBtnContainer.classList.add("delete_note_container")
             newNote.classList.add("note_article");
             newNote.id = note.id;
+            deleteNoteBtn.classList.add("delete_note");
     
            
             newNote.textContent = note.textBody;
+            deleteNoteBtn.textContent = "X";
             
             notesContainer.appendChild(newNote);
+            newNote.appendChild(deleteBtnContainer);
+            deleteBtnContainer.appendChild(deleteNoteBtn);
     
             newNote.addEventListener("click", () => {
                 renderNoteModal(activeProject, newNote);
             })
+
+            deleteNoteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                renderNoteDeleteCard(activeProject, newNote)
+            });
         }
     }
     
