@@ -537,6 +537,63 @@ const renderNoteDeleteCard = function(activeProject, noteElement) {
     document.addEventListener("keydown", handleEscape);
 }
 
+const renderSubtaskDeleteCard = function(todo, subtaskContainer, listItemID) {
+    const body = document.querySelector("body");
+    const todoChecklist = document.querySelector("#todo_checklist");
+    const formOverlay = document.createElement("dialog");
+    formOverlay.id = "form_note_overlay";
+    body.appendChild(formOverlay);
+
+    const deleteItemForm = document.createElement("form");
+    deleteItemForm.id = "delete_form";
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = "Delete Subtask?"
+    const formDescription = document.createElement("p");
+    formDescription.innerHTML = `This will delete the task item`
+    const submitDeleteFormBtn = document.createElement("button");
+    submitDeleteFormBtn.classList.add("submit_delete_form_btn");
+    submitDeleteFormBtn.innerHTML = `<strong>Delete subtask</strong>`;
+    submitDeleteFormBtn.type = "submit";
+    const cancelDeleteFormBtn = document.createElement("button");
+    cancelDeleteFormBtn.classList.add("cancel_delete_form_btn");
+    cancelDeleteFormBtn.innerHTML = `<strong>Cancel</strong>`;
+    cancelDeleteFormBtn.type = "button"
+
+    formOverlay.appendChild(deleteItemForm);
+    deleteItemForm.appendChild(formHeader);
+    deleteItemForm.appendChild(formDescription);
+    deleteItemForm.appendChild(cancelDeleteFormBtn);
+    deleteItemForm.appendChild(submitDeleteFormBtn);
+
+    function closeForm() {
+        document.removeEventListener("keydown", handleEscape);
+        if (formOverlay.parentNode) {
+            formOverlay.parentNode.removeChild(formOverlay);
+        }
+    }
+
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeForm();
+        }
+    }
+    
+    deleteItemForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        todo.removeListItem(listItemID);
+        todoChecklist.removeChild(subtaskContainer);
+        body.removeChild(formOverlay); 
+
+        console.log(todo.checkList)
+    })
+
+    cancelDeleteFormBtn.addEventListener("click", () => {
+        closeForm();
+    })
+
+    document.addEventListener("keydown", handleEscape);
+}
+
 const renderNotes = function(activeProject, projectManager) {
     const notesContainer = document.createElement("div");
     notesContainer.classList.add("notes_grid");
@@ -550,14 +607,23 @@ const renderNotes = function(activeProject, projectManager) {
                 deleteBtnContainer.classList.add("delete_note_container")
                 newNote.classList.add("note_article");
                 newNote.id = note.id;
+                deleteNoteBtn.classList.add("delete_note");
         
                
                 newNote.textContent = note.textBody;
+                deleteNoteBtn.textContent = "X"
                 
                 notesContainer.appendChild(newNote);
+                newNote.appendChild(deleteBtnContainer);
+                deleteBtnContainer.appendChild(deleteNoteBtn);
         
                 newNote.addEventListener("click", () => {
                     renderNoteModal(project, newNote);
+                })
+
+                deleteNoteBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    renderNoteDeleteCard(activeProject, newNote);
                 })
             }
         }
@@ -637,6 +703,7 @@ const renderTodo = function(activeProject, todo, projectManager) {
     addListItemBtn.classList.add("add_subtask_btn");
     addListItemBtn.textContent = "+";
     const todoChecklist = document.createElement("ul");
+    todoChecklist.id = "todo_checklist"
 
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
@@ -655,6 +722,12 @@ const renderTodo = function(activeProject, todo, projectManager) {
         textLine.id = listItem.id;
         const statusToggle = document.createElement("input");
         statusToggle.type = "checkbox";
+        const deleteItemBtn = document.createElement("button");
+        deleteItemBtn.classList.add("delete_list_item");
+        deleteItemBtn.textContent = "X";
+
+
+
         if (listItem.checkBox) {
             statusToggle.checked = true;
         }
@@ -664,6 +737,7 @@ const renderTodo = function(activeProject, todo, projectManager) {
         
         textLineContainer.appendChild(statusToggle);
         textLineContainer.appendChild(textLine);
+        textLineContainer.appendChild(deleteItemBtn);
         listItemContainer.appendChild(textLineContainer);
         todoChecklist.appendChild(listItemContainer);
 
@@ -673,6 +747,11 @@ const renderTodo = function(activeProject, todo, projectManager) {
 
         textLine.addEventListener("click", () => {
             replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
+        });
+
+        deleteItemBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            renderSubtaskDeleteCard(todo, listItemContainer, listItem.id)
         });
     }
 
