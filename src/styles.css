@@ -338,6 +338,7 @@ html .note_article::-webkit-scrollbar {
 
     opacity: 0;
     pointer-events: none;
+
 }
 
 #projects_section_grid>article:hover>.delete_project,
@@ -611,6 +612,11 @@ html .note_article::-webkit-scrollbar {
 #notes_tab_section>.notes_grid article {
     color: var(--dark-gray);
     cursor: pointer;
+
+    padding-left: 0.7rem;
+    padding-right: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
 }
 
 #notes_tab_section>.notes_grid article:hover {
@@ -943,7 +949,7 @@ html .note_article::-webkit-scrollbar {
 
     padding-left: 0.7rem;
     padding-right: 0.7rem;
-    padding-top: 1rem;
+    padding-top: 2rem;
     padding-bottom: 1rem;
 
     background: var(--dominant-secondary-color);
@@ -973,7 +979,7 @@ html .note_article::-webkit-scrollbar {
     align-self: center;
     justify-self: center;
 
-    background-color: transparent;
+    background-color: var(--soft-gray);
 
     color: white;
     font-weight: bold;
@@ -985,8 +991,13 @@ html .note_article::-webkit-scrollbar {
     align-items: center;
     justify-content: end;
 
-    opacity: 0;
     z-index: 1;
+    border-radius: 12px 12px 0px 0px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--soft-gray);
+
 }
 
 .note_article>.delete_note_container>.delete_note {
@@ -1001,7 +1012,8 @@ html .note_article::-webkit-scrollbar {
 
     padding: 0.2rem 0.2rem;
 
-    border-radius: 0.5rem;
+    opacity: 0;
+
 
 }
 
@@ -1010,7 +1022,7 @@ html .note_article::-webkit-scrollbar {
 
 }
 
-.note_article:hover .delete_note_container {
+.note_article:hover .delete_note {
     opacity: 1;
 }
 
@@ -1108,7 +1120,7 @@ html .note_article::-webkit-scrollbar {
 
     grid-column: 4 / 5;
     color: var(--dark-gray);
-    font-size: 23px;
+    font-size: 18px;
     border-radius: 0.5rem;
     height: fit-content;
     width: fit-content;
@@ -1698,7 +1710,7 @@ html .note_article::-webkit-scrollbar {
     display: grid;
     align-content: center;
 
-    grid-template-columns: 5fr 95fr;
+    grid-template-columns: 5fr 90fr 5fr;
 
     height: fit-content;
     ;
@@ -1706,6 +1718,8 @@ html .note_article::-webkit-scrollbar {
 
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+
+    gap: 1rem;
 
 }
 
@@ -1765,6 +1779,23 @@ html .note_article::-webkit-scrollbar {
     border: 1px solid var(--theme-color);
 }
 
+
+.check_list_container div .delete_list_item {
+    grid-column: 3 / 4;
+
+    color: var(--dark-gray);
+
+    font-size: small;
+    max-height: 19px;
+
+    background-color: var(--soft-gray);
+
+    opacity: 0;
+}
+
+#todo_checklist>li:hover .delete_list_item{
+    opacity: 1;
+}
 /* About Section Style */
 
 #about_section {
@@ -1805,5 +1836,7 @@ html .note_article::-webkit-scrollbar {
     max-height: 1000px;
 
     overflow-y: auto;
+
+    
 }
 
