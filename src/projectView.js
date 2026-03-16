@@ -259,7 +259,8 @@ const renderNoteModal = function(activeProject, note) {
     // This removes the X, which due to the way that the article is generated, is treated 
     // as part of its text content.
     if (note) {
-        noteInput.value = note.textContent.slice(0, -1);
+        const currentNoteValue = note.textContent;
+        noteInput.value = currentNoteValue.slice(0, -1);
     }
     
     const submitProjectBtn = document.createElement("button");
@@ -289,7 +290,22 @@ const renderNoteModal = function(activeProject, note) {
         if (note) {
             activeProject.updateNote(note.id, noteInput.value);
             note.textContent = noteInput.value;
+            const deleteBtnContainer = document.createElement("div");
+            const deleteNoteBtn = document.createElement("button");
+
+            deleteNoteBtn.classList.add("delete_note");
+            deleteBtnContainer.classList.add("delete_note_container");
+            deleteNoteBtn.textContent = "X";
+
+            note.appendChild(deleteBtnContainer);
+            deleteBtnContainer.appendChild(deleteNoteBtn);
+
             body.removeChild(formOverlay);
+
+            deleteNoteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                renderNoteDeleteCard(activeProject, note);   
+            })
         }
 
         else if (!note) {
@@ -537,9 +553,12 @@ const renderNoteDeleteCard = function(activeProject, noteElement) {
     
     deleteNoteForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        activeProject.removeNote(noteElement.getAttribute("data-id"));
+        activeProject.removeNote(noteElement.id);
         notesGrid.removeChild(noteElement);
         body.removeChild(formOverlay); 
+        console.log(noteElement.id)
+        console.log(activeProject.notes)
+
     })
 
     cancelDeleteFormBtn.addEventListener("click", () => {
@@ -646,7 +665,7 @@ const renderNotes = function(activeProject, projectManager) {
             const newNote = document.createElement("article");
             const deleteBtnContainer = document.createElement("div");
             const deleteNoteBtn = document.createElement("button");
-            deleteBtnContainer.classList.add("delete_note_container")
+            deleteBtnContainer.classList.add("delete_note_container");
             newNote.classList.add("note_article");
             newNote.id = note.id;
             deleteNoteBtn.classList.add("delete_note");
