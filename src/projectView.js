@@ -245,7 +245,6 @@ const renderNewTodoForm = function(formOverlay, activeProject, projectManager) {
     document.addEventListener("keydown", handleEscape);
 };
 
-
 const renderNoteModal = function(activeProject, note) {
     const body = document.querySelector("body");
     const formOverlay = document.createElement("dialog");
@@ -256,8 +255,11 @@ const renderNoteModal = function(activeProject, note) {
     noteForm.id = "note_form";
     const noteInput = document.createElement("textarea");
     noteInput.classList.add("note_article_input");
+
+    // This removes the X, which due to the way that the article is generated, is treated 
+    // as part of its text content.
     if (note) {
-        noteInput.value = note.textContent;
+        noteInput.value = note.textContent.slice(0, -1);
     }
     
     const submitProjectBtn = document.createElement("button");
@@ -507,7 +509,7 @@ const renderNoteDeleteCard = function(activeProject, noteElement) {
     formDescription.innerHTML = `This will delete the note`
     const submitDeleteFormBtn = document.createElement("button");
     submitDeleteFormBtn.classList.add("submit_delete_form_btn");
-    submitDeleteFormBtn.innerHTML = `<strong>Delete Todo</strong>`;
+    submitDeleteFormBtn.innerHTML = `<strong>Delete Note</strong>`;
     submitDeleteFormBtn.type = "submit";
     const cancelDeleteFormBtn = document.createElement("button");
     cancelDeleteFormBtn.classList.add("cancel_delete_form_btn");
@@ -677,15 +679,29 @@ const renderNotes = function(activeProject, projectManager) {
 const renderNewNote = function(textValue, noteID, activeProject) {
     const notesContainer = document.querySelector(".notes_grid");
     const noteElement = document.createElement("article");
+    const deleteBtnContainer = document.createElement("div");
+    const deleteNoteBtn = document.createElement("button");
+    deleteBtnContainer.classList.add("delete_note_container")
+    deleteNoteBtn.classList.add("delete_note");
+
     noteElement.id = noteID;
     noteElement.classList.add("note_article");
     noteElement.textContent = textValue;
+    deleteNoteBtn.textContent = "X";
+
+    noteElement.appendChild(deleteBtnContainer);
+    deleteBtnContainer.appendChild(deleteNoteBtn);
 
     notesContainer.prepend(noteElement);
 
     noteElement.addEventListener("click", () => {
         renderNoteModal(activeProject, noteElement)
     })
+
+    deleteNoteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        renderNoteDeleteCard(activeProject, noteElement)
+    });
 }
 
 const renderTodo = function(activeProject, todo, projectManager) {
@@ -736,8 +752,6 @@ const renderTodo = function(activeProject, todo, projectManager) {
         deleteItemBtn.classList.add("delete_list_item");
         deleteItemBtn.textContent = "X";
 
-
-
         if (listItem.checkBox) {
             statusToggle.checked = true;
         }
@@ -787,11 +801,16 @@ const renderTodo = function(activeProject, todo, projectManager) {
         input.classList.add('checklist_item_input');
         const statusToggle = document.createElement("input");
         statusToggle.type = "checkbox";
+        const deleteItemBtn = document.createElement("button");
+        deleteItemBtn.classList.add("delete_list_item");
+        deleteItemBtn.textContent = "X";
        
         inputContainer.appendChild(statusToggle);
         inputContainer.appendChild(input);
         listItemContainer.appendChild(inputContainer);
         todoChecklist.appendChild(listItemContainer);
+        inputContainer.appendChild(deleteItemBtn);
+
         input.focus();
 
         input.addEventListener("keydown", (e) => {
@@ -815,6 +834,10 @@ const renderTodo = function(activeProject, todo, projectManager) {
                 statusToggle.addEventListener("click", () => {
                     todo.toggleListItem(element.id);
                 });
+                deleteItemBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    renderSubtaskDeleteCard(todo, listItemContainer, element.id)
+                });
             }
             else if (e.key === "Enter" && input.value.length === 0) {
                 alert("This field can't be empty");
@@ -834,30 +857,36 @@ const replaceTodoElementWithInput = function(element, section, activeProject, to
         input = document.createElement("textarea");
     }
 
+    const inputContainer = document.createElement("form");
+    inputContainer.classList = "inline_edit_form";
     input.classList.add(`${element.classList}_input`)
     input.value = element.textContent;
-    section.replaceChild(input, element);
+    const submitBtn = document.createElement("button");
+    submitBtn.classList.add("submit_input_btn");
+    submitBtn.htmlFor = `${element.classList}_input`;
+    submitBtn.textContent = "Ready";
+    inputContainer.appendChild(input);
+    inputContainer.appendChild(submitBtn);
+
+
+    section.replaceChild(inputContainer, element);
     input.focus();
 
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && input.value.length > 0) {
-            if(element.classList.contains("active_todo_header")) {
-                updateSubject(activeProject, todo, input.value);
-            }
-            else if (element.classList.contains("description_text")) {
-                updateDescription(activeProject, todo, input.value)
-            }
-            else if (element.classList.contains("checklist_item")) {
-                todo.updateListItem(element.id, input.value)
-                console.log(todo.checkList)
-            }
-            element.textContent = input.value;
-            section.replaceChild(element, input);
+    inputContainer.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if(element.classList.contains("active_todo_header")) {
+            updateSubject(activeProject, todo, input.value);
         }
-        else if (e.key === "Enter" && input.value.length === 0) {
-            alert("This field can't be empty");
+        else if (element.classList.contains("description_text")) {
+            updateDescription(activeProject, todo, input.value)
         }
-  
+        else if (element.classList.contains("checklist_item")) {
+            todo.updateListItem(element.id, input.value)
+            console.log(todo.checkList)
+        }
+        element.textContent = input.value;
+        section.replaceChild(element, inputContainer);  
     });
 
 };
