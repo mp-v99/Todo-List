@@ -1439,7 +1439,7 @@ html .note_article::-webkit-scrollbar {
     flex: 1;
     display: grid;
     grid-template-columns: 80fr 20fr;
-    grid-template-rows: 10fr 70fr 30fr;   
+    grid-template-rows: 55px 580px 350px;   
 
 
     gap: 1rem;
@@ -1454,7 +1454,7 @@ html .note_article::-webkit-scrollbar {
     align-self: center;
     justify-self: start;
 
-    max-height: 36px;
+    max-height: 56px;
     width: 100%;
     max-width: 1000px;
 
@@ -1493,6 +1493,42 @@ html .note_article::-webkit-scrollbar {
     border-radius: 100% 0px 0px 100%;
 }
 
+#active_todo_section>.inline_edit_form {
+    grid-column: 1 / 2;
+    align-self: center;
+    justify-self: start;
+
+
+    font-size: 24px;
+    
+    border-radius: 0.5rem;
+
+    max-height: 31px;
+
+    width: 100%;
+
+    outline: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+#active_todo_section .submit_input_btn {
+    font-size: small;
+
+    width: fit-content;
+    height: fit-content;
+
+    border: 1px solid var(--theme-color);
+
+    color: var(--theme-color);
+
+    padding: 0.1rem 0.2rem;
+
+    align-self: flex-end;
+}
+
 .todo_details_container {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
@@ -1511,7 +1547,45 @@ html .note_article::-webkit-scrollbar {
     color: var(--dark-gray)
 }
 
+.todo_details_container .inline_edit_form {
+    grid-column: 1 / 3;
+    grid-row: 5 / 6;
+    width: 100%;
+    min-height: 336px;
+    height: 336px;
+    max-height: 336px;
 
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.1rem;
+}
+
+.check_list_container .inline_edit_form {
+    grid-column: 2 / 3;
+    width: 100%;
+
+    display: flex;
+    gap: 0.1rem;
+}
+
+.check_list_container .inline_edit_form>input {
+    flex: 9;
+}
+
+.check_list_container .inline_edit_form>.submit_input_btn {
+    max-height: 19px;
+    font-size: 13px;
+
+    padding: 0rem !important;
+
+    flex: 1;
+    
+    background-color: var(--theme-color);
+    color: var(--dominant-light-color) !important;
+    font-weight: bold;
+
+}
 
 
 /* active todo: status style */
@@ -1599,6 +1673,8 @@ html .note_article::-webkit-scrollbar {
     padding: 0.75rem;
     line-height: 1.4;
     border-radius: 0.5rem;
+
+    white-space: pre-line;
 }
 
 .todo_details_container .description_text:hover {
@@ -1713,7 +1789,7 @@ html .note_article::-webkit-scrollbar {
     grid-template-columns: 5fr 90fr 5fr;
 
     height: fit-content;
-    ;
+
     /* min-width: 405px; */
 
     padding-top: 0.5rem;
@@ -1791,6 +1867,10 @@ html .note_article::-webkit-scrollbar {
     background-color: var(--soft-gray);
 
     opacity: 0;
+}
+
+.check_list_container .checklist_item {
+    overflow-x: auto;
 }
 
 #todo_checklist>li:hover .delete_list_item{
