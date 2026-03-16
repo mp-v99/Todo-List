@@ -77,6 +77,9 @@ const renderTodoItem = function(listOfTodos, activeProject, todo, projectManager
     const todoStatus = document.createElement("button");
     const priorityContainer = document.createElement("div");
     const todoPriority = document.createElement("button");
+    const deleteBtnContainer = document.createElement("div");
+    const todoDeleteBtn = document.createElement("button");
+
 
 
     subjectContainer.classList.add("todo_subject");
@@ -85,6 +88,9 @@ const renderTodoItem = function(listOfTodos, activeProject, todo, projectManager
     todoSubject.textContent = todo.title;
     todoSubject.classList.add("todo_subject_btn");
     todoStatus.textContent = todo.status;
+    deleteBtnContainer.classList.add("todo_delete");
+    todoDeleteBtn.classList.add("delete_todo");
+    todoDeleteBtn.textContent = "X";
 
     if (todo.status.toLowerCase() === "to do") {
         todoStatus.classList.add("status_todo");
@@ -118,6 +124,8 @@ const renderTodoItem = function(listOfTodos, activeProject, todo, projectManager
     statusContainer.appendChild(todoStatus);
     newTodo.appendChild(priorityContainer);
     priorityContainer.appendChild(todoPriority);
+    newTodo.appendChild(deleteBtnContainer);
+    deleteBtnContainer.appendChild(todoDeleteBtn);
 
     todoSubject.addEventListener("click", () => {
         renderTodo(activeProject, todo, projectManager);
@@ -128,6 +136,10 @@ const renderTodoItem = function(listOfTodos, activeProject, todo, projectManager
 
     todoPriority.addEventListener("click", () => {
         updateTodoPriority(todoPriority, activeProject, todo)
+    })
+
+    todoDeleteBtn.addEventListener("click", () => {
+        renderTodoDeleteCard(activeProject, newTodo, todoSubject)
     })
 
 }
@@ -322,8 +334,6 @@ const renderTodos = function(projectManager, todosArray, todosContainer) {
     const statusHeader = document.createElement("span");
     const priorityHeader = document.createElement("span");
     const addTodoBtn = document.createElement("button");
-
-
 
     subjectHeader.classList.add("subject_header");
     subjectHeader.textContent = "Task:"
@@ -623,7 +633,7 @@ const renderNotes = function(activeProject, projectManager) {
 
                 deleteNoteBtn.addEventListener("click", (e) => {
                     e.stopPropagation();
-                    renderNoteDeleteCard(activeProject, newNote);
+                    renderNoteDeleteCard(project, newNote);   
                 })
             }
         }
@@ -751,7 +761,7 @@ const renderTodo = function(activeProject, todo, projectManager) {
 
         deleteItemBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            renderSubtaskDeleteCard(todo, listItemContainer, listItem.id)
+            renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
         });
     }
 
