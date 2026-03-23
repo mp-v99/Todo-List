@@ -208,4 +208,10 @@ class CheckListItem {
 
 };
 
-export { ProjectManager };
+function saveData(checkList) {
+
+    localStorage.setItem(`item#${checkList.length - 1}`, JSON.stringify(checkList[checkList.length - 1]));
+    console.log(checkList.length)
+}
+
+export { ProjectManager, saveData };

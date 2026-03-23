@@ -1,4 +1,5 @@
 import {renderProjects} from "./UI-DOM.js";
+import {saveData} from "./domain.js"
 
 const renderProject = function(projectManager, projectID, today) {
     projectManager.setActiveProject(projectID);
@@ -748,7 +749,9 @@ const renderTodo = function(activeProject, todo, projectManager) {
     addListItemBtn.classList.add("add_subtask_btn");
     addListItemBtn.textContent = "+";
     const todoChecklist = document.createElement("ul");
-    todoChecklist.id = "todo_checklist"
+    todoChecklist.id = "todo_checklist";
+
+    renderCheckList(todo, todoChecklist)
 
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
@@ -758,46 +761,6 @@ const renderTodo = function(activeProject, todo, projectManager) {
     checkListContainer.appendChild(addListItemBtn);
     checkListContainer.appendChild(todoChecklist);
   
-    for (const listItem of todo.checkList) {
-        const listItemContainer = document.createElement("li");
-        const textLineContainer = document.createElement("div");
-        const textLine = document.createElement("p");
-        textLine.textContent = listItem.textLine;
-        textLine.classList.add('checklist_item');
-        textLine.id = listItem.id;
-        const statusToggle = document.createElement("input");
-        statusToggle.type = "checkbox";
-        const deleteItemBtn = document.createElement("button");
-        deleteItemBtn.classList.add("delete_list_item");
-        deleteItemBtn.textContent = "X";
-
-        if (listItem.checkBox) {
-            statusToggle.checked = true;
-        }
-        else if (!listItem.checkBox) {
-            statusToggle.checked = false;
-        }
-        
-        textLineContainer.appendChild(statusToggle);
-        textLineContainer.appendChild(textLine);
-        textLineContainer.appendChild(deleteItemBtn);
-        listItemContainer.appendChild(textLineContainer);
-        todoChecklist.appendChild(listItemContainer);
-
-        statusToggle.addEventListener("click", () => {
-            todo.toggleListItem(listItem.id);
-        });
-
-        textLine.addEventListener("click", () => {
-            replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
-        });
-
-        deleteItemBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
-        });
-    }
-
     // add back btn functionality:
 
     backBtn.addEventListener("click", () => {
@@ -857,6 +820,8 @@ const renderTodo = function(activeProject, todo, projectManager) {
                     e.stopPropagation();
                     renderSubtaskDeleteCard(todo, listItemContainer, element.id)
                 });
+
+                saveData(todo.checkList);
             }
             else if (e.key === "Enter" && input.value.length === 0) {
                 alert("This field can't be empty");
@@ -864,6 +829,99 @@ const renderTodo = function(activeProject, todo, projectManager) {
         });
     });
 };
+
+const renderCheckList = function(todo, todoChecklist) {
+    console.log()
+
+    if (localStorage.length > 0) {
+            for (let i = 0; i<localStorage.length; i++) {
+
+            const listItem = JSON.parse(localStorage.getItem(`item#${i}`));
+
+                        
+            const listItemContainer = document.createElement("li");
+            const textLineContainer = document.createElement("div");
+            const textLine = document.createElement("p");
+            textLine.textContent = listItem.textLine;
+            textLine.classList.add('checklist_item');
+            textLine.id = listItem.id;
+            const statusToggle = document.createElement("input");
+            statusToggle.type = "checkbox";
+            const deleteItemBtn = document.createElement("button");
+            deleteItemBtn.classList.add("delete_list_item");
+            deleteItemBtn.textContent = "X";
+    
+            if (listItem.checkBox) {
+                statusToggle.checked = true;
+            }
+            else if (!listItem.checkBox) {
+                statusToggle.checked = false;
+            }
+            
+            textLineContainer.appendChild(statusToggle);
+            textLineContainer.appendChild(textLine);
+            textLineContainer.appendChild(deleteItemBtn);
+            listItemContainer.appendChild(textLineContainer);
+            todoChecklist.appendChild(listItemContainer);
+    
+            statusToggle.addEventListener("click", () => {
+                todo.toggleListItem(listItem.id);
+            });
+    
+            textLine.addEventListener("click", () => {
+                replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
+            });
+    
+            deleteItemBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
+            });
+
+            }
+        }
+    else {
+        for (const listItem of todo.checkList) {
+            const listItemContainer = document.createElement("li");
+            const textLineContainer = document.createElement("div");
+            const textLine = document.createElement("p");
+            textLine.textContent = listItem.textLine;
+            textLine.classList.add('checklist_item');
+            textLine.id = listItem.id;
+            const statusToggle = document.createElement("input");
+            statusToggle.type = "checkbox";
+            const deleteItemBtn = document.createElement("button");
+            deleteItemBtn.classList.add("delete_list_item");
+            deleteItemBtn.textContent = "X";
+    
+            if (listItem.checkBox) {
+                statusToggle.checked = true;
+            }
+            else if (!listItem.checkBox) {
+                statusToggle.checked = false;
+            }
+            
+            textLineContainer.appendChild(statusToggle);
+            textLineContainer.appendChild(textLine);
+            textLineContainer.appendChild(deleteItemBtn);
+            listItemContainer.appendChild(textLineContainer);
+            todoChecklist.appendChild(listItemContainer);
+    
+            statusToggle.addEventListener("click", () => {
+                todo.toggleListItem(listItem.id);
+            });
+    
+            textLine.addEventListener("click", () => {
+                replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
+            });
+    
+            deleteItemBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
+            });
+        }
+    }
+
+}
 
 const replaceTodoElementWithInput = function(element, section, activeProject, todo) {
     let input;
