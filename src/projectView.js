@@ -835,6 +835,8 @@ const renderCheckList = function(todo, todoChecklist, activeProject) {
     if (localStorage.length > 0) {
         const parsedCheckList = JSON.parse(localStorage.getItem("checkList"));
 
+        todo.checkList.length = 0;
+
         for (const listItem of parsedCheckList) {
 
             // Generate the saved content in the actual checklist class
@@ -887,9 +889,10 @@ const renderCheckList = function(todo, todoChecklist, activeProject) {
                 console.log(todo.checkList)
             });
         }
+        console.log(todo.checkList)
         }
 
-    else {
+    else if (localStorage.length === 0) {
         for (const listItem of todo.checkList) {
             const listItemContainer = document.createElement("li");
             const textLineContainer = document.createElement("div");
@@ -934,7 +937,7 @@ const renderCheckList = function(todo, todoChecklist, activeProject) {
         }
     }
 
-    console.log(todo.checkList)
+
 
 
 }
