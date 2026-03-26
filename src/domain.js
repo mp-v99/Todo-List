@@ -209,11 +209,7 @@ class CheckListItem {
 };
 
 function saveData(entity) {
-
-    localStorage.setItem(`checkList`, JSON.stringify(entity));
-
-    console.log(JSON.parse(localStorage.getItem("checkList")));
-    
+    localStorage.setItem(`projectManager`, JSON.stringify(entity));    
 }
 
 export { ProjectManager, saveData };

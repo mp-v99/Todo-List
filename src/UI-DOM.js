@@ -1,71 +1,153 @@
 import { renderProject, renderNotes } from "./projectView";
+import { saveData } from "./domain.js";
 
 
 const renderProjects = function(projectManager, today) {
-    const listOfProjects = projectManager.listProjects();
-    const mainContainer = document.querySelector("#main_content");
-    const newSection = document.createElement("section");
-    const sectionHeader = document.createElement("header");
-    const headerTitle = document.createElement("h2");
-    const addProjectBtn = document.createElement("button");
-    const projectsGrid = document.createElement("div");
-   
-    newSection.id = "projects_section";
-    sectionHeader.id = "projects_section_header";
-    projectsGrid.id = "projects_section_grid";
+    const saved = localStorage.getItem("projectManager");
 
-    headerTitle.textContent = "Projects";
-    addProjectBtn.textContent = " + New Project"
-    addProjectBtn.classList.add("add_project_btn");
 
-    mainContainer.innerHTML = '';
-    mainContainer.appendChild(newSection);
-    newSection.appendChild(sectionHeader);
-    newSection.appendChild(projectsGrid);
-    sectionHeader.appendChild(headerTitle);
-    sectionHeader.appendChild(addProjectBtn);
-
-    for (const project of listOfProjects) {
-        const projectCard = document.createElement("article")
-        const projectTitle = document.createElement("h3");
-        const projectDescription = document.createElement("p");
-     
-        const deleteProjectBtn = document.createElement("button");
-        const openProjectBtn = document.createElement("button");
-
-        projectTitle.textContent = project.title;
-        projectDescription.textContent = project.description.slice(0, 50).concat("...");
-        projectCard.setAttribute("data-id", project.id);
-     
-
-        projectDescription.classList.add("project_description");
-        deleteProjectBtn.textContent = "X"
-        openProjectBtn.textContent = "Open";
-        deleteProjectBtn.classList.add("delete_project");
-        openProjectBtn.classList.add("open_project");
-
-        projectsGrid.appendChild(projectCard);
-        projectCard.appendChild(projectTitle);
-        projectCard.appendChild(projectDescription);
-        projectCard.appendChild(deleteProjectBtn);
-        projectCard.appendChild(openProjectBtn);
-
+        if (saved) {
+            const parsedProjectManager = JSON.parse(localStorage.getItem("projectManager"));
+            projectManager.projects.length = 0;
+            projectManager.activeProjectID = null;
+    
+            reloadSavedInfo(projectManager, parsedProjectManager)
+            
+            // Generate the saved content in DOM
+    
+            const listOfProjects = projectManager.listProjects();
+            const mainContainer = document.querySelector("#main_content");
+            const newSection = document.createElement("section");
+            const sectionHeader = document.createElement("header");
+            const headerTitle = document.createElement("h2");
+            const addProjectBtn = document.createElement("button");
+            const projectsGrid = document.createElement("div");
+           
+            newSection.id = "projects_section";
+            sectionHeader.id = "projects_section_header";
+            projectsGrid.id = "projects_section_grid";
         
-
-        openProjectBtn.addEventListener("click", () => {
-            renderProject(projectManager, projectCard.getAttribute("data-id"), today);
-        })
-
-        deleteProjectBtn.addEventListener("click", () => {
-            renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
-        })
-    }
-
-    addProjectBtn.addEventListener("click", () => {
-        renderOverlay(projectManager, today, addProjectBtn);
-    })
-
- 
+            headerTitle.textContent = "Projects";
+            addProjectBtn.textContent = " + New Project"
+            addProjectBtn.classList.add("add_project_btn");
+        
+            mainContainer.innerHTML = '';
+            mainContainer.appendChild(newSection);
+            newSection.appendChild(sectionHeader);
+            newSection.appendChild(projectsGrid);
+            sectionHeader.appendChild(headerTitle);
+            sectionHeader.appendChild(addProjectBtn);
+        
+            for (const project of listOfProjects) {
+                const projectCard = document.createElement("article")
+                const projectTitle = document.createElement("h3");
+                const projectDescription = document.createElement("p");
+             
+                const deleteProjectBtn = document.createElement("button");
+                const openProjectBtn = document.createElement("button");
+        
+                projectTitle.textContent = project.title;
+                projectDescription.textContent = project.description.slice(0, 50).concat("...");
+                projectCard.setAttribute("data-id", project.id);
+             
+        
+                projectDescription.classList.add("project_description");
+                deleteProjectBtn.textContent = "X"
+                openProjectBtn.textContent = "Open";
+                deleteProjectBtn.classList.add("delete_project");
+                openProjectBtn.classList.add("open_project");
+        
+                projectsGrid.appendChild(projectCard);
+                projectCard.appendChild(projectTitle);
+                projectCard.appendChild(projectDescription);
+                projectCard.appendChild(deleteProjectBtn);
+                projectCard.appendChild(openProjectBtn);
+        
+                
+        
+                openProjectBtn.addEventListener("click", () => {
+                    renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+                    saveData(projectManager);
+                })
+        
+                deleteProjectBtn.addEventListener("click", () => {
+                    renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
+                    saveData(projectManager);
+                })
+            }
+        
+            addProjectBtn.addEventListener("click", () => {
+                renderOverlay(projectManager, today, addProjectBtn);
+                saveData(projectManager);
+            })
+        
+            }
+    
+        else {
+            const listOfProjects = projectManager.listProjects();
+            const mainContainer = document.querySelector("#main_content");
+            const newSection = document.createElement("section");
+            const sectionHeader = document.createElement("header");
+            const headerTitle = document.createElement("h2");
+            const addProjectBtn = document.createElement("button");
+            const projectsGrid = document.createElement("div");
+           
+            newSection.id = "projects_section";
+            sectionHeader.id = "projects_section_header";
+            projectsGrid.id = "projects_section_grid";
+        
+            headerTitle.textContent = "Projects";
+            addProjectBtn.textContent = " + New Project"
+            addProjectBtn.classList.add("add_project_btn");
+        
+            mainContainer.innerHTML = '';
+            mainContainer.appendChild(newSection);
+            newSection.appendChild(sectionHeader);
+            newSection.appendChild(projectsGrid);
+            sectionHeader.appendChild(headerTitle);
+            sectionHeader.appendChild(addProjectBtn);
+        
+            for (const project of listOfProjects) {
+                const projectCard = document.createElement("article")
+                const projectTitle = document.createElement("h3");
+                const projectDescription = document.createElement("p");
+             
+                const deleteProjectBtn = document.createElement("button");
+                const openProjectBtn = document.createElement("button");
+        
+                projectTitle.textContent = project.title;
+                projectDescription.textContent = project.description.slice(0, 50).concat("...");
+                projectCard.setAttribute("data-id", project.id);
+             
+        
+                projectDescription.classList.add("project_description");
+                deleteProjectBtn.textContent = "X"
+                openProjectBtn.textContent = "Open";
+                deleteProjectBtn.classList.add("delete_project");
+                openProjectBtn.classList.add("open_project");
+        
+                projectsGrid.appendChild(projectCard);
+                projectCard.appendChild(projectTitle);
+                projectCard.appendChild(projectDescription);
+                projectCard.appendChild(deleteProjectBtn);
+                projectCard.appendChild(openProjectBtn);
+        
+                
+        
+                openProjectBtn.addEventListener("click", () => {
+                    renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+                })
+        
+                deleteProjectBtn.addEventListener("click", () => {
+                    renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
+                })
+            }
+        
+            addProjectBtn.addEventListener("click", () => {
+                renderOverlay(projectManager, today, addProjectBtn);
+            })
+        
+        }
 }
 
 const renderProjectCard = function(projectsGrid, projectManager, today) {
@@ -99,9 +181,11 @@ const renderProjectCard = function(projectsGrid, projectManager, today) {
 
     openProjectBtn.addEventListener("click", () => {
         renderProject(projectManager, projectCard.getAttribute("data-id"), today);
+        saveData(projectManager);
     })
     deleteProjectBtn.addEventListener("click", () => {
         renderOverlay(projectManager, null, deleteProjectBtn, projectCard, projectTitle);
+        saveData(projectManager);
     })
 }
 
@@ -180,9 +264,11 @@ const renderNewProjectForm = function(formOverlay, projectManager, today) {
         projectManager.addProject(titleInput.value, descriptionInput.value, today)
         renderProjectCard(projectsGrid, projectManager, today);   
         body.removeChild(formOverlay); 
+        saveData(projectManager);
     })
 
     document.addEventListener("keydown", handleEscape);
+    saveData(projectManager);
 }
 
 const renderDeleteCard = function(formOverlay, projectManager, projectCard, projectTitle) {
@@ -228,13 +314,16 @@ const renderDeleteCard = function(formOverlay, projectManager, projectCard, proj
         projectManager.removeProject(projectCard.getAttribute("data-id"));
         projectsGrid.removeChild(projectCard);
         body.removeChild(formOverlay); 
+        saveData(projectManager);
     })
 
     cancelDeleteFormBtn.addEventListener("click", () => {
         closeForm();
+        saveData(projectManager);
     })
 
     document.addEventListener("keydown", handleEscape);
+    saveData(projectManager);
 }
 
 const renderOverlay = function(projectManager, today, btn, projectCard, projectTitle) {
@@ -254,24 +343,26 @@ const renderOverlay = function(projectManager, today, btn, projectCard, projectT
     formOverlay.addEventListener("click", (e) => {
         if (e.target === formOverlay) {
             body.removeChild(formOverlay);
+            saveData(projectManager);
         }
     })
 }
 
 
-const initUI = function(projectManager, today) {
+const initNavigationBar = function(projectManager, today) {
     const projectsBtn = document.querySelector("#projects_btn");
     const notesBtn = document.querySelector("#notes_btn");
     const aboutBtn = document.querySelector("#about_btn");
 
     projectsBtn.addEventListener("click", () => {
         renderProjects(projectManager, today);
+        saveData(projectManager);
     });
     aboutBtn.addEventListener("click", () => {
         renderAbout();
+        saveData(projectManager);
     });
     notesBtn.addEventListener("click", () => {
-        const activeProject = projectManager.getActiveProject();
         const mainContainer = document.querySelector("#main_content");
         const newSection = document.createElement("section");
         const notesHeader = document.createElement('h4');
@@ -285,9 +376,51 @@ const initUI = function(projectManager, today) {
 
         newSection.appendChild(notesHeader);
         newSection.appendChild(renderNotes(null, projectManager));
+        saveData(projectManager);
         
     }) 
 };
 
+const reloadSavedInfo = function(projectManager, parsedProjectManager) {
 
-export {initUI, renderProjects};
+    const parsedProjects = parsedProjectManager.projects;
+
+        // Add all projects to Project Manager
+
+
+    for (const parsedProject of parsedProjects) {
+    
+        projectManager.addProject(parsedProject.title, parsedProject.description, parsedProject.createdAt);
+
+        const parsedTodos = parsedProject.todos;
+        const parsedNotes = parsedProject.notes;
+
+        // Add all todos and notes to their corresponding project
+
+        for (const project of projectManager.projects) {
+            for (const parsedTodo of parsedTodos) {
+                const parsedTodoCheckList = parsedTodo.checkList;
+
+                project.addTodo(parsedTodo.title, parsedTodo.description, parsedTodo.dueDate, parsedTodo.status, parsedTodo.priority);
+
+                // Add checklist
+
+                for (const todo of project.todos) {
+                    for (const parsedItem of parsedTodoCheckList) {
+                        todo.addListItem(parsedItem.textLine);
+                    }
+                }
+            }
+
+            for (const parsedNote of parsedNotes) {
+                project.addNote(parsedNote.textBody);
+            }
+        }
+    
+    }
+
+  
+}
+
+
+export {initNavigationBar, renderProjects};
