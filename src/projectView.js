@@ -751,7 +751,7 @@ const renderTodo = function(activeProject, todo, projectManager) {
     const todoChecklist = document.createElement("ul");
     todoChecklist.id = "todo_checklist";
 
-    renderCheckList(todo, todoChecklist)
+    renderCheckList(todo, todoChecklist, activeProject)
 
     newSection.appendChild(todoHeader);
     newSection.appendChild(backBtn);
@@ -830,15 +830,22 @@ const renderTodo = function(activeProject, todo, projectManager) {
     });
 };
 
-const renderCheckList = function(todo, todoChecklist) {
-    console.log()
+const renderCheckList = function(todo, todoChecklist, activeProject) {
 
     if (localStorage.length > 0) {
-            for (let i = 0; i<localStorage.length; i++) {
+        const parsedCheckList = JSON.parse(localStorage.getItem("checkList"));
 
-            const listItem = JSON.parse(localStorage.getItem(`item#${i}`));
+        for (const listItem of parsedCheckList) {
 
-                        
+            // Generate the saved content in the actual checklist class
+
+            todo.addListItem(listItem.textLine)
+        
+        }
+
+        // Generate the saved content in DOM
+
+        for (const listItem of todo.checkList) {
             const listItemContainer = document.createElement("li");
             const textLineContainer = document.createElement("div");
             const textLine = document.createElement("p");
@@ -866,19 +873,22 @@ const renderCheckList = function(todo, todoChecklist) {
     
             statusToggle.addEventListener("click", () => {
                 todo.toggleListItem(listItem.id);
+                console.log(todo.checkList)
             });
     
             textLine.addEventListener("click", () => {
                 replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
+                console.log(todo.checkList)
             });
     
             deleteItemBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
+                console.log(todo.checkList)
             });
-
-            }
         }
+        }
+
     else {
         for (const listItem of todo.checkList) {
             const listItemContainer = document.createElement("li");
@@ -908,18 +918,24 @@ const renderCheckList = function(todo, todoChecklist) {
     
             statusToggle.addEventListener("click", () => {
                 todo.toggleListItem(listItem.id);
+                console.log(todo.checkList)
             });
     
             textLine.addEventListener("click", () => {
                 replaceTodoElementWithInput(textLine, textLineContainer, activeProject, todo);
+                console.log(todo.checkList)
             });
     
             deleteItemBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 renderSubtaskDeleteCard(todo, listItemContainer, textLine.id)
+                console.log(todo.checkList)
             });
         }
     }
+
+    console.log(todo.checkList)
+
 
 }
 

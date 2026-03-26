@@ -208,10 +208,12 @@ class CheckListItem {
 
 };
 
-function saveData(checkList) {
+function saveData(entity) {
 
-    localStorage.setItem(`item#${checkList.length - 1}`, JSON.stringify(checkList[checkList.length - 1]));
-    console.log(checkList.length)
+    localStorage.setItem(`checkList`, JSON.stringify(entity));
+
+    console.log(JSON.parse(localStorage.getItem("checkList")));
+    
 }
 
 export { ProjectManager, saveData };
