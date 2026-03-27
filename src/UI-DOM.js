@@ -388,34 +388,35 @@ const reloadSavedInfo = function(projectManager, parsedProjectManager) {
         // Add all projects to Project Manager
 
 
-    for (const parsedProject of parsedProjects) {
+    for (let i = 0; i < parsedProjects.length; i++) {
     
-        projectManager.addProject(parsedProject.title, parsedProject.description, parsedProject.createdAt);
+        projectManager.addProject(parsedProjects[i].title, parsedProjects[i].description, parsedProjects[i].createdAt);
+        const currentProject = projectManager.projects[i];
 
-        const parsedTodos = parsedProject.todos;
-        const parsedNotes = parsedProject.notes;
+        const parsedTodos = parsedProjects[i].todos;
+        const parsedNotes = parsedProjects[i].notes;
 
         // Add all todos and notes to their corresponding project
 
-        for (const project of projectManager.projects) {
+     
             for (const parsedTodo of parsedTodos) {
                 const parsedTodoCheckList = parsedTodo.checkList;
 
-                project.addTodo(parsedTodo.title, parsedTodo.description, parsedTodo.dueDate, parsedTodo.status, parsedTodo.priority);
+                currentProject.addTodo(parsedTodo.title, parsedTodo.description, parsedTodo.dueDate, parsedTodo.status, parsedTodo.priority);
+                const currentTodo = currentProject.todos[currentProject.todos.length - 1];
 
                 // Add checklist
-
-                for (const todo of project.todos) {
-                    for (const parsedItem of parsedTodoCheckList) {
-                        todo.addListItem(parsedItem.textLine);
-                    }
+        
+                for (const parsedItem of parsedTodoCheckList) {
+                    currentTodo.addListItem(parsedItem.textLine);
                 }
+            
             }
 
             for (const parsedNote of parsedNotes) {
-                project.addNote(parsedNote.textBody);
+                currentProject.addNote(parsedNote.textBody);
             }
-        }
+        
     
     }
 
