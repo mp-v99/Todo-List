@@ -1,8 +1,15 @@
 import { ProjectManager } from "./domain.js";
-import { initUI, renderProjects } from "./UI-DOM.js";
+import { initNavigationBar, renderProjects } from "./UI-DOM.js";
 import { format } from "date-fns";
 import "./styles.css"
 
+
+
+
+renderContent()
+
+
+function renderContent() {
 
 // Get present day date:
 
@@ -125,9 +132,9 @@ appProjectManager.addProject(
   middleEarthProject.todos[5].addListItem("recognize fear-driven thoughts early");
   middleEarthProject.todos[5].addListItem("remember why the mission matters");
   
-  // =========================
-  // Work
-  // =========================
+  // // =========================
+  // // Work
+  // // =========================
   let workProject = appProjectManager.projects[1];
   
   workProject.addTodo(
@@ -215,9 +222,9 @@ appProjectManager.addProject(
   workProject.todos[5].addListItem("draft suggested updates");
   workProject.todos[5].addListItem("send notes to team");
   
-  // =========================
-  // Life
-  // =========================
+  // // =========================
+  // // Life
+  // // =========================
   let lifeProject = appProjectManager.projects[2];
   
   lifeProject.addTodo(
@@ -307,6 +314,11 @@ appProjectManager.addProject(
   lifeProject.todos[5].addListItem("share a meaningful update from your week");
   
   // Initialize UI after all seed data is ready
-  initUI(appProjectManager, today);
+  initNavigationBar(appProjectManager, today);
 
 renderProjects(appProjectManager, today)
+
+}
+
+
+
