@@ -406,9 +406,18 @@ const reloadSavedInfo = function(projectManager, parsedProjectManager) {
                 const currentTodo = currentProject.todos[currentProject.todos.length - 1];
 
                 // Add checklist
-        
+                let checkListIteration = 0;
                 for (const parsedItem of parsedTodoCheckList) {
                     currentTodo.addListItem(parsedItem.textLine);
+                    const currentListItem = currentTodo.checkList[checkListIteration];
+
+                    if (parsedItem.checkBox === true) {
+                        currentListItem.checkBox = true;
+                    }
+                    else {
+                        currentListItem.checkBox = false;
+                    }
+                    checkListIteration++
                 }
             
             }
