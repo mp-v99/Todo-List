@@ -960,13 +960,13 @@ html .note_article::-webkit-scrollbar {
     height: 210px;
     white-space: pre-line;
 
-    /* overflow: auto; */
+    overflow-y: auto;
 
     box-shadow: 0.01rem 0.01rem 0.2rem 0.01rem #918f8f49;
 
     resize: none;
 
-    /* overflow-wrap: anywhere; */
+    overflow-wrap: anywhere;
 
     cursor: pointer;
 
@@ -1867,6 +1867,7 @@ html .note_article::-webkit-scrollbar {
     background-color: var(--soft-gray);
 
     opacity: 0;
+
 }
 
 .check_list_container .checklist_item {
